@@ -30,7 +30,6 @@ export class HomePage implements OnInit {
                 if (data != null) {
                     // @ts-ignore
                     this._apiService.getGame(data.id).subscribe(game => {
-                        console.log(game);
                         this.game = new Game();
                         this.game.title = game.name;
                         if (game.description_raw.length != 0){
@@ -38,7 +37,7 @@ export class HomePage implements OnInit {
                         } else {
                             this.game.description = game.description;
                         }
-                        this.game.rating = game.esrb_rating.name;
+                        this.game.rating = game.esrb_rating ? game.esrb_rating.name : "No ratings yet";
                         this.game.image = game.background_image;
                         this.game.release_date = game.released;
                     });

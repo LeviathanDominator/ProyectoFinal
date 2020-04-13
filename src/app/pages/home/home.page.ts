@@ -4,6 +4,7 @@ import {DatabaseService} from "../../services/database.service";
 import {ApiService} from "../../services/api.service";
 import {ModalController} from "@ionic/angular";
 import {SearchPage} from "../search/search.page";
+import {Game} from "../../models/game.model";
 
 @Component({
     selector: 'app-home',
@@ -12,10 +13,8 @@ import {SearchPage} from "../search/search.page";
 })
 export class HomePage implements OnInit {
 
-    private game: any = [];
-    private text = '';
-    private format = '';
-    private cancelled = false;
+    private game: Game;
+    private barcode = '';
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private modalController: ModalController) {
@@ -28,24 +27,27 @@ export class HomePage implements OnInit {
         this.barcodeScanner.scan().then(barcodeData => {
             console.log(barcodeData.text);
             this._databaseService.getBarcodeGame(barcodeData.text).subscribe(data => {
-
                 if (data != null) {
                     // @ts-ignore
                     this._apiService.getGame(data.id).subscribe(game => {
-                        this.game = game;
+                        console.log(game);
+                        this.game = new Game();
+                        this.game.title = game.name;
+                        if (game.description_raw.length != 0){
+                            this.game.description = game.description_raw;
+                        } else {
+                            this.game.description = game.description;
+                        }
+                        this.game.rating = game.esrb_rating.name;
+                        this.game.image = game.background_image;
+                        this.game.release_date = game.released;
                     });
-
-                    console.log("Data");
                 } else {
-                    console.log("No data");
                     this.searchModal(barcodeData.text);
                 }
-                console.log(data);
             });
-            this.text = barcodeData.text;
-            this.format = barcodeData.format;
-            this.cancelled = barcodeData.cancelled;
-            console.log(this.text);
+            console.log("Barcode Data", barcodeData);
+            this.barcode = barcodeData.text;
         }).catch(error => {
             console.log(error);
         });
@@ -55,7 +57,9 @@ export class HomePage implements OnInit {
         const modal = await this.modalController.create({
             component: SearchPage
         });
-        modal.onDidDismiss().then(game => this._databaseService.addBarcodeGame(barcode, game.data));
+        modal.onDidDismiss().then(game =>
+            this._databaseService.addBarcodeGame(barcode, game.data)
+        );
         return await modal.present();
     }
 

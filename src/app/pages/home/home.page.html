@@ -1,14 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>home</ion-title>
+    <ion-title *ngIf="!game">Home</ion-title>
+    <ion-title *ngIf="game">{{ game.title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div id="container">
-    <h1>{{ game.name }}</h1>
-    <img *ngIf="game.length != 0"  [src]="game.background_image" [alt]="game.name"/>
-    <h2>{{ text }}</h2>
+    <img *ngIf="game"  [src]="game.image" [alt]="game.title"/>
+    <p>{{ barcode }}</p>
+    <p *ngIf="game">Rating: {{ game.rating }}</p>
+    <p *ngIf="game">Release date: {{ game.release_date }}</p>
+    <p *ngIf="game">{{ game.description }}</p>
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">

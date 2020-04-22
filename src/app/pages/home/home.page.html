@@ -1,22 +1,41 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title *ngIf="!game">Home</ion-title>
-    <ion-title *ngIf="game">{{ game.title }}</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title *ngIf="!game">Home</ion-title>
+        <ion-title *ngIf="game">{{ game.title }}</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div id="container">
-    <img *ngIf="game"  [src]="game.image" [alt]="game.title"/>
-    <p>{{ barcode }}</p>
-    <p *ngIf="game">Rating: {{ game.rating }}</p>
-    <p *ngIf="game">Release date: {{ game.release_date }}</p>
-    <p *ngIf="game">{{ game.description }}</p>
-  </div>
+    <div id="container">
+        <img *ngIf="game" [src]="game.image" [alt]="game.title"/>
+        <p>{{ barcode }}</p>
+        <p *ngIf="game">Rating: {{ game.rating }}</p>
+        <p *ngIf="game">Release date: {{ game.release_date }}</p>
+        <p *ngIf="game">{{ game.description }}</p>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="scanGame()">
-      <ion-icon name="arrow-up-circle"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+        <ion-card *ngFor="let item of games">
+            <ion-card-header>
+                <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+                <ion-card-title>{{ item.name }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content (click)="selectGame(item.id)">
+                <div class="image-game">
+                    <h1 class="title">{{item.name}}</h1>
+                    <img src="{{item.background_image}}" alt="{{item.name}}"/>
+                </div>
+                <div *ngIf=" item.id == selected" class="labels">
+                    <img src="assets/lootboxgreen.png" alt="{{item.name}}"/>
+                    <img src="assets/lootboxgreen.png" alt="{{item.name}}"/>
+                    <img src="assets/lootboxgreen.png" alt="{{item.name}}"/>
+                    <img src="assets/lootboxgreen.png" alt="{{item.name}}"/>
+                </div>
+            </ion-card-content>
+        </ion-card>
+    </div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="scanGame()">
+            <ion-icon name="arrow-up-circle"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>

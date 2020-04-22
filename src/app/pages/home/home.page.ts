@@ -5,6 +5,7 @@ import {ApiService} from "../../services/api.service";
 import {ModalController} from "@ionic/angular";
 import {SearchPage} from "../search/search.page";
 import {Game} from "../../models/game.model";
+import {log} from "util";
 
 @Component({
     selector: 'app-home',
@@ -14,10 +15,22 @@ import {Game} from "../../models/game.model";
 export class HomePage implements OnInit {
 
     private game: Game;
+    private games: any = [];
+    private selected: number;
     private barcode = '';
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private modalController: ModalController) {
+        _apiService.getGames().subscribe(games => {
+            console.log(games.results);
+            this.games = games.results;
+        })
+        _apiService.getGenres(1).subscribe(genres => {
+            console.log(genres['results']);
+        })
+        _apiService.getDevelopers(1).subscribe(developers => {
+            console.log(developers['results']);
+        })
     }
 
     ngOnInit(): void {
@@ -32,7 +45,7 @@ export class HomePage implements OnInit {
                     this._apiService.getGame(data.id).subscribe(game => {
                         this.game = new Game();
                         this.game.title = game.name;
-                        if (game.description_raw.length != 0){
+                        if (game.description_raw.length != 0) {
                             this.game.description = game.description_raw;
                         } else {
                             this.game.description = game.description;
@@ -50,6 +63,10 @@ export class HomePage implements OnInit {
         }).catch(error => {
             console.log(error);
         });
+    }
+
+    selectGame(id: number) {
+        this.selected = id != this.selected ? id : undefined;
     }
 
     async searchModal(barcode: string) {

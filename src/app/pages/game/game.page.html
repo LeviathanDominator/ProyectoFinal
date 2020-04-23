@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home" [icon]="buttonIcon"></ion-back-button>
+    </ion-buttons>
+    <ion-title>game</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="main" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
+   'rgba(0, 0, 0, 0.7)), url(' + game.image + ')'}">
+    <h1>{{game.title}}</h1>
+    <small>{{game.description}}</small>
+    <div *ngFor="let label of game.labels">
+      <h2>{{label.name}}</h2>
+      <p>{{label.description}}</p>
+    </div>
+  </div>
+</ion-content>

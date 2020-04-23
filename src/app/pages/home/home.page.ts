@@ -14,8 +14,7 @@ import {log} from "util";
 })
 export class HomePage implements OnInit {
 
-    private game: Game;
-    private games: any = [];
+    private games: Game[] = [];
     private selected: number;
     private barcode = '';
 
@@ -23,13 +22,21 @@ export class HomePage implements OnInit {
                 private _apiService: ApiService, private modalController: ModalController) {
         _apiService.getGames().subscribe(games => {
             console.log(games.results);
-            this.games = games.results;
+            for (let gameResult of games.results){
+                //console.log(gameResult);
+                const game = new Game();
+                game.id = gameResult.id;
+                game.title = gameResult.name;
+                game.image = gameResult.background_image;
+                game.labels = _databaseService.getLabels(game.id)
+                this.games.push(game);
+            }
         })
         _apiService.getGenres(1).subscribe(genres => {
-            console.log(genres['results']);
+            //console.log(genres['results']);
         })
         _apiService.getDevelopers(1).subscribe(developers => {
-            console.log(developers['results']);
+            //console.log(developers['results']);
         })
     }
 
@@ -41,21 +48,9 @@ export class HomePage implements OnInit {
             console.log(barcodeData.text);
             this._databaseService.getBarcodeGame(barcodeData.text).subscribe(data => {
                 if (data != null) {
-                    // @ts-ignore
-                    this._apiService.getGame(data.id).subscribe(game => {
-                        this.game = new Game();
-                        this.game.title = game.name;
-                        if (game.description_raw.length != 0) {
-                            this.game.description = game.description_raw;
-                        } else {
-                            this.game.description = game.description;
-                        }
-                        this.game.rating = game.esrb_rating ? game.esrb_rating.name : "No ratings yet";
-                        this.game.image = game.background_image;
-                        this.game.release_date = game.released;
-                    });
+                    this.goToGame(data["id"]);
                 } else {
-                    this.searchModal(barcodeData.text);
+                   // this.searchModal(barcodeData.text);
                 }
             });
             console.log("Barcode Data", barcodeData);
@@ -69,13 +64,26 @@ export class HomePage implements OnInit {
         this.selected = id != this.selected ? id : undefined;
     }
 
-    async searchModal(barcode: string) {
+    goToGame(id: number) {
+        this._apiService.goToGame(id);
+    }
+
+    // Admin barcode
+
+    /*async searchModal(barcode: string) {
         const modal = await this.modalController.create({
             component: SearchPage
         });
         modal.onDidDismiss().then(game =>
             this._databaseService.addBarcodeGame(barcode, game.data)
         );
+        return await modal.present();
+    }*/
+
+    async searchModal() {
+        const modal = await this.modalController.create({
+            component: SearchPage
+        });
         return await modal.present();
     }
 

@@ -10,7 +10,11 @@ const routes: Routes = [
     {
         path: 'search',
         loadChildren: () => import('./pages/search/search.module').then(m => m.SearchPageModule)
-    }
+    },
+  {
+    path: 'game/:id',
+    loadChildren: () => import('./pages/game/game.module').then( m => m.GamePageModule)
+  }
 ];
 
 @NgModule({

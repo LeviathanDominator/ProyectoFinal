@@ -34,6 +34,10 @@ export class SearchPage implements OnInit {
         });
     }
 
+    goToGame(game: any) {
+        this._apiService.goToGame(game.id);
+    }
+
     // TODO ONLY ADMIN SHOULD DO THIS
     async returnId(game: any) {
         const id: number = game.id;

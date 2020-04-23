@@ -6,7 +6,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item (click)="returnId(searched)" *ngFor="let searched of searchedGames">
+    <ion-item (click)="goToGame(searched)" *ngFor="let searched of searchedGames">
       <ion-label>{{searched.name}}</ion-label>
     </ion-item>
   </ion-list>

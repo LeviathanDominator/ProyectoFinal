@@ -1,34 +1,31 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title *ngIf="!game">Home</ion-title>
-        <ion-title *ngIf="game">{{ game.title }}</ion-title>
+        <ion-title>Home</ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="searchModal()">
+                <ion-icon slot="icon-only" name="search"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <div id="container">
-        <img *ngIf="game" [src]="game.image" [alt]="game.title"/>
-        <p>{{ barcode }}</p>
-        <p *ngIf="game">Rating: {{ game.rating }}</p>
-        <p *ngIf="game">Release date: {{ game.release_date }}</p>
-        <p *ngIf="game">{{ game.description }}</p>
-
-        <ion-card *ngFor="let item of games">
+        <ion-card *ngFor="let game of games">
             <ion-card-header>
                 <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-                <ion-card-title>{{ item.name }}</ion-card-title>
+                <ion-card-title>{{ game.title }}</ion-card-title>
             </ion-card-header>
 
-            <ion-card-content (click)="selectGame(item.id)">
+            <ion-card-content (click)="selectGame(game.id)">
                 <div class="image-game">
-                    <h1 class="title">{{item.name}}</h1>
-                    <img src="{{item.background_image}}" alt="{{item.name}}"/>
+                    <h1 class="title">{{game.title}}</h1>
+                    <img src="{{game.image}}" alt="{{game.title}}"/>
                 </div>
-                <div *ngIf=" item.id == selected" class="labels">
-                    <img src="assets/lootboxgreen.png" alt="{{item.name}}"/>
-                    <img src="assets/lootboxgreen.png" alt="{{item.name}}"/>
-                    <img src="assets/lootboxgreen.png" alt="{{item.name}}"/>
-                    <img src="assets/lootboxgreen.png" alt="{{item.name}}"/>
+                <div *ngIf=" game.id == selected" class="labels">
+                    <p class="label" *ngFor="let label of game.labels"
+                       [ngStyle]="{'background-color':'green'}">{{ label.name }}</p>
+                    <p (click)="goToGame(game.id)">Go to game</p>
                 </div>
             </ion-card-content>
         </ion-card>

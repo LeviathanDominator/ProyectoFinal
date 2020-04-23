@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,7 @@ export class ApiService {
 
     private url = "https://api.rawg.io/api/";
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private router: Router) {
     }
 
     getGame(id: number): Observable<any> {
@@ -26,6 +27,10 @@ export class ApiService {
 
     searchGames(search: string): Observable<any> {
         return this.http.get(`${this.url}games?page_size=40&search=${search}`).pipe();
+    }
+
+    goToGame(id: number) {
+        this.router.navigate(['/game', id]);
     }
 
     getPlatforms(page: number) {

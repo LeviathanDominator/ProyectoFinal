@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+}
+
+.main {
+  color: white;
+  text-align: center;
+  background-size: auto 100%;
+  background-position: center;
+  background-attachment: fixed;
+  object-fit: cover;
+  height: 100vh;
+}
+
+small {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

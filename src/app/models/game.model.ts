@@ -7,5 +7,6 @@ export class Game {
     rating: string;
     image: string;
     release_date: string;
+    screenshots: string[];
     labels: Label[];
 }

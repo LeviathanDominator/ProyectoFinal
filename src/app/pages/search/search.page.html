@@ -1,13 +1,11 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-searchbar (ionInput)="searchGames($event)"></ion-searchbar>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-searchbar (ionInput)="searchGames($event)"></ion-searchbar>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item (click)="goToGame(searched)" *ngFor="let searched of searchedGames">
-      <ion-label>{{searched.name}}</ion-label>
-    </ion-item>
-  </ion-list>
+    <div (click)="goToGame(searched)" *ngFor="let searched of searchedGames">
+        <p [ngStyle]="{'background-image':'url(' + searched['background_image'] + ')'}">{{searched.name}}</p>
+    </div>
 </ion-content>

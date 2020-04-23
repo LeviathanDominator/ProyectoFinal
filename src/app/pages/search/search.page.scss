@@ -1,0 +1,19 @@
+div, p {
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+}
+
+p {
+  padding: 1.5em;
+  mix-blend-mode: difference;
+  background-size: 100% auto;
+  background-position: center;
+
+  color: white;
+}

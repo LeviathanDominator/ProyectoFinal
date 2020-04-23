@@ -12,10 +12,6 @@
 <ion-content>
     <div id="container">
         <ion-card *ngFor="let game of games">
-            <ion-card-header>
-                <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-                <ion-card-title>{{ game.title }}</ion-card-title>
-            </ion-card-header>
 
             <ion-card-content (click)="selectGame(game.id)">
                 <div class="image-game">

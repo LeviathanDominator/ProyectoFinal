@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
                 game.id = gameResult.id;
                 game.title = gameResult.name;
                 game.image = gameResult.background_image;
+                game.screenshots = gameResult.short_screenshots;
                 game.labels = _databaseService.getLabels(game.id)
                 this.games.push(game);
             }

@@ -35,6 +35,9 @@ export class SearchPage implements OnInit {
     }
 
     goToGame(game: any) {
+        this.modalCtrl.dismiss({
+            dismissed: true
+        });
         this._apiService.goToGame(game.id);
     }
 

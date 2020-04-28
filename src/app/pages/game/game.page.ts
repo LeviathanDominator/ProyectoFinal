@@ -17,6 +17,7 @@ export class GamePage implements OnInit {
               private _databaseService: DatabaseService) {
     this.activatedRoute.params.subscribe(params => {
       this._apiService.getGame(params.id).subscribe(game =>{
+        console.log(game);
         this.game.title = game.name;
         this.game.id = game.id;
         this.game.image = game.background_image;

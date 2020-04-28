@@ -1,5 +1,8 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
         <ion-title>Home</ion-title>
         <ion-buttons slot="secondary">
             <ion-button (click)="searchModal()">
@@ -9,20 +12,28 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-item color="secondary">
+    <ion-label>Platform</ion-label>
+    <ion-select interface="popover"
+                [(ngModel)]="selectedPlatform"
+                (ionChange)="getGames()" placeholder="All">
+        <ion-select-option value="0">All</ion-select-option>
+        <ion-select-option *ngFor="let platform of platforms"
+                           value="{{platform.id}}">{{platform.name}}</ion-select-option>
+    </ion-select>
+</ion-item>
+
+<ion-content color="secondary">
     <div id="container">
         <ion-card *ngFor="let game of games">
-
             <ion-card-content (click)="selectGame(game.id)">
-                <div class="image-game">
-                    <h1 class="title">{{game.title}}</h1>
-                    <img src="{{game.image}}" alt="{{game.title}}"/>
-                </div>
+                <div [ngStyle]="{'background-image':'url(' + game.image + ')'}">
+                <h1 class="title">{{game.title}}</h1>
                 <div *ngIf=" game.id == selected" class="labels">
                     <p class="label" *ngFor="let label of game.labels"
                        [ngStyle]="{'background-color':'green'}">{{ label.name }}</p>
                     <p (click)="goToGame(game.id)">Go to game</p>
-                </div>
+                </div></div>
             </ion-card-content>
         </ion-card>
     </div>

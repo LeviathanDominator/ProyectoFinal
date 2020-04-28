@@ -1,19 +1,14 @@
 ion-card-content {
   padding: 0;
   color: black;
-  background-color: #b1b1b1;
-  background-position: center;
   display: flex;
   flex-direction: column;
 }
 
-.image-game {
-  height: 10em;
-}
-
-.image-game img {
-  vertical-align: middle;
-  object-fit: cover;
+div {
+  background-size: auto 200%;
+  background-repeat: no-repeat;
+  background-position: 50% 20%;
 }
 
 .labels img {
@@ -21,17 +16,20 @@ ion-card-content {
 }
 
 .title {
+  padding: 3em;
   text-align: center;
   color: white;
   text-shadow: 2px 2px black;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .labels {
   color: white;
   display: flex;
   flex-direction: column;
+}
+
+@media screen and (orientation: landscape) {
+  div {
+    background-size: auto 400%;
+  }
 }

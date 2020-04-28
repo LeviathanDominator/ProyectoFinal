@@ -32,18 +32,18 @@ export class DatabaseService {
     getLabels(id: number): Label[] {
         const labels: Label[] = [];
         this.getGame(String(id)).subscribe(gameLabels => {
-            if (gameLabels["labels"]) {
-                console.log("GameLabels", gameLabels["labels"]);
-                for (let gameLabel of gameLabels["labels"]) {
-                    this.getLabel(gameLabel).subscribe(labelData => {
-                        if (labelData) {
-                            const label = new Label();
-                            label.name = labelData["name"];
-                            label.description = labelData["description"];
-                            labels.push(label);
-                            console.log(label);
-                        }
-                    });
+            if (gameLabels) {
+                if (gameLabels["labels"]) {
+                    for (let gameLabel of gameLabels["labels"]) {
+                        this.getLabel(gameLabel).subscribe(labelData => {
+                            if (labelData) {
+                                const label = new Label();
+                                label.name = labelData["name"];
+                                label.description = labelData["description"];
+                                labels.push(label);
+                            }
+                        });
+                    }
                 }
             } else {
                 this.addGame(String(id))

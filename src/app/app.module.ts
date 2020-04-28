@@ -14,12 +14,14 @@ import {environment} from "../environments/environment";
 import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {SearchPageModule} from "./pages/search/search.module";
+import {AngularFireAuthModule} from "@angular/fire/auth";
 
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
-        AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule, SearchPageModule],
+        AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule,
+        AngularFireAuthModule, SearchPageModule],
     providers: [
         StatusBar,
         SplashScreen,

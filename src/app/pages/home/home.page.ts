@@ -6,6 +6,8 @@ import {ModalController} from "@ionic/angular";
 import {SearchPage} from "../search/search.page";
 import {Game} from "../../models/game.model";
 import {log} from "util";
+import {Platform} from "../../models/platform.model";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-home',
@@ -15,30 +17,25 @@ import {log} from "util";
 export class HomePage implements OnInit {
 
     private games: Game[] = [];
+    private platforms: Platform[] = [];
+    private selectedPlatform: number = 0;
     private selected: number;
-    private barcode = '';
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
-                private _apiService: ApiService, private modalController: ModalController) {
-        _apiService.getGames().subscribe(games => {
-            console.log(games.results);
-            for (let gameResult of games.results){
-                //console.log(gameResult);
-                const game = new Game();
-                game.id = gameResult.id;
-                game.title = gameResult.name;
-                game.image = gameResult.background_image;
-                game.screenshots = gameResult.short_screenshots;
-                game.labels = _databaseService.getLabels(game.id)
-                this.games.push(game);
+                private _apiService: ApiService, private _authService: AuthService, private modalController: ModalController) {
+        this.getGames();
+        _apiService.getPlatforms(1).subscribe(platforms => {
+            for (let platformResult of platforms["results"]) {
+                const platform = new Platform();
+                platform.id = platformResult.id;
+                platform.name = platformResult.name;
+                this.platforms.push(platform);
             }
-        })
-        _apiService.getGenres(1).subscribe(genres => {
-            //console.log(genres['results']);
         })
         _apiService.getDevelopers(1).subscribe(developers => {
             //console.log(developers['results']);
         })
+        console.log("User", _authService.user());
     }
 
     ngOnInit(): void {
@@ -51,11 +48,11 @@ export class HomePage implements OnInit {
                 if (data != null) {
                     this.goToGame(data["id"]);
                 } else {
-                   // this.searchModal(barcodeData.text);
+                    // this.searchModal(barcodeData.text);
                 }
             });
             console.log("Barcode Data", barcodeData);
-            this.barcode = barcodeData.text;
+            //this.barcode = barcodeData.text;
         }).catch(error => {
             console.log(error);
         });
@@ -88,4 +85,29 @@ export class HomePage implements OnInit {
         return await modal.present();
     }
 
+    private getGames() {
+        this.games = [];
+        if (this.selectedPlatform == 0) {
+            this._apiService.getGames().subscribe(games => {
+                this.setGames(games.results);
+
+            })
+        } else {
+            this._apiService.getGamesByPlatform(this.selectedPlatform, 1).subscribe(games => {
+                this.setGames(games.results);
+            })
+        }
+    }
+
+    private setGames(results: any) {
+        for (let gameResult of results) {
+            const game = new Game();
+            game.id = gameResult.id;
+            game.title = gameResult.name;
+            game.image = gameResult.background_image;
+            game.screenshots = gameResult.short_screenshots;
+            game.labels = this._databaseService.getLabels(game.id)
+            this.games.push(game);
+        }
+    }
 }

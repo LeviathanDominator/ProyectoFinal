@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path: 'game/:id',
     loadChildren: () => import('./pages/game/game.module').then( m => m.GamePageModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
   }
 ];
 

@@ -9,9 +9,19 @@ import * as firebase from "firebase";
 })
 export class AuthService {
 
-    private currentUser = firebase.auth().currentUser;
+    user: Observable<firebase.User>
+    currentUser = firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+
+            return user;
+        } else {
+            return null;
+        }
+    });
+
 
     constructor(private firebaseAuth: AngularFireAuth, private firestore: AngularFirestore) {
+        this.user = this.firebaseAuth.authState;
         /*this.user = this.firebaseAuth.authState;
         this.user.subscribe(params => {
             console.log("User", params);
@@ -20,10 +30,6 @@ export class AuthService {
                 this.userId = params.Y.W;
             }
         });*/
-    }
-
-    user(): firebase.User {
-        return this.currentUser;
     }
 
     register(value: any) {
@@ -35,13 +41,25 @@ export class AuthService {
         })
     }
 
-    login(value: any){
+    login(value: any) {
         return new Promise<any>((resolve, reject) => {
             firebase.auth().signInWithEmailAndPassword(value.email, value.password)
                 .then(res => {
+                    console.log("Success: ", res);
                     resolve(res);
-                }, err => reject(err))
+                }, err => {
+                    console.log("Error: ", err);
+                    reject(err);
+                })
         })
     }
 
+    logout(){
+        this.user = null;
+        this.currentUser = null;
+    }
+
+    getUser() {
+        return this.user;
+    }
 }

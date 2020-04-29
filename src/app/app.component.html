@@ -4,9 +4,12 @@
       <ion-title>Menu</ion-title>
     </ion-toolbar>
     <ion-content id="menu" class="menu" color="secondary">
+        <p *ngIf="_authService.currentUser">User</p>
       <ion-list>
-        <ion-item color="secondary">Login</ion-item>
-        <ion-item color="secondary">Menu Item</ion-item>
+        <ion-button color="secondary" (click)="goToLogin()" *ngIf="!_authService.currentUser">Login</ion-button>
+        <ion-button color="secondary" *ngIf="_authService.currentUser">Profile</ion-button>
+        <ion-button color="secondary" *ngIf="_authService.currentUser" (click)="logout()">Logout</ion-button>
+        <ion-item-option color="secondary">Register</ion-item-option>
       </ion-list>
     </ion-content>
   </ion-menu>

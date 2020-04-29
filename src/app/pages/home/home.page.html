@@ -28,12 +28,13 @@
         <ion-card *ngFor="let game of games">
             <ion-card-content (click)="selectGame(game.id)">
                 <div [ngStyle]="{'background-image':'url(' + game.image + ')'}">
-                <h1 class="title">{{game.title}}</h1>
-                <div *ngIf=" game.id == selected" class="labels">
-                    <p class="label" *ngFor="let label of game.labels"
-                       [ngStyle]="{'background-color':'green'}">{{ label.name }}</p>
-                    <p (click)="goToGame(game.id)">Go to game</p>
-                </div></div>
+                    <h1 class="title">{{game.title}}</h1>
+                    <div *ngIf="game.id == selected" class="labels">
+                        <p class="label" *ngFor="let label of game.labels"
+                           [ngStyle]="{'background-color':'green'}">{{ label.name }}</p>
+                        <p (click)="goToGame(game.id)">Go to game</p>
+                    </div>
+                </div>
             </ion-card-content>
         </ion-card>
     </div>

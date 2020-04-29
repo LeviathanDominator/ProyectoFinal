@@ -31,11 +31,11 @@ export class HomePage implements OnInit {
                 platform.name = platformResult.name;
                 this.platforms.push(platform);
             }
+            console.log(this.platforms);
         })
-        _apiService.getDevelopers(1).subscribe(developers => {
+        /*_apiService.getDevelopers(1).subscribe(developers => {
             //console.log(developers['results']);
-        })
-        console.log("User", _authService.user());
+        })*/
     }
 
     ngOnInit(): void {
@@ -90,7 +90,6 @@ export class HomePage implements OnInit {
         if (this.selectedPlatform == 0) {
             this._apiService.getGames().subscribe(games => {
                 this.setGames(games.results);
-
             })
         } else {
             this._apiService.getGamesByPlatform(this.selectedPlatform, 1).subscribe(games => {

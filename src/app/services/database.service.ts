@@ -49,6 +49,7 @@ export class DatabaseService {
                 this.addGame(String(id))
             }
         })
+        //console.log(id, labels);
         return labels;
     }
 

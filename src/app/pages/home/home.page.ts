@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {BarcodeScanner} from "@ionic-native/barcode-scanner/ngx";
 import {DatabaseService} from "../../services/database.service";
 import {ApiService} from "../../services/api.service";
-import {ModalController} from "@ionic/angular";
+import {IonInfiniteScroll, ModalController} from "@ionic/angular";
 import {SearchPage} from "../search/search.page";
 import {Game} from "../../models/game.model";
-import {log} from "util";
 import {Platform} from "../../models/platform.model";
 import {AuthService} from "../../services/auth.service";
+import {Label} from "../../models/label.model";
 
 @Component({
     selector: 'app-home',
@@ -19,11 +19,11 @@ export class HomePage implements OnInit {
     private games: Game[] = [];
     private platforms: Platform[] = [];
     private selectedPlatform: number = 0;
-    private selected: number;
+    private page: number = 1;
+    private infiniteScrollControl: boolean = false;
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private _authService: AuthService, private modalController: ModalController) {
-        this.getGames();
         _apiService.getPlatforms(1).subscribe(platforms => {
             for (let platformResult of platforms["results"]) {
                 const platform = new Platform();
@@ -39,6 +39,7 @@ export class HomePage implements OnInit {
     }
 
     ngOnInit(): void {
+        this.loadGames();
     }
 
     scanGame() {
@@ -56,10 +57,6 @@ export class HomePage implements OnInit {
         }).catch(error => {
             console.log(error);
         });
-    }
-
-    selectGame(id: number) {
-        this.selected = id != this.selected ? id : undefined;
     }
 
     goToGame(id: number) {
@@ -85,14 +82,32 @@ export class HomePage implements OnInit {
         return await modal.present();
     }
 
-    private getGames() {
+    private loadGames() {
+        this.page = 1;
         this.games = [];
+        this.getGames();
+    }
+
+    private loadMoreGames(event) {
+        setTimeout(() => {
+            if (this.games.length == 20 * this.page) {
+                this.page++;
+                this.getGames();
+            }
+            event.target.complete();
+        }, 500);
+    }
+
+    private getGames() {
+        console.log("Page", this.page);
         if (this.selectedPlatform == 0) {
-            this._apiService.getGames().subscribe(games => {
+            this._apiService.getGames(this.page).subscribe(games => {
+                console.log(games.results);
                 this.setGames(games.results);
             })
         } else {
-            this._apiService.getGamesByPlatform(this.selectedPlatform, 1).subscribe(games => {
+            this._apiService.getGamesByPlatform(this.selectedPlatform, this.page).subscribe(games => {
+                console.log(games.results);
                 this.setGames(games.results);
             })
         }

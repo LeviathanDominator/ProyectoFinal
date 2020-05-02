@@ -31,10 +31,10 @@ export class DatabaseService {
 
     getLabels(id: number): Label[] {
         const labels: Label[] = [];
-        this.getGame(String(id)).subscribe(gameLabels => {
-            if (gameLabels) {
-                if (gameLabels["labels"]) {
-                    for (let gameLabel of gameLabels["labels"]) {
+        this.getGame(String(id)).subscribe(gameData => {
+            if (gameData) {
+                if (gameData["labels"]) {
+                    for (let gameLabel of gameData["labels"]) {
                         this.getLabel(gameLabel).subscribe(labelData => {
                             if (labelData) {
                                 const label = new Label();
@@ -46,7 +46,16 @@ export class DatabaseService {
                     }
                 }
             } else {
-                this.addGame(String(id))
+                console.log("Generate data for game with ID", id);
+                this.getGame(String(id)).subscribe(gameData => {
+                    if (gameData) {
+                        if (!gameData["labels"]) {
+                            this.addGame(String(id));
+                        }
+                    } else {
+                        this.addGame(String(id));
+                    }
+                })
             }
         })
         //console.log(id, labels);
@@ -63,4 +72,8 @@ export class DatabaseService {
     getLabel(id: string) {
         return this.firestore.collection('/labels').doc(id).valueChanges();
     }
+
+    /*getAverageLabels(id: string) {
+        return this.firestore.collection('/users', ref => ref.where());
+    }*/
 }

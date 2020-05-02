@@ -5,6 +5,7 @@ import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {LoginPage} from "./pages/login/login.page";
 import {AuthService} from "./services/auth.service";
+import {SignupPage} from "./pages/signup/signup.page";
 
 @Component({
     selector: 'app-root',
@@ -38,10 +39,15 @@ export class AppComponent {
         return await modal.present();
     }
 
-    logout() {
-        this._authService.getUser().subscribe(user => {
-            console.log(user);
+    async goToSignUp() {
+        console.log(this._authService.currentUser);
+        const modal = await this.modalController.create({
+            component: SignupPage
         });
-        //this._authService.logout();
+        return await modal.present();
+    }
+
+    logout() {
+        this._authService.logout();
     }
 }

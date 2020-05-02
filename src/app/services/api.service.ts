@@ -17,8 +17,8 @@ export class ApiService {
         return this.http.get(`${this.url}games/${id}`).pipe();
     }
 
-    getGames(): Observable<any> {
-        return this.http.get(`${this.url}games`).pipe();
+    getGames(page: number): Observable<any> {
+        return this.http.get(`${this.url}games?page=${page}`).pipe();
     }
 
     getGamesByPlatform(platform: number, page: number): Observable<any> {

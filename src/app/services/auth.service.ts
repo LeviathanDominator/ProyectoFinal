@@ -3,6 +3,7 @@ import {AngularFireAuth} from "@angular/fire/auth";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {Observable} from "rxjs";
 import * as firebase from "firebase";
+import {User} from "../models/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,6 @@ export class AuthService {
     user: Observable<firebase.User>
     currentUser = firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-
             return user;
         } else {
             return null;
@@ -33,12 +33,25 @@ export class AuthService {
     }
 
     register(value: any) {
+        const user = new User();
         return new Promise<any>((resolve, reject) => {
+            console.log("Register", value.email, value.password);
             firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
                 .then(res => {
+                    user.email = value.email;
+                    user.password = value.password;
+                    user.id = res.user.uid;
+                    this.addUserToDatabase(user);
                     resolve(res);
                 }, err => reject(err))
         })
+    }
+
+    private addUserToDatabase(user: User) {
+        console.log(user);
+        this.firestore.collection('/users').doc(user.id).set({
+            id: user.id,
+        }).then(res => console.log(res));
     }
 
     login(value: any) {
@@ -55,6 +68,7 @@ export class AuthService {
     }
 
     logout(){
+        firebase.auth().signOut().then(r => console.log(r));
         this.user = null;
         this.currentUser = null;
     }

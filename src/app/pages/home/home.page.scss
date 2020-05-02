@@ -26,7 +26,18 @@ div {
 .labels {
   color: white;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.labels p {
+  margin: .4em;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 10px;
+  padding: .2em;
+  background-color: dodgerblue;
 }
 
 @media screen and (orientation: landscape) {

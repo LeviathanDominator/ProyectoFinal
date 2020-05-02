@@ -1,20 +1,26 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="home" [icon]="buttonIcon"></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{game.title}}</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home" [icon]="buttonIcon"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{game.title}}</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content color="secondary">
-  <div class="main" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
+    <div class="main" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
    'rgba(0, 0, 0, 0.7)), url(' + game.image + ')'}">
-    <h1>{{game.title}}</h1>
-    <small>{{game.description}}</small>
-    <div *ngFor="let label of game.labels">
-      <h2>{{label.name}}</h2>
-      <p>{{label.description}}</p>
+        <h1>{{game.title}}</h1>
+        <small>{{game.description}}</small>
+        <h2>Labels</h2>
+        <div class="labels">
+        <div class="label" *ngFor="let label of game.labels">
+            <p>{{label.name}}</p>
+            <small>{{label.description}}</small>
+        </div>
+        </div>
+        <ng-container *ngIf="game.labels != undefined">
+            <p *ngIf="game.labels.length == 0">This game has no labels yet</p>
+        </ng-container>
     </div>
-  </div>
 </ion-content>

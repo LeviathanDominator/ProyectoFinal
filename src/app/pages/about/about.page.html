@@ -1,9 +1,24 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>about</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>About</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content color="dark">
+    <div id="container">
+        <h2>About</h2>
+        <p>This application was developed by Ismael Reyes Caballero, and it uses the RAWG Video Games Database API.</p>
+        <p>Below are all the types of microtransactions in videogames explained.</p>
+        <ion-card *ngFor="let label of labels" color="secondary">
+            <ion-card-header color="primary">
+                <ion-title>{{label.name}}</ion-title>
+            </ion-card-header>
+            <ion-card-content>
+                <small>{{label.descriptionLarge}}</small>
+            </ion-card-content>
+        </ion-card>
+    </div>
 </ion-content>

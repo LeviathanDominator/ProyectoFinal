@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Label} from "../../models/label.model";
+import {DatabaseService} from "../../services/database.service";
 
 @Component({
   selector: 'app-about',
@@ -7,7 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutPage implements OnInit {
 
-  constructor() { }
+  labels: Label[] = [];
+  constructor(private _databaseService: DatabaseService) {
+    this._databaseService.getLabelsCollection().subscribe(labels => {
+      for (let i = 0; i < labels.length; i++){
+        let newLabel = new Label();
+        newLabel.name = labels[i]['name'];
+        newLabel.description = labels[i]['description'];
+        newLabel.descriptionLarge = labels[i]['descriptionLarge']
+        console.log(newLabel)
+        this.labels.push(newLabel);
+      }
+    });
+  }
 
   ngOnInit() {
   }

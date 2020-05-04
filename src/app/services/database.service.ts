@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {Label} from "../models/label.model";
+import {User} from "../models/user.model";
+import {AuthService} from "./auth.service";
+import {Router} from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
 export class DatabaseService {
 
-    constructor(private firestore: AngularFirestore) {
+    constructor(private router: Router, private firestore: AngularFirestore, private _authService: AuthService) {
     }
 
     getBarcodeGame(barcode: string) {
@@ -25,42 +28,19 @@ export class DatabaseService {
         return this.firestore.collection('/games').doc(id).valueChanges();
     }
 
-    /*getLabels(id: string) {
-        return this.firestore.collection('/labels').doc(id).valueChanges();
-    }*/
-
-    getLabels(id: number): Label[] {
-        const labels: Label[] = [];
-        this.getGame(String(id)).subscribe(gameData => {
-            if (gameData) {
-                if (gameData["labels"]) {
-                    for (let gameLabel of gameData["labels"]) {
-                        this.getLabel(gameLabel).subscribe(labelData => {
-                            if (labelData) {
-                                const label = new Label();
-                                label.name = labelData["name"];
-                                label.description = labelData["description"];
-                                labels.push(label);
-                            }
-                        });
-                    }
-                }
-            } else {
-                console.log("Generate data for game with ID", id);
-                this.getGame(String(id)).subscribe(gameData => {
-                    if (gameData) {
-                        if (!gameData["labels"]) {
-                            this.addGame(String(id));
-                        }
-                    } else {
-                        this.addGame(String(id));
-                    }
-                })
-            }
-        })
-        //console.log(id, labels);
-        return labels;
+    getLabelsCollection() {
+        return this.firestore.collection('/labels').valueChanges();
     }
+
+    getLabelsByUser(id: number, userId: string) {
+        return this.firestore.collection('/users').doc(userId).collection('/labeledGames').doc(String(id)).valueChanges();
+    }
+
+    getLabels(id: number) {
+        // TODO Get labels for game specified.
+    }
+
+
 
     addGame(id: string) {
         const labels = [];
@@ -73,7 +53,43 @@ export class DatabaseService {
         return this.firestore.collection('/labels').doc(id).valueChanges();
     }
 
+    getUsers() {
+        return this.firestore.collection('/users').valueChanges();
+    }
+
+    getUser(id: string) {
+        return this.firestore.collection(`/users`).doc(id).valueChanges();
+    }
+
     /*getAverageLabels(id: string) {
         return this.firestore.collection('/users', ref => ref.where());
     }*/
+
+    setLabel(id: string, data: any[]) {
+        let userId: string;
+        const labels: string[] = [];
+        let length: number = 0;
+        for (let label in data) {
+            length++;
+        }
+        console.log("Data length", length);
+        for (let i = 0; i < length; i++) {
+            if (data[i]) {
+                labels.push(String(i));
+            }
+        }
+        console.log(labels);
+        this._authService.user.subscribe(user => {
+            userId = user.uid;
+            console.log(userId, id);
+            return this.firestore.collection('/users').doc(userId).collection("/labeledGames").doc(String(id)).set({
+                labels
+            });
+        });
+
+    }
+
+    goToUser(id: string) {
+        this.router.navigate(['/user', id]);
+    }
 }

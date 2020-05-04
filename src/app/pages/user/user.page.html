@@ -1,6 +1,9 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>user</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home" [icon]="buttonIcon"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{user.name}}'s profile</ion-title>
   </ion-toolbar>
 </ion-header>
 

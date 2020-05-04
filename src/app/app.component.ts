@@ -19,7 +19,7 @@ export class AppComponent {
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
         private modalController: ModalController,
-        private _authService: AuthService,
+        public _authService: AuthService,
     ) {
         this.initializeApp();
     }

@@ -1,0 +1,47 @@
+ion-card-content {
+  padding: 0;
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+div {
+  background-size: auto 200%;
+  background-repeat: no-repeat;
+  background-position: 50% 20%;
+}
+
+.labels img {
+  max-width: 50px;
+}
+
+.title {
+  padding-top: 3em;
+  padding-bottom: 3em;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px black;
+}
+
+.labels {
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.labels p {
+  margin: .4em;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 10px;
+  padding: .2em;
+  background-color: dodgerblue;
+}
+
+@media screen and (orientation: landscape) {
+  div {
+    background-size: auto 400%;
+  }
+}

@@ -32,14 +32,10 @@ export class AuthService {
         });*/
     }
 
-    register(value: any) {
-        const user = new User();
+    register(user: User, password: string) {
         return new Promise<any>((resolve, reject) => {
-            console.log("Register", value.email, value.password);
-            firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+            firebase.auth().createUserWithEmailAndPassword(user.email, password)
                 .then(res => {
-                    user.email = value.email;
-                    user.password = value.password;
                     user.id = res.user.uid;
                     this.addUserToDatabase(user);
                     resolve(res);
@@ -51,6 +47,8 @@ export class AuthService {
         console.log(user);
         this.firestore.collection('/users').doc(user.id).set({
             id: user.id,
+            name: user.name,
+            labeledGames: [],
         }).then(res => console.log(res));
     }
 
@@ -73,7 +71,5 @@ export class AuthService {
         this.currentUser = null;
     }
 
-    getUser() {
-        return this.user;
-    }
+
 }

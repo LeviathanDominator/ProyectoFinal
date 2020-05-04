@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Games</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="searchModal()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-item color="secondary">
+  <ion-label>Platform</ion-label>
+  <ion-select interface="popover"
+              [(ngModel)]="selectedPlatform"
+              (ionChange)="loadGames()" placeholder="All">
+    <ion-select-option value="0">All</ion-select-option>
+    <ion-select-option *ngFor="let platform of platforms"
+                       value="{{platform.id}}">{{platform.name}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-content color="secondary">
+  <div id="container">
+    <ion-infinite-scroll *ngFor="let game of games" threshold="100px" (ionInfinite)="loadMoreGames($event)" >
+      <ion-infinite-scroll-content (click)="goToGame(game.id)"  loadingSpinner="bubbles" loadingText="Loading more games...">
+        <div [ngStyle]="{'background-image':'url(' + game.image + ')'}">
+          <h1 class="title">{{game.title}}</h1>
+          <div class="labels">
+            <p class="label" *ngFor="let label of game.labels">{{ label.name }}</p>
+            <ng-container *ngIf="game.labels != undefined">
+              <p *ngIf="game.labels.length == 0">This game has no labels yet</p>
+            </ng-container>
+          </div>
+        </div>
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="scanGame()">
+      <ion-icon name="arrow-up-circle"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

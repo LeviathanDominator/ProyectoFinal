@@ -1,47 +1,26 @@
-ion-card-content {
-  padding: 0;
-  color: black;
-  display: flex;
-  flex-direction: column;
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-div {
-  background-size: auto 200%;
-  background-repeat: no-repeat;
-  background-position: 50% 20%;
+ion-item {
+  margin: 1em;
 }
 
-.labels img {
-  max-width: 50px;
-}
-
-.title {
-  padding-top: 3em;
-  padding-bottom: 3em;
+ion-label{
   text-align: center;
-  color: white;
-  text-shadow: 2px 2px black;
 }
 
-.labels {
-  color: white;
+ion-label, ion-icon{
+  padding-top: .5em;
+  padding-bottom: .5em;
+}
+
+ion-icon {
+  font-size: 2.5em;
+}
+
+ion-item{
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.labels p {
-  margin: .4em;
-  border-style: solid;
-  border-color: black;
-  border-width: 1px;
-  border-radius: 10px;
-  padding: .2em;
-  background-color: dodgerblue;
-}
-
-@media screen and (orientation: landscape) {
-  div {
-    background-size: auto 400%;
-  }
+  font-size: 1.2em;
 }

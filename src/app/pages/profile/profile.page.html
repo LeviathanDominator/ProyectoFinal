@@ -3,11 +3,10 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Users</ion-title>
+    <ion-title>{{user.name}}'s profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item *ngFor="let user of users" (click)="goToUser(user.id)">
-    <p>{{user.name}}</p></ion-item>
+
 </ion-content>

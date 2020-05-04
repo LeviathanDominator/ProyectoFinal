@@ -10,7 +10,7 @@ import {ModalController} from "@ionic/angular";
 })
 export class SignupPage implements OnInit {
 
-    private user: User = new User();
+    user: User = new User();
 
     constructor(private _authService: AuthService, private modalController: ModalController) {
     }
@@ -19,8 +19,11 @@ export class SignupPage implements OnInit {
     }
 
     signup(form: any) {
-        console.log(form['value']);
-        this._authService.register(form['value']);
+        const user = new User();
+        user.name = form['value'].name;
+        user.email = form['value'].email;
+        console.log(user);
+        this._authService.register(user, form['value'].password);
         this.close()
     }
 

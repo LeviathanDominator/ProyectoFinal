@@ -1,9 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>labelinput</ion-title>
+    <ion-title>Setting labels for {{title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <form (ngSubmit)="setLabel(localForm)" #localForm="ngForm">
+    <ion-item *ngFor="let label of labels">
+      <ion-label>{{label.name}}</ion-label>
+      <ion-checkbox [(ngModel)]="!label.id" name="{{label.id}}" checked="false">
+      </ion-checkbox>
+    </ion-item>
+    <ion-button type="submit">Submit</ion-button>
+  </form>
 </ion-content>

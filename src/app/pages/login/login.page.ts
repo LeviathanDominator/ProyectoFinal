@@ -10,7 +10,7 @@ import {ModalController} from "@ionic/angular";
 })
 export class LoginPage implements OnInit {
 
-  private user: User = new User();
+  user: User = new User();
 
   constructor(private modalController: ModalController, private _authService: AuthService) { }
 

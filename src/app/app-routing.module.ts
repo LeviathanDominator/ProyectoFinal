@@ -16,7 +16,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/game/game.module').then( m => m.GamePageModule)
   },
   {
-    path: 'user',
+    path: 'user/:id',
     loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
   },
   {
@@ -38,6 +38,14 @@ const routes: Routes = [
   {
     path: 'about',
     loadChildren: () => import('./pages/about/about.module').then( m => m.AboutPageModule)
+  },
+  {
+    path: 'games',
+    loadChildren: () => import('./pages/games/games.module').then( m => m.GamesPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   }
 ];
 

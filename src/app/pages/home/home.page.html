@@ -15,22 +15,31 @@
 <ion-content color="secondary">
     <div id="container">
         <div class="buttons">
-        <ion-item color="primary">
+        <ion-item color="primary" [routerLink]="['/games']">
             <ion-label>Games</ion-label>
             <ion-icon name="game-controller-outline"></ion-icon>
         </ion-item>
-        <ion-item color="primary">
-            <ion-label>Games</ion-label>
-            <ion-icon name="game-controller-outline"></ion-icon>
+        <ion-item color="primary" [routerLink]="['/platforms']">
+            <ion-label>Platforms</ion-label>
+            <ion-icon name="phone-landscape-outline"></ion-icon>
         </ion-item>
-        <ion-item color="primary">
-            <ion-label>Games</ion-label>
-            <ion-icon name="game-controller-outline"></ion-icon>
-        </ion-item>
-        <ion-item color="primary">
-            <ion-label>Users</ion-label>
-            <ion-icon name="people-outline"></ion-icon>
-        </ion-item>
+            <ion-item color="primary" *ngIf="_authService.user | async" [routerLink]="['/lists']">
+                <ion-label>My lists</ion-label>
+                <ion-icon name="list-outline"></ion-icon>
+            </ion-item>
+            <ion-item color="primary" [routerLink]="['/users']">
+                <ion-label>Users</ion-label>
+                <ion-icon name="people-outline"></ion-icon>
+            </ion-item>
+            <ion-item color="primary" [routerLink]="['/games']">
+                <ion-label>Games</ion-label>
+                <ion-icon name="game-controller-outline"></ion-icon>
+            </ion-item>
+            <ion-item color="primary" [routerLink]="['/about']">
+                <ion-label>About</ion-label>
+                <ion-icon name="information-circle-outline"></ion-icon>
+            </ion-item>
         </div>
+        <ion-card><ion-label>Random game: {{game.title}}</ion-label></ion-card>
     </div>
 </ion-content>

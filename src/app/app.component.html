@@ -5,7 +5,6 @@
         </ion-toolbar>
         <ion-content id="menu" class="menu" color="secondary">
             <p *ngIf="_authService.user | async">{{ (_authService.user | async)?.email}}</p>
-            <ion-list>
                 <ion-button color="secondary" *ngIf="!(_authService.user | async)" (click)="goToLogin()">Login
                 </ion-button>
                 <ion-button color="secondary" *ngIf="!(_authService.user | async)" (click)="goToSignUp()">SignUp
@@ -14,10 +13,10 @@
                 <ion-button color="secondary" *ngIf="_authService.user | async" (click)="logout()">Logout
                 </ion-button>
                 <ion-button color="secondary" [routerLink]="['/home']">Home</ion-button>
-                <ion-button color="secondary" [routerLink]="['/games']">Games</ion-button>
+            <ion-button color="secondary" [routerLink]="['/games']">Games</ion-button>
+            <ion-button color="secondary" [routerLink]="['/platforms']">Platforms</ion-button>
                 <ion-button color="secondary" [routerLink]="['/users']">Users</ion-button>
                 <ion-button color="secondary" [routerLink]="['/about']">About</ion-button>
-            </ion-list>
         </ion-content>
     </ion-menu>
     <ion-router-outlet></ion-router-outlet>

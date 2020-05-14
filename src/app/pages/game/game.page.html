@@ -21,7 +21,10 @@
         </div>
         <ng-container *ngIf="game.labels != undefined">
             <p *ngIf="game.labels.length == 0">This game has no labels yet</p>
-            <ion-button (click)="goToLabelInput()">Click here to add labels</ion-button>
+
+            <p>Are these labels inaccurate? Send us a request to change {{game.title}}'s info about labels pressing the button below!</p>
+            <ion-button (click)="shareViaTwitter()">Twitter</ion-button>
+            <ion-button (click)="goToLabelInput()">Press here to change labels</ion-button>
         </ng-container>
     </div>
 </ion-content>

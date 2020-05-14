@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>My lists</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngFor="let list of lists">
+      <ion-item-option (click)="goToList(list.id)">
+          {{list.id}} Games: {{list.games.length}}
+      </ion-item-option>
+  </ion-item>
+</ion-content>

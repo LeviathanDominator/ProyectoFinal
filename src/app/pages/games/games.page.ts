@@ -23,7 +23,7 @@ export class GamesPage implements OnInit {
 
   constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
               private _apiService: ApiService, private _authService: AuthService, private modalController: ModalController) {
-    _apiService.getPlatforms(1).subscribe(platforms => {
+    _apiService.getPlatforms().subscribe(platforms => {
       for (let platformResult of platforms["results"]) {
         const platform = new Platform();
         platform.id = platformResult.id;
@@ -119,9 +119,21 @@ export class GamesPage implements OnInit {
       game.title = gameResult.name;
       game.image = gameResult.background_image;
       game.screenshots = gameResult.short_screenshots;
-      /*this._databaseService.getLabels(game.id).then((labels:Label[]) => {
-        game.labels = labels;
-      });*/
+      this._databaseService.getLabels(game.id).subscribe(labels => {
+        game.labels = [];
+        if (labels == undefined){
+          console.log("Game not found in database");
+          //_databaseService.addGame(this.game.id);
+        } else {
+          for (let labelData of labels['labels']){
+            this._databaseService.getLabel(labelData).subscribe(label => {
+              console.log(label);
+              game.labels.push(this._databaseService.dataToLabel(label));
+            });
+          }
+        }
+        console.log("Labels: ", labels);
+      });
       this.games.push(game);
     }
   }

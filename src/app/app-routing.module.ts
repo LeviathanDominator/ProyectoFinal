@@ -46,6 +46,22 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'lists',
+    loadChildren: () => import('./pages/lists/lists.module').then( m => m.ListsPageModule)
+  },
+  {
+    path: 'list/:id',
+    loadChildren: () => import('./pages/list/list.module').then( m => m.ListPageModule)
+  },
+  {
+    path: 'platforms',
+    loadChildren: () => import('./pages/platforms/platforms.module').then( m => m.PlatformsPageModule)
+  },
+  {
+    path: 'platform/:id',
+    loadChildren: () => import('./pages/platform/platform.module').then( m => m.PlatformPageModule)
   }
 ];
 

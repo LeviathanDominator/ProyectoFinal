@@ -11,6 +11,7 @@ import {ModalController} from "@ionic/angular";
 export class SignupPage implements OnInit {
 
     user: User = new User();
+    password: string = "";
 
     constructor(private _authService: AuthService, private modalController: ModalController) {
     }

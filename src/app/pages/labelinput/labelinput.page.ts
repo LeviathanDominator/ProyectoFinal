@@ -30,7 +30,8 @@ export class LabelinputPage implements OnInit {
     }
 
     setLabel(form: any) {
-        this._databaseService.getLabels(3498);
+        //this._databaseService.getLabels(3498);
+        // TODO Send form to admin
         //this._databaseService.setLabel(this.id, form['value']);
     }
 }

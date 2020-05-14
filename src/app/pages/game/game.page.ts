@@ -6,7 +6,6 @@ import {DatabaseService} from "../../services/database.service";
 import {SearchPage} from "../search/search.page";
 import {ModalController} from "@ionic/angular";
 import {LabelinputPage} from "../labelinput/labelinput.page";
-import {Label} from "../../models/label.model";
 
 @Component({
     selector: 'app-game',
@@ -27,9 +26,21 @@ export class GamePage implements OnInit {
                 this.game.image = game.background_image;
                 this.game.description = game.description_raw;
 
-                /*_databaseService.getLabels(this.game.id).then((labels:Label[])=>{
-                    this.game.labels = labels;
-                });*/
+                _databaseService.getLabels(this.game.id).subscribe(labels => {
+                    this.game.labels = [];
+                    if (labels == undefined) {
+                        console.log("Game not found in database");
+                        //_databaseService.addGame(this.game.id);
+                    } else {
+                        for (let labelData of labels['labels']) {
+                            _databaseService.getLabel(labelData).subscribe(label => {
+                                console.log(label);
+                                this.game.labels.push(_databaseService.dataToLabel(label));
+                            });
+                        }
+                    }
+                    console.log("Labels: ", labels);
+                });
             })
         })
     }
@@ -46,5 +57,9 @@ export class GamePage implements OnInit {
             }
         });
         return await modal.present();
+    }
+
+    shareViaTwitter() {
+
     }
 }

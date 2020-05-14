@@ -16,9 +16,16 @@ import {Label} from "../../models/label.model";
 })
 export class HomePage implements OnInit {
 
-    constructor(){
+    game: Game = new Game();
 
+    constructor(private _apiService: ApiService, public _authService: AuthService) {
+        _apiService.getRandomGame().then(game => {
+            console.log(game);
+            this.game.title = game['name'];
+            this.game.id = game['id'];
+        });
     }
+
     ngOnInit(): void {
     }
 

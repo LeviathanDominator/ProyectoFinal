@@ -8,5 +8,7 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-card *ngFor="let list of lists">
+    <p>{{list.title}}</p>
+  </ion-card>
 </ion-content>

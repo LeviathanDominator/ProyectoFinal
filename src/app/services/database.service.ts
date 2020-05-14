@@ -4,6 +4,7 @@ import {Label} from "../models/label.model";
 import {User} from "../models/user.model";
 import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
+import {Platform} from "../models/platform.model";
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,7 @@ export class DatabaseService {
     }
 
     addBarcodeGame(barcode: string, id: number) {
-        this.addGame(id.toString());
+        this.addGame(id);
         return this.firestore.collection('/barcode').doc(barcode).set({
             id
         });
@@ -38,19 +39,31 @@ export class DatabaseService {
 
     getLabels(id: number) {
         // TODO Get labels for game specified.
+        return this.firestore.collection('/games').doc(String(id)).valueChanges();
     }
 
 
 
-    addGame(id: string) {
+    addGame(id: number) {
         const labels = [];
-        return this.firestore.collection('/games').doc(id).set({
-            labels
+        const description = "";
+        return this.firestore.collection('/games').doc(String(id)).set({
+            labels,
+            description,
         });
     }
 
     getLabel(id: string) {
         return this.firestore.collection('/labels').doc(id).valueChanges();
+    }
+
+    dataToLabel(data: Object) {
+        const label = new Label();
+        label.id = data['id'];
+        label.name = data['name'];
+        label.description = data['description'];
+        label.descriptionLarge = data['descriptionLarge'];
+        return label;
     }
 
     getUsers() {
@@ -91,5 +104,13 @@ export class DatabaseService {
 
     goToUser(id: string) {
         this.router.navigate(['/user', id]);
+    }
+
+    getLists(id: string) {
+        return this.firestore.collection('/users').doc(id).collection('/lists').valueChanges();
+    }
+
+    getList(id: string, userId: string) {
+        return this.firestore.collection('/users').doc(userId).collection('/lists').doc(id).valueChanges();
     }
 }

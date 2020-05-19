@@ -17,11 +17,7 @@ export class LabelinputPage implements OnInit {
         _databaseService.getLabelsCollection().subscribe(labels => {
             console.log(labels);
             for (let i = 0; i < labels.length; i++) {
-                const label = new Label();
-                label.id = String(i);
-                label.name = labels[i]['name'];
-                label.description = labels[i]['description'];
-                this.labels.push(label);
+                this.labels.push(new Label(String(i), labels[i]['name'], labels[i]['description'], labels[i]['descriptionLarge']));
             }
         });
     }

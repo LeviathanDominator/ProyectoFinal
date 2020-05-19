@@ -6,6 +6,7 @@ import {DatabaseService} from "../../services/database.service";
 import {SearchPage} from "../search/search.page";
 import {ModalController} from "@ionic/angular";
 import {LabelinputPage} from "../labelinput/labelinput.page";
+import {Platform} from "../../models/platform.model";
 
 @Component({
     selector: 'app-game',
@@ -14,17 +15,16 @@ import {LabelinputPage} from "../labelinput/labelinput.page";
 })
 export class GamePage implements OnInit {
 
-    game: Game = new Game();
+    game: Game;
 
     constructor(private activatedRoute: ActivatedRoute, private _apiService: ApiService,
                 private _databaseService: DatabaseService, private modalController: ModalController) {
         this.activatedRoute.params.subscribe(params => {
             this._apiService.getGame(params.id).subscribe(game => {
-                console.log(game);
-                this.game.title = game.name;
-                this.game.id = game.id;
-                this.game.image = game.background_image;
-                this.game.description = game.description_raw;
+                this.game = _apiService.dataToGame(game);
+                for (let platform of game['platforms']){
+                    this.game.platforms.push(new Platform(platform['platform']['id'], platform['platform']['name']));
+                }
 
                 _databaseService.getLabels(this.game.id).subscribe(labels => {
                     this.game.labels = [];
@@ -57,6 +57,10 @@ export class GamePage implements OnInit {
             }
         });
         return await modal.present();
+    }
+
+    goToPlatform(id: number) {
+        this._apiService.goToPlatform(id);
     }
 
     shareViaTwitter() {

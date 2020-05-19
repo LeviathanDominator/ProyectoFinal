@@ -12,13 +12,13 @@ export class AboutPage implements OnInit {
   labels: Label[] = [];
   constructor(private _databaseService: DatabaseService) {
     this._databaseService.getLabelsCollection().subscribe(labels => {
-      for (let i = 0; i < labels.length; i++){
-        let newLabel = new Label();
+      for (let label of labels){
+        /*let newLabel = new Label();
         newLabel.name = labels[i]['name'];
         newLabel.description = labels[i]['description'];
         newLabel.descriptionLarge = labels[i]['descriptionLarge']
-        console.log(newLabel)
-        this.labels.push(newLabel);
+        console.log(newLabel)*/
+        this.labels.push(_databaseService.dataToLabel(label));
       }
     });
   }

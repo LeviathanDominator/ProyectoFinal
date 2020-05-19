@@ -28,11 +28,7 @@ export class ListPage implements OnInit {
         for (let i = 0; i < list['games'].length; i++){
           console.log(list['games'][i]);
           _apiService.getGame(list['games'][i]).subscribe(gameData => {
-            let game = new Game();
-            game.id = gameData['id'];
-            game.title = gameData['name'];
-            console.log(game);
-            this.games.push(game);
+            this.games.push(new Game(gameData['id'], gameData['name']));
           });
         }
       })

@@ -7,16 +7,6 @@ h1, h2{
   padding-bottom: 1.5em;
 }
 
-.main {
-  color: white;
-  text-align: center;
-  background-size: auto 100%;
-  background-position: center;
-  background-attachment: fixed;
-  object-fit: cover;
-  height: 100vh;
-}
-
 small {
   display: -webkit-box;
   -webkit-line-clamp: 5;
@@ -40,6 +30,12 @@ small {
   border-style: solid;
   border-width: 2px;
   background-color: cornflowerblue;
+}
+
+ion-buttons{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 @media screen and (orientation: landscape) {

@@ -1,12 +1,16 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>{{platform.name}}</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title *ngIf="platform">{{platform.name}}</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <p></p>
+    <div *ngIf="platform" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
+   'rgba(0, 0, 0, 0.7)), url(' + platform.image + ')'}">
+        <p>Number of games: {{platform.gamesCount}}</p>
+        <small *ngIf="platform.gamesCount">{{platform.description}}</small>
+    </div>
 </ion-content>

@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {Platform} from "../models/platform.model";
+import {Game} from "../models/game.model";
 
 @Injectable({
     providedIn: 'root'
@@ -46,30 +47,33 @@ export class ApiService {
         this.router.navigate(['/platform', id]);
     }
 
-    dataToPlatform(data: Object) {
-        const platform = new Platform();
-        platform.id = data['id'];
-        platform.name = data['name'];
-        return platform;
+    dataToGame(data: Object) {
+        console.log(data);
+        return new Game(data['id'], data['name'], data['description_raw'], data['background_image'], data['short_screenshots'], data['esrb_rating'] ? data['esrb_rating']['name'] : "");
     }
 
-    getRandomGame(){
+    dataToPlatform(data: Object) {
+        return new Platform(data['id'], data['name'], data['description'], data['image_background'], data['games_count']);
+    }
+
+    getRandomGame() {
         return new Promise(resolve => {
-        this.getGenres(1).subscribe(result => {
-            console.log(result);
-            this.getGamesCount(result['results'][Math.floor(Math.random() * result['count'])]['id']).subscribe(result => {
-                this.getGame(Math.floor(Math.random() * result['games_count'])).subscribe(game => {
-                   resolve(game);
+            this.getGenres(1).subscribe(result => {
+                console.log(result);
+                this.getGamesCount(result['results'][Math.floor(Math.random() * result['count'])]['id']).subscribe(result => {
+                    this.getGame(Math.floor(Math.random() * result['games_count'])).subscribe(game => {
+                        resolve(game);
+                    });
                 });
             });
-        });});
+        });
     }
 
     getGenres(page: number) {
         return this.http.get(`${this.url}genres?page=${page}`).pipe();
     }
 
-    getGamesCount(genre: number){
+    getGamesCount(genre: number) {
         return this.http.get(`${this.url}genres/${genre}`).pipe();
     }
 

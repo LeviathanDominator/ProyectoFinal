@@ -17,9 +17,7 @@ export class UserPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private _databaseService: DatabaseService) {
     this.activatedRoute.params.subscribe(params => {
       this._databaseService.getUser(params['id']).subscribe(user => {
-        console.log(user);
-        this.user.id = user['id'];
-        this.user.name = user['name'];
+        this.user = new User(user['id'], user['name']);
       });
       this._databaseService.getLists(params['id']).subscribe(lists => {
         this.lists = [];

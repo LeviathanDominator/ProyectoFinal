@@ -10,12 +10,13 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class PlatformPage implements OnInit {
 
-  platform: Platform = new Platform();
+  platform: Platform;
 
   constructor(private activatedRoute: ActivatedRoute, private _apiService: ApiService) {
     this.activatedRoute.params.subscribe(params => {
     _apiService.getPlatform(params['id']).subscribe(platform => {
       this.platform = _apiService.dataToPlatform(platform);
+      console.log(platform);
     })});
   }
 

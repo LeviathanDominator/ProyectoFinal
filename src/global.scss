@@ -24,3 +24,14 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+.gameBackground {
+  color: white;
+  text-align: center;
+  background-size: auto 100%;
+  background-position: center;
+  background-attachment: fixed;
+  object-fit: cover;
+  height: 100vh;
+}

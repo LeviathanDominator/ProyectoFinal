@@ -9,16 +9,13 @@ import {User} from "../../models/user.model";
 })
 export class UsersPage implements OnInit {
 
-  users: User[] = [];
+  users: User[];
 
   constructor(private _databaseService: DatabaseService) {
-    _databaseService.getUsers().subscribe(newUsers => {
-      console.log(newUsers[0]['id']);
-      for (let i = 0; i < newUsers.length; i++) {
-        let user: User = new User();
-        user.id = newUsers[i]['id'];
-        user.name = newUsers[i]['name'];
-        this.users.push(user);
+    _databaseService.getUsers().subscribe(users => {
+      this.users = [];
+      for (let user of users) {
+        this.users.push(new User(user['id'], user['name']));
       }
     })
   }

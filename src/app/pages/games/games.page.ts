@@ -8,6 +8,7 @@ import {AuthService} from "../../services/auth.service";
 import {ModalController} from "@ionic/angular";
 import {SearchPage} from "../search/search.page";
 import {Label} from "../../models/label.model";
+import {FilterPage} from "../filter/filter.page";
 
 @Component({
   selector: 'app-games',
@@ -24,11 +25,8 @@ export class GamesPage implements OnInit {
   constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
               private _apiService: ApiService, private _authService: AuthService, private modalController: ModalController) {
     _apiService.getPlatforms().subscribe(platforms => {
-      for (let platformResult of platforms["results"]) {
-        const platform = new Platform();
-        platform.id = platformResult.id;
-        platform.name = platformResult.name;
-        this.platforms.push(platform);
+      for (let platform of platforms["results"]) {
+        this.platforms.push(_apiService.dataToPlatform(platform));
       }
       console.log(this.platforms);
     })
@@ -74,6 +72,16 @@ export class GamesPage implements OnInit {
       return await modal.present();
   }*/
 
+  async filterModal() {
+    const modal = await this.modalController.create({
+      component: FilterPage
+    });
+    modal.onDidDismiss().then(data => {
+      this._databaseService.setFilter(data['data']['filters']);
+    });
+    return await modal.present();
+  }
+
   async searchModal() {
     const modal = await this.modalController.create({
       component: SearchPage
@@ -98,44 +106,61 @@ export class GamesPage implements OnInit {
   }
 
   private getGames() {
-    console.log("Page", this.page);
     if (this.selectedPlatform == 0) {
       this._apiService.getGames(this.page).subscribe(games => {
-        console.log(games.results);
         this.setGames(games.results);
       })
     } else {
       this._apiService.getGamesByPlatform(this.selectedPlatform, this.page).subscribe(games => {
-        console.log(games.results);
         this.setGames(games.results);
       })
     }
   }
 
   private setGames(results: any) {
-    for (let gameResult of results) {
-      const game = new Game();
-      game.id = gameResult.id;
-      game.title = gameResult.name;
-      game.image = gameResult.background_image;
-      game.screenshots = gameResult.short_screenshots;
-      this._databaseService.getLabels(game.id).subscribe(labels => {
-        game.labels = [];
+    for (let game of results) {
+      const newGame = this._apiService.dataToGame(game);
+      this._databaseService.getLabels(newGame.id).subscribe(labels => {
+        newGame.labels = [];
         if (labels == undefined){
           console.log("Game not found in database");
           //_databaseService.addGame(this.game.id);
         } else {
           for (let labelData of labels['labels']){
             this._databaseService.getLabel(labelData).subscribe(label => {
-              console.log(label);
-              game.labels.push(this._databaseService.dataToLabel(label));
+              newGame.labels.push(this._databaseService.dataToLabel(label));
             });
           }
         }
-        console.log("Labels: ", labels);
       });
-      this.games.push(game);
+      this.games.push(newGame);
     }
   }
 
+  // doesnt work!
+  async matchesCriteria(labels: Label[]): Promise<boolean> {
+    return new Promise(resolve => {
+      resolve(true);
+    })
+    /*const promise = new Promise(resolve => {
+      const filters = this._databaseService.filters;
+      if (filters == undefined) {
+       // console.log("Undefined");
+       resolve(true);
+      } else {
+        //console.log(labels);
+        for (let label of labels) {
+          if (filters[label.id] == 'no') {
+            console.log("No!!!")
+            resolve(false);
+          } else if (filters[label.id] == 'yes'){
+            resolve(true);
+          } else{
+            resolve(false);
+          }
+        }
+      }
+    });
+    return await Promise.all(promise);*/
+  }
 }

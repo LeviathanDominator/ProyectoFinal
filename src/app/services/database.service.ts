@@ -11,6 +11,8 @@ import {Platform} from "../models/platform.model";
 })
 export class DatabaseService {
 
+    filters: string[];
+
     constructor(private router: Router, private firestore: AngularFirestore, private _authService: AuthService) {
     }
 
@@ -58,12 +60,8 @@ export class DatabaseService {
     }
 
     dataToLabel(data: Object) {
-        const label = new Label();
-        label.id = data['id'];
-        label.name = data['name'];
-        label.description = data['description'];
-        label.descriptionLarge = data['descriptionLarge'];
-        return label;
+        console.log("IMPORTANT", data)
+        return new Label(data['id'], data['name'], data['description'], data['descriptionLarge']);
     }
 
     getUsers() {
@@ -112,5 +110,13 @@ export class DatabaseService {
 
     getList(id: string, userId: string) {
         return this.firestore.collection('/users').doc(userId).collection('/lists').doc(id).valueChanges();
+    }
+
+    setFilter(data: any) {
+        this.filters = new Array<any>(data.length);
+        for (let filter of data){
+            this.filters[filter['id']] = filter['selectedFilter'];
+        }
+        console.log("New filters", this.filters);
     }
 }

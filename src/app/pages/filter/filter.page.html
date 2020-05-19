@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>Filter games by labels</ion-title>
+    <ion-buttons slot="secondary">
+        <ion-button (click)="setFilter()">
+            <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item *ngFor="let label of labels">
+        <ion-label>
+            {{label.name}}
+        </ion-label>
+        <ion-select [(ngModel)]="label.selectedFilter">
+            <ion-select-option value="any">Any</ion-select-option>
+            <ion-select-option value="yes">Yes</ion-select-option>
+            <ion-select-option value="no">No</ion-select-option>
+        </ion-select>
+    </ion-item>
+</ion-content>

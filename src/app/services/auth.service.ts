@@ -48,6 +48,7 @@ export class AuthService {
         this.firestore.collection('/users').doc(user.id).set({
             id: user.id,
             name: user.name,
+            isAdmin: false,
             labeledGames: [],
         }).then(res => console.log(res));
     }

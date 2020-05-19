@@ -62,6 +62,10 @@ const routes: Routes = [
   {
     path: 'platform/:id',
     loadChildren: () => import('./pages/platform/platform.module').then( m => m.PlatformPageModule)
+  },
+  {
+    path: 'filter',
+    loadChildren: () => import('./pages/filter/filter.module').then( m => m.FilterPageModule)
   }
 ];
 

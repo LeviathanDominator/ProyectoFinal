@@ -5,7 +5,6 @@ import {RouteReuseStrategy} from '@angular/router';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {SocialSharing} from '@ionic-native/social-sharing';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -19,13 +18,14 @@ import {AngularFireAuthModule} from "@angular/fire/auth";
 import {LoginPageModule} from "./pages/login/login.module";
 import {SignupPageModule} from "./pages/signup/signup.module";
 import {LabelinputPageModule} from "./pages/labelinput/labelinput.module";
+import {FilterPageModule} from "./pages/filter/filter.module";
 
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule,
-        AngularFireAuthModule, SearchPageModule, LoginPageModule, SignupPageModule, LabelinputPageModule],
+        AngularFireAuthModule, SearchPageModule, FilterPageModule, LoginPageModule, SignupPageModule, LabelinputPageModule],
     providers: [
         StatusBar,
         SplashScreen,

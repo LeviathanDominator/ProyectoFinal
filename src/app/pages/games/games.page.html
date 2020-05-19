@@ -29,7 +29,7 @@
 <ion-content color="secondary">
   <div id="container">
     <ion-infinite-scroll *ngFor="let game of games" threshold="100px" (ionInfinite)="loadMoreGames($event)" >
-      <ion-infinite-scroll-content *ngIf="matchesCriteria(game.labels) | async" (click)="goToGame(game.id)"  loadingSpinner="bubbles" loadingText="Loading more games...">
+      <ion-infinite-scroll-content *ngIf="matchesCriteria(game.labels)" (click)="goToGame(game.id)"  loadingSpinner="bubbles" loadingText="Loading more games...">
         <div [ngStyle]="{'background-image':'url(' + game.image + ')'}">
           <h1 class="title">{{game.title}}</h1>
           <div class="labels">

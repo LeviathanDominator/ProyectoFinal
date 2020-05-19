@@ -137,11 +137,12 @@ export class GamesPage implements OnInit {
     }
   }
 
-  // doesnt work!
-  async matchesCriteria(labels: Label[]): Promise<boolean> {
-    return new Promise(resolve => {
+  // TODO make it work
+  matchesCriteria(labels: Label[]): Promise<boolean> {
+    return Promise.resolve(false);
+    /*return new Promise(resolve => {
       resolve(true);
-    })
+    })*/
     /*const promise = new Promise(resolve => {
       const filters = this._databaseService.filters;
       if (filters == undefined) {

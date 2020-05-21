@@ -4,6 +4,9 @@ import {DatabaseService} from "../../services/database.service";
 import {List} from "../../models/list.model";
 import {Game} from "../../models/game.model";
 import {Router} from "@angular/router";
+import {SignupPage} from "../signup/signup.page";
+import {ModalController} from "@ionic/angular";
+import {NewListPage} from "../new-list/new-list.page";
 
 @Component({
     selector: 'app-lists',
@@ -14,9 +17,11 @@ export class ListsPage implements OnInit {
 
     lists: List[];
 
-    constructor(private _authService: AuthService, private _databaseService: DatabaseService, private router: Router) {
+    constructor(private _authService: AuthService, private _databaseService: DatabaseService, private router: Router,
+                private modalController: ModalController) {
         this.lists = [];
         _authService.user.subscribe(user => {
+            console.log("User", user);
             _databaseService.getUser(user.uid).subscribe(userData => {
                 _databaseService.getLists(user.uid).subscribe(lists => {
                     console.log(lists[0]);
@@ -49,4 +54,10 @@ export class ListsPage implements OnInit {
         this.router.navigate(['/list', id]);
     }
 
+    async addList() {
+            const modal = await this.modalController.create({
+                component: NewListPage
+            });
+            return await modal.present();
+    }
 }

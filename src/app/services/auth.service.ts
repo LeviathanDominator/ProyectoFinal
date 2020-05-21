@@ -18,18 +18,18 @@ export class AuthService {
             return null;
         }
     });
+    userId;
+
 
 
     constructor(private firebaseAuth: AngularFireAuth, private firestore: AngularFirestore) {
         this.user = this.firebaseAuth.authState;
-        /*this.user = this.firebaseAuth.authState;
         this.user.subscribe(params => {
             console.log("User", params);
             if (params != null) {
-                // @ts-ignore
-                this.userId = params.Y.W;
+                this.userId = params["uid"];
             }
-        });*/
+        });
     }
 
     register(user: User, password: string) {
@@ -48,7 +48,6 @@ export class AuthService {
         this.firestore.collection('/users').doc(user.id).set({
             id: user.id,
             name: user.name,
-            isAdmin: false,
             labeledGames: [],
         }).then(res => console.log(res));
     }
@@ -70,7 +69,7 @@ export class AuthService {
         firebase.auth().signOut().then(r => console.log(r));
         this.user = null;
         this.currentUser = null;
+        this.userId = undefined;
     }
-
 
 }

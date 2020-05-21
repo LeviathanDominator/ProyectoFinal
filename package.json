@@ -81,9 +81,7 @@
       },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-camera": {},
-      "cordova-plugin-x-socialsharing": {
-        "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
-      }
+      "cordova-plugin-x-socialsharing": {}
     },
     "platforms": [
       "android"

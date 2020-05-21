@@ -4,6 +4,11 @@
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>My lists</ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="addList()">
+                <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
@@ -13,4 +18,5 @@
           {{list.id}} Games: {{list.games.length}}
       </ion-item-option>
   </ion-item>
+    <p *ngIf="lists.length == 0">You have not created a list yet.</p>
 </ion-content>

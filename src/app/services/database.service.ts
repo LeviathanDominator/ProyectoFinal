@@ -119,4 +119,20 @@ export class DatabaseService {
         }
         console.log("New filters", this.filters);
     }
+
+    getAdmin(){
+        this._authService.user.subscribe(user =>{
+            return this.firestore.collection('/users').doc(user['uid']).valueChanges();
+        });
+    }
+
+    isAdmin(){
+        console.log("Is admin", this.getAdmin());
+    }
+
+    newList(userId: string, id: number, name: string) {
+        return this.firestore.collection('/users').doc(userId).collection("/lists").doc(String(id)).set({
+            name
+        });
+    }
 }

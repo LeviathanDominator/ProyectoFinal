@@ -32,6 +32,7 @@ export class GamePage implements OnInit {
                         console.log("Game not found in database");
                         //_databaseService.addGame(this.game.id);
                     } else {
+                        this.game.dlc_description = labels['description'];
                         for (let labelData of labels['labels']) {
                             _databaseService.getLabel(labelData).subscribe(label => {
                                 console.log(label);

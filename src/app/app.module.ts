@@ -19,13 +19,15 @@ import {LoginPageModule} from "./pages/login/login.module";
 import {SignupPageModule} from "./pages/signup/signup.module";
 import {LabelinputPageModule} from "./pages/labelinput/labelinput.module";
 import {FilterPageModule} from "./pages/filter/filter.module";
+import {NewListPageModule} from "./pages/new-list/new-list.module";
 
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule,
-        AngularFireAuthModule, SearchPageModule, FilterPageModule, LoginPageModule, SignupPageModule, LabelinputPageModule],
+        AngularFireAuthModule, SearchPageModule, FilterPageModule, LoginPageModule, SignupPageModule,
+        LabelinputPageModule, NewListPageModule],
     providers: [
         StatusBar,
         SplashScreen,

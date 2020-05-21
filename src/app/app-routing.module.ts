@@ -48,7 +48,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
-    path: 'lists',
+    path: 'lists/:id',
     loadChildren: () => import('./pages/lists/lists.module').then( m => m.ListsPageModule)
   },
   {
@@ -66,6 +66,10 @@ const routes: Routes = [
   {
     path: 'filter',
     loadChildren: () => import('./pages/filter/filter.module').then( m => m.FilterPageModule)
+  },
+  {
+    path: 'new-list',
+    loadChildren: () => import('./pages/new-list/new-list.module').then( m => m.NewListPageModule)
   }
 ];
 

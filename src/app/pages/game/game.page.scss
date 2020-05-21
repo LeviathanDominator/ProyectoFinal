@@ -2,7 +2,7 @@
   margin: 0;
 }
 
-h1, h2{
+h1, h2 {
   padding-top: 1.5em;
   padding-bottom: 1.5em;
 }
@@ -13,6 +13,10 @@ small {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+small, p {
+  margin-bottom: .7em;
 }
 
 .labels {
@@ -32,7 +36,7 @@ small {
   background-color: cornflowerblue;
 }
 
-ion-buttons{
+ion-buttons {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;

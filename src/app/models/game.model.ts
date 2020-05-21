@@ -17,6 +17,7 @@ export class Game {
     id: number;
     title: string;
     description: string;
+    dlc_description: string;
     image: string;
     screenshots: string[];
     esrb: string;

@@ -11,6 +11,7 @@
     <div *ngIf="game" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
    'rgba(0, 0, 0, 0.7)), url(' + game.image + ')'}">
         <small>{{game.description}}</small>
+        <small *ngIf="game.dlc_description">{{game.dlc_description}}</small>
         <p>ESRB Rating: {{game.esrb}}</p>
         <p>Available in: </p>
         <ion-buttons>

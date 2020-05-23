@@ -3,7 +3,12 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home" [icon]="buttonIcon"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{user.name}}'s profile</ion-title>
+    <ion-title *ngIf="user">{{user.name}}'s profile</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button *ngIf="user" (click)="sendMessage(user.id)">
+      <ion-icon name="mail-outline"></ion-icon>
+    </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

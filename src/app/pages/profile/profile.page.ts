@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../../services/auth.service";
+import {AuthService} from '../../services/auth.service';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import {DatabaseService} from "../../services/database.service";
-import {User} from "../../models/user.model";
+import {DatabaseService} from '../../services/database.service';
+import {User} from '../../models/user.model';
+import {NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-profile',
@@ -14,13 +15,19 @@ export class ProfilePage implements OnInit {
   user: User = new User();
   imageSrc: string;
 
-  constructor(private _authService: AuthService, private _databaseService: DatabaseService) {
+  constructor(private _authService: AuthService, private _databaseService: DatabaseService,
+              private navController: NavController) {
     _authService.user.subscribe(user => {
-      this._databaseService.getUser(user['uid']).subscribe(user => {
-        this.user.id = user['id'];
-        this.user.name = user['name'];
-        this.user.email = user['email'];
-      });
+      if (user) {
+        this._databaseService.getUser(user.uid).subscribe(userData => {
+          this.user = this._databaseService.dataToUser(userData);
+          this.user.id = userData['id'];
+          this.user.name = userData['name'];
+          this.user.email = userData['email'];
+        });
+      } else {
+        navController.navigateBack('home');
+      }
     });
   }
 

@@ -10,6 +10,7 @@
 <ion-content>
   <ion-title>{{user.name}}</ion-title>
   <p>{{user.email}}</p>
+  <p>a{{user.signUpDate}}</p>
   <ion-avatar (click)="setNewAvatar()">
     <img [src]="imageSrc" alt="{{ user.name }}'s avatar"/>
   </ion-avatar>

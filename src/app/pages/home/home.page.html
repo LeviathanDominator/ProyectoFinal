@@ -15,15 +15,16 @@
 <ion-content color="secondary">
     <div id="container">
         <div class="buttons">
-        <ion-item color="primary" [routerLink]="['/games']">
-            <ion-label>Games</ion-label>
-            <ion-icon name="game-controller-outline"></ion-icon>
-        </ion-item>
-        <ion-item color="primary" [routerLink]="['/platforms']">
-            <ion-label>Platforms</ion-label>
-            <ion-icon name="phone-landscape-outline"></ion-icon>
-        </ion-item>
-            <ion-item color="primary" *ngIf="(_authService.user | async) && _authService.userId" [routerLink]="['/lists/' + _authService.userId]">
+            <ion-item color="primary" [routerLink]="['/games']">
+                <ion-label>Games</ion-label>
+                <ion-icon name="game-controller-outline"></ion-icon>
+            </ion-item>
+            <ion-item color="primary" [routerLink]="['/platforms']">
+                <ion-label>Platforms</ion-label>
+                <ion-icon name="phone-landscape-outline"></ion-icon>
+            </ion-item>
+            <ion-item color="primary" *ngIf="(_authService.user | async) && _authService.userId"
+                      [routerLink]="['/lists/' + _authService.userId]">
                 <ion-label>My lists</ion-label>
                 <ion-icon name="list-outline"></ion-icon>
             </ion-item>
@@ -31,15 +32,16 @@
                 <ion-label>Users</ion-label>
                 <ion-icon name="people-outline"></ion-icon>
             </ion-item>
-            <ion-item color="primary" [routerLink]="['/settings']">
-                <ion-label>Games</ion-label>
-                <ion-icon name="game-controller-outline"></ion-icon>
+            <ion-item *ngIf="(_authService.user | async) && _authService.userId"
+                      color="primary" [routerLink]="['/messages']">
+                <ion-label>Messages</ion-label>
+                <ion-icon *ngIf="!unreadMessages" name="mail-outline"></ion-icon>
+                <ion-icon *ngIf="unreadMessages" name="mail-unread-outline"></ion-icon>
             </ion-item>
             <ion-item color="primary" [routerLink]="['/about']">
                 <ion-label>About</ion-label>
                 <ion-icon name="information-circle-outline"></ion-icon>
             </ion-item>
         </div>
-        <ion-card *ngIf="game"><ion-label>Random game: {{game.title}}</ion-label></ion-card>
     </div>
 </ion-content>

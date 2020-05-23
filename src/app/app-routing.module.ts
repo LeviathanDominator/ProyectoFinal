@@ -70,7 +70,19 @@ const routes: Routes = [
   {
     path: 'new-list',
     loadChildren: () => import('./pages/new-list/new-list.module').then( m => m.NewListPageModule)
+  },  {
+    path: 'send-message',
+    loadChildren: () => import('./pages/send-message/send-message.module').then( m => m.SendMessagePageModule)
+  },
+  {
+    path: 'message',
+    loadChildren: () => import('./pages/message/message.module').then( m => m.MessagePageModule)
+  },
+  {
+    path: 'messages',
+    loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
   }
+
 ];
 
 @NgModule({

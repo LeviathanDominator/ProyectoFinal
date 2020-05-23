@@ -7,9 +7,11 @@
             <p *ngIf="_authService.user | async">{{ (_authService.user | async)?.email}}</p>
                 <ion-button color="secondary" *ngIf="!(_authService.user | async)" (click)="goToLogin()">Login
                 </ion-button>
-                <ion-button color="secondary" *ngIf="!(_authService.user | async)" (click)="goToSignUp()">SignUp
-                </ion-button>
+            <ion-button color="secondary" *ngIf="!(_authService.user | async)" (click)="goToSignUp()">SignUp
+            </ion-button>
                 <ion-button color="secondary" *ngIf="_authService.user | async" [routerLink]="['/profile']">Profile</ion-button>
+            <ion-button color="secondary" *ngIf="_authService.user | async" [routerLink]="['/messages']">Messages
+            </ion-button>
                 <ion-button color="secondary" *ngIf="_authService.user | async" (click)="logout()">Logout
                 </ion-button>
                 <ion-button color="secondary" [routerLink]="['/home']">Home</ion-button>

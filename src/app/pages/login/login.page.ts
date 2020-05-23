@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../../models/user.model";
-import {AuthService} from "../../services/auth.service";
-import {ModalController} from "@ionic/angular";
+import {User} from '../../models/user.model';
+import {AuthService} from '../../services/auth.service';
+import {ModalController} from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -11,16 +11,19 @@ import {ModalController} from "@ionic/angular";
 export class LoginPage implements OnInit {
 
   user: User = new User();
+  password: string;
 
   constructor(private modalController: ModalController, private _authService: AuthService) { }
 
   ngOnInit() {
   }
 
-  login(localForm: any) {
-    console.log(localForm['value']);
-    this._authService.login(localForm['value']);
-    this.close()
+  login(form: any) {
+    if (form.invalid) {
+      return;
+    }
+    console.log(form.value);
+    this._authService.login(form.value).then(() => this.close()).catch(r => console.log(r));
   }
 
   close() {

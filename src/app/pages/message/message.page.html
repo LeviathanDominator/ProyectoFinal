@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Message</ion-title>
+      <ion-buttons slot="secondary" (click)="deleteMessage()">
+          <ion-icon name="trash-outline" color="danger"></ion-icon>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <p>From: {{message.senderName}}</p>
+    <small>{{message.message}}</small>
+</ion-content>

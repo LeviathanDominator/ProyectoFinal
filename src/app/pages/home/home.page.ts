@@ -1,13 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {BarcodeScanner} from "@ionic-native/barcode-scanner/ngx";
+import {ApiService} from '../../services/api.service';
+import {Game} from '../../models/game.model';
+import {AuthService} from '../../services/auth.service';
 import {DatabaseService} from "../../services/database.service";
-import {ApiService} from "../../services/api.service";
-import {IonInfiniteScroll, ModalController} from "@ionic/angular";
-import {SearchPage} from "../search/search.page";
-import {Game} from "../../models/game.model";
-import {Platform} from "../../models/platform.model";
-import {AuthService} from "../../services/auth.service";
-import {Label} from "../../models/label.model";
 
 @Component({
     selector: 'app-home',
@@ -16,12 +11,25 @@ import {Label} from "../../models/label.model";
 })
 export class HomePage implements OnInit {
 
-    game: Game;
+    unreadMessages: boolean;
 
-    constructor(private _apiService: ApiService, public _authService: AuthService) {
-        _apiService.getRandomGame().then(game => {
-            this.game = this._apiService.dataToGame(game);
+    constructor(private _databaseService: DatabaseService, private _authService: AuthService) {
+        this.unreadMessages = false;
+        _authService.user.subscribe(user => {
+            _databaseService.getMessages(user['uid']).subscribe(messages => {
+                console.log(messages);
+                this.unreadMessages = this.readMessages(messages);
+            });
         });
+    }
+
+    private readMessages(messages: any) {
+        for (const message of messages){
+            if (!message['read']){
+              return true;
+            }
+        }
+        return false;
     }
 
     ngOnInit(): void {

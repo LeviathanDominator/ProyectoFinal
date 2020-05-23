@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title *ngIf="user">Sending message to {{user.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="sendMessage()">
+    <ion-item>
+      <ion-label position="floating">Send to: </ion-label>
+      <ion-input *ngIf="user" [(ngModel)]="user.name" type="text" name="sender" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Message</ion-label>
+      <ion-textarea [(ngModel)]="message" type="text" name="message" required></ion-textarea>
+    </ion-item>
+    <ion-button type="submit">Send message</ion-button>
+  </form>
+</ion-content>

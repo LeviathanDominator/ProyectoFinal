@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Your messages</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item *ngFor="let message of messages" (click)="openMessage(message);">
+        <p *ngIf="!message.read">{{message.date}} - {{message.senderName}}</p>
+        <p *ngIf="message.read" class="read">{{message.date}} - {{message.senderName}}</p>
+    </ion-item>
+    <ion-item *ngIf="messages.length == 0">You have no messages</ion-item>
+</ion-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DatabaseService} from "../../services/database.service";
 import {AuthService} from "../../services/auth.service";
 import {Message} from "../../models/message.model";
@@ -7,40 +7,42 @@ import {ModalController} from "@ionic/angular";
 import {MessagePage} from "../message/message.page";
 
 @Component({
-  selector: 'app-messages',
-  templateUrl: './messages.page.html',
-  styleUrls: ['./messages.page.scss'],
+    selector: 'app-messages',
+    templateUrl: './messages.page.html',
+    styleUrls: ['./messages.page.scss'],
 })
 export class MessagesPage implements OnInit {
 
-  messages: Message[];
+    messages: Message[] = [];
 
-  constructor(private _authService: AuthService, private _databaseService: DatabaseService,
-              private modalController: ModalController) {
-    this.messages = [];
-    this._authService.user.subscribe(user => {
-      this._databaseService.getMessages(user.uid).subscribe(messages => {
-        for (const message of messages) {
-          console.log(message);
-          const newMessage = _databaseService.dataToMessage(message);
-          this._databaseService.getUser(newMessage.sender).subscribe(sender => {
-            newMessage.senderName = sender['name'];
-            this.messages.push(newMessage);
-          });
-        }
-      });
-    });
-  }
+    constructor(private _authService: AuthService, private _databaseService: DatabaseService,
+                private modalController: ModalController) {
+        this._authService.user.subscribe(user => {
+            if (user) {
+                this._databaseService.getMessages(user.uid).subscribe(messages => {
+                  this.messages = [];
+                    for (const message of messages) {
+                        console.log(message);
+                        const newMessage = _databaseService.dataToMessage(message);
+                        this._databaseService.getUser(newMessage.sender).subscribe(sender => {
+                            newMessage.senderName = sender['name'];
+                            this.messages.push(newMessage);
+                        });
+                    }
+                });
+            }
+        });
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  async openMessage(message: Message) {
-    console.log(this._authService.user);
-    const modal = await this.modalController.create({
-      component: MessagePage,
-      componentProps: {message}
-    });
-    return await modal.present();
-  }
+    async openMessage(message: Message) {
+        console.log(this._authService.user);
+        const modal = await this.modalController.create({
+            component: MessagePage,
+            componentProps: {message}
+        });
+        return await modal.present();
+    }
 }

@@ -16,17 +16,19 @@ export class HomePage implements OnInit {
     constructor(private _databaseService: DatabaseService, private _authService: AuthService) {
         this.unreadMessages = false;
         _authService.user.subscribe(user => {
-            _databaseService.getMessages(user['uid']).subscribe(messages => {
-                console.log(messages);
-                this.unreadMessages = this.readMessages(messages);
-            });
+            if (user) {
+                _databaseService.getMessages(user['uid']).subscribe(messages => {
+                    console.log(messages);
+                    this.unreadMessages = this.readMessages(messages);
+                });
+            }
         });
     }
 
     private readMessages(messages: any) {
-        for (const message of messages){
-            if (!message['read']){
-              return true;
+        for (const message of messages) {
+            if (!message['read']) {
+                return true;
             }
         }
         return false;

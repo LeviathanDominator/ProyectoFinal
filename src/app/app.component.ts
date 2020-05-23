@@ -6,6 +6,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {LoginPage} from './pages/login/login.page';
 import {AuthService} from './services/auth.service';
 import {SignupPage} from './pages/signup/signup.page';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent {
         private modalController: ModalController,
         public _authService: AuthService,
         private navController: NavController,
+        private router: Router,
     ) {
         this.initializeApp();
     }
@@ -39,7 +41,7 @@ export class AppComponent {
         });
         return await modal.present().then(() => {
             // Refresh the page after login.
-            this.navController.navigateBack('home');
+            this.router.navigateByUrl('/home');
         });
     }
 
@@ -50,11 +52,12 @@ export class AppComponent {
         });
         return await modal.present().then(() => {
             // Refresh the page after sign up.
-            this.navController.navigateBack('home');
+            this.router.navigateByUrl('/home');
         });
     }
 
     logout() {
         this._authService.logout();
+        this.router.navigateByUrl('/home');
     }
 }

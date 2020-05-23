@@ -21,7 +21,9 @@ export class UserPage implements OnInit {
                 private modalController: ModalController) {
         this.activatedRoute.params.subscribe(params => {
             this._databaseService.getUser(params.id).subscribe(user => {
-                this.user = new User(user["id"], user["name"]);
+                if (user) {
+                    this.user = new User(user["id"], user["name"]);
+                }
             });
             this._databaseService.getLists(params.id).subscribe(lists => {
                 this.lists = [];

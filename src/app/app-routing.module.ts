@@ -52,7 +52,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/lists/lists.module').then( m => m.ListsPageModule)
   },
   {
-    path: 'list/:id',
+    path: 'list/:userId/:listId',
     loadChildren: () => import('./pages/list/list.module').then( m => m.ListPageModule)
   },
   {
@@ -70,7 +70,8 @@ const routes: Routes = [
   {
     path: 'new-list',
     loadChildren: () => import('./pages/new-list/new-list.module').then( m => m.NewListPageModule)
-  },  {
+  },
+  {
     path: 'send-message',
     loadChildren: () => import('./pages/send-message/send-message.module').then( m => m.SendMessagePageModule)
   },
@@ -81,7 +82,11 @@ const routes: Routes = [
   {
     path: 'messages',
     loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
+  },  {
+    path: 'add-to-list',
+    loadChildren: () => import('./pages/add-to-list/add-to-list.module').then( m => m.AddToListPageModule)
   }
+
 
 ];
 

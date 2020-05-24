@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
-import {DatabaseService} from "../../services/database.service";
-import {List} from "../../models/list.model";
-import {Game} from "../../models/game.model";
-import {Router} from "@angular/router";
-import {SignupPage} from "../signup/signup.page";
-import {ModalController} from "@ionic/angular";
-import {NewListPage} from "../new-list/new-list.page";
+import {AuthService} from '../../services/auth.service';
+import {DatabaseService} from '../../services/database.service';
+import {List} from '../../models/list.model';
+import {Router} from '@angular/router';
+import {ModalController} from '@ionic/angular';
+import {NewListPage} from '../new-list/new-list.page';
+import {ListPage} from "../list/list.page";
 
 @Component({
     selector: 'app-lists',
@@ -15,49 +14,47 @@ import {NewListPage} from "../new-list/new-list.page";
 })
 export class ListsPage implements OnInit {
 
+    userId: string;
     lists: List[];
+
+    // TODO Get user passed by parameter, not the actual user
 
     constructor(private _authService: AuthService, private _databaseService: DatabaseService, private router: Router,
                 private modalController: ModalController) {
-        this.lists = [];
         _authService.user.subscribe(user => {
-            console.log("User", user);
-            _databaseService.getUser(user.uid).subscribe(userData => {
+            if (user) {
+                this.userId = user.uid;
+                console.log('User', user);
                 _databaseService.getLists(user.uid).subscribe(lists => {
-                    console.log(lists[0]);
-                    for (let i = 0; i < lists.length; i++) {
-                        console.log(lists[i]['games']);
-                        const newList = new List();
-                        newList.id = String(i);
-                        newList.title = "Title";
-                        newList.games = lists[i]['games'];
-                        /*for (let j = 0; j < lists[i]['games']; j++) {
-                            const gameData = lists[i]['games'][j];
-                            console.log("GameData", lists[i]['games'][j]);
-                            const game = new Game();
-                            game.id = gameData['id'];
-                            game.title = gameData['name'];
-                            list.games.push(game);
-                        }*/
+                    this.lists = [];
+                    for (const list of lists) {
+                        const newList = this._databaseService.dataToList(list);
+                        console.log(newList);
                         this.lists.push(newList);
                     }
                 });
-            })
+            }
         });
     }
 
     ngOnInit() {
     }
 
-    goToList(id: string) {
-        console.log(id);
-        this.router.navigate(['/list', id]);
+    async goToList(id: string) {
+        const modal = await this.modalController.create({
+            component: ListPage,
+            componentProps: {
+                userId: this.userId,
+                listId: id
+            }
+        });
+        return await modal.present();
     }
 
     async addList() {
-            const modal = await this.modalController.create({
-                component: NewListPage
-            });
-            return await modal.present();
+        const modal = await this.modalController.create({
+            component: NewListPage
+        });
+        return await modal.present();
     }
 }

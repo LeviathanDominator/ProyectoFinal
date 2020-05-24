@@ -84,7 +84,6 @@ export class AuthService {
             name: user.name,
             email: user.email,
             signUpDate: user.signUpDate,
-            labeledGames: [],
         }).then(res => console.log(res));
     }
 

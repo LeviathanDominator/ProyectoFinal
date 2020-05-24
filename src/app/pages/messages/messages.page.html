@@ -8,9 +8,11 @@
 </ion-header>
 
 <ion-content>
-    <ion-item *ngFor="let message of messages" (click)="openMessage(message);">
-        <p *ngIf="!message.read">{{message.date}} - {{message.senderName}}</p>
-        <p *ngIf="message.read" class="read">{{message.date}} - {{message.senderName}}</p>
-    </ion-item>
-    <ion-item *ngIf="messages.length == 0">You have no messages</ion-item>
+    <div id="container">
+        <ion-item *ngFor="let message of messages" (click)="openMessage(message);">
+            <p *ngIf="!message.read">{{message.date}} - {{message.senderName}}</p>
+            <p *ngIf="message.read" class="read">{{message.date}} - {{message.senderName}}</p>
+        </ion-item>
+        <ion-item *ngIf="messages.length == 0">You have no messages</ion-item>
+    </div>
 </ion-content>

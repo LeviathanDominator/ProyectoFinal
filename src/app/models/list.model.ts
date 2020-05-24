@@ -1,7 +1,12 @@
-import {Game} from "./game.model";
+export class List {
 
-export class List{
+    constructor(id: string, name: string, games: number[]) {
+        this.id = id;
+        this.name = name;
+        this.games = games;
+    }
+
     id: string;
-    title: string;
-    games: string[];
+    name: string;
+    games: number[];
 }

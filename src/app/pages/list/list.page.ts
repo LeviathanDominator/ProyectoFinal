@@ -1,40 +1,83 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {AuthService} from "../../services/auth.service";
-import {DatabaseService} from "../../services/database.service";
-import {List} from "../../models/list.model";
-import {Game} from "../../models/game.model";
-import {ApiService} from "../../services/api.service";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
+import {DatabaseService} from '../../services/database.service';
+import {List} from '../../models/list.model';
+import {Game} from '../../models/game.model';
+import {ApiService} from '../../services/api.service';
+import {ModalController, NavParams} from '@ionic/angular';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.page.html',
-  styleUrls: ['./list.page.scss'],
+    selector: 'app-list',
+    templateUrl: './list.page.html',
+    styleUrls: ['./list.page.scss'],
 })
 export class ListPage implements OnInit {
 
-  list: List;
-  games: Game[];
+    userId = '';
+    list: List;
+    games: Game[];
 
-  constructor(private _authService: AuthService, private _databaseService: DatabaseService, private _apiService: ApiService, private activatedRoute: ActivatedRoute) {
-    this.list = new List();
-    _authService.user.subscribe(user => {
-    this.activatedRoute.params.subscribe(params => {
-      console.log(params['id'], user.uid);
-      _databaseService.getList(params['id'], user.uid).subscribe(list => {
-        this.list.title = list['title'];
-        this.games = [];
-        console.log(list);
-        for (let i = 0; i < list['games'].length; i++){
-          console.log(list['games'][i]);
-          _apiService.getGame(list['games'][i]).subscribe(gameData => {
-            this.games.push(new Game(gameData['id'], gameData['name']));
-          });
+    constructor(private navParams: NavParams, private _authService: AuthService, private _databaseService: DatabaseService,
+                private _apiService: ApiService, private modalController: ModalController) {
+            this.userId = this.navParams.get('userId');
+            this._databaseService.getList(this.navParams.get('listId'), this.userId).subscribe(list => {
+            this.list = this._databaseService.dataToList(list);
+            console.log(this.list.games);
+            this.getGames();
+        });
+    }
+
+    ngOnInit() {
+    }
+
+    private getGames() {
+        console.log(this.list.games.length);
+        this.games = new Array<Game>(this.list.games.length);
+        for (let i = 0; i < this.list.games.length; i++) {
+            // We need to initialize every game or else an error would be thrown.
+            this.games[i] = new Game(0, '');
+            this._apiService.getGame(this.list.games[i]).subscribe(game => {
+                if (game) {
+                    this.games[i] = this._apiService.dataToGame(game);
+                }
+            });
         }
-      })
-    });});
-  }
+    }
 
-  ngOnInit() {
-  }
+    reorderItems(event: CustomEvent) {
+        const itemMove = this.games.splice(event.detail.from, 1)[0];
+        this.games.splice(event.detail.to, 0, itemMove);
+        this._databaseService.updateList(this.userId, this.list, this.games);
+        event.detail.complete();
+    }
+
+    goToGame(game: Game) {
+        this._apiService.goToGame(game.id);
+    }
+
+    deleteGame(id: number) {
+        const games = [];
+        for (const game of this.games) {
+            if (game.id !== id) {
+                games.push(game);
+            }
+        }
+        this._databaseService.updateList(this.userId, this.list, games);
+    }
+
+    deleteList(list: List) {
+        this._databaseService.deleteList(this.userId, list);
+        this.close();
+    }
+
+    close() {
+        this.modalController.dismiss({
+            dismissed: true
+        });
+    }
+// TODO Edit list
+    editList(list: List) {
+
+    }
 }

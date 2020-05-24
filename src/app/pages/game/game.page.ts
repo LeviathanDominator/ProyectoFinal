@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Game} from "../../models/game.model";
-import {ApiService} from "../../services/api.service";
-import {DatabaseService} from "../../services/database.service";
-import {SearchPage} from "../search/search.page";
-import {ModalController} from "@ionic/angular";
-import {LabelinputPage} from "../labelinput/labelinput.page";
-import {Platform} from "../../models/platform.model";
+import {ActivatedRoute} from '@angular/router';
+import {Game} from '../../models/game.model';
+import {ApiService} from '../../services/api.service';
+import {DatabaseService} from '../../services/database.service';
+import {ModalController} from '@ionic/angular';
+import {LabelinputPage} from '../labelinput/labelinput.page';
+import {Platform} from '../../models/platform.model';
+import {AuthService} from "../../services/auth.service";
+import {NewListPage} from "../new-list/new-list.page";
+import {AddToListPage} from "../add-to-list/add-to-list.page";
 
 @Component({
     selector: 'app-game',
@@ -18,32 +20,32 @@ export class GamePage implements OnInit {
     game: Game;
 
     constructor(private activatedRoute: ActivatedRoute, private _apiService: ApiService,
-                private _databaseService: DatabaseService, private modalController: ModalController) {
+                private _databaseService: DatabaseService, private _authService: AuthService,
+                private modalController: ModalController) {
         this.activatedRoute.params.subscribe(params => {
+            console.log(params.id);
             this._apiService.getGame(params.id).subscribe(game => {
                 this.game = _apiService.dataToGame(game);
-                for (let platform of game['platforms']){
-                    this.game.platforms.push(new Platform(platform['platform']['id'], platform['platform']['name']));
+                for (const platform of game.platforms) {
+                    this.game.platforms.push(new Platform(platform.platform.id, platform.platform.name));
                 }
-
                 _databaseService.getLabels(this.game.id).subscribe(labels => {
                     this.game.labels = [];
-                    if (labels == undefined) {
-                        console.log("Game not found in database");
-                        //_databaseService.addGame(this.game.id);
+                    if (labels === undefined) {
+                        console.log('Game not found in database');
+                        // _databaseService.addGame(this.game.id);
                     } else {
-                        this.game.dlc_description = labels['description'];
-                        for (let labelData of labels['labels']) {
+                        this.game.dlcDescription = labels['description'];
+                        this.game.avgCompletion = labels['avgCompletion'];
+                        for (const labelData of labels['labels']) {
                             _databaseService.getLabel(labelData).subscribe(label => {
-                                console.log(label);
                                 this.game.labels.push(_databaseService.dataToLabel(label));
                             });
                         }
                     }
-                    console.log("Labels: ", labels);
                 });
-            })
-        })
+            });
+        });
     }
 
     ngOnInit() {
@@ -66,5 +68,15 @@ export class GamePage implements OnInit {
 
     shareViaTwitter() {
 
+    }
+
+    async addToList() {
+        const modal = await this.modalController.create({
+            component: AddToListPage,
+            componentProps: {
+                game: this.game
+            }
+        });
+        return await modal.present();
     }
 }

@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {DatabaseService} from "../../services/database.service";
-import {AuthService} from "../../services/auth.service";
-import {Message} from "../../models/message.model";
-import {LoginPage} from "../login/login.page";
-import {ModalController} from "@ionic/angular";
-import {MessagePage} from "../message/message.page";
+import {DatabaseService} from '../../services/database.service';
+import {AuthService} from '../../services/auth.service';
+import {Message} from '../../models/message.model';
+import {ModalController} from '@ionic/angular';
+import {MessagePage} from '../message/message.page';
 
 @Component({
     selector: 'app-messages',
@@ -21,7 +20,7 @@ export class MessagesPage implements OnInit {
             if (user) {
                 this._databaseService.getMessages(user.uid).subscribe(messages => {
                   this.messages = [];
-                    for (const message of messages) {
+                  for (const message of messages) {
                         console.log(message);
                         const newMessage = _databaseService.dataToMessage(message);
                         this._databaseService.getUser(newMessage.sender).subscribe(sender => {

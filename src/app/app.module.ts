@@ -22,6 +22,8 @@ import {FilterPageModule} from './pages/filter/filter.module';
 import {NewListPageModule} from './pages/new-list/new-list.module';
 import {SendMessagePageModule} from './pages/send-message/send-message.module';
 import {MessagePageModule} from './pages/message/message.module';
+import {ListPageModule} from './pages/list/list.module';
+import {AddToListPageModule} from "./pages/add-to-list/add-to-list.module";
 
 @NgModule({
     declarations: [AppComponent],
@@ -29,7 +31,8 @@ import {MessagePageModule} from './pages/message/message.module';
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule,
         AngularFireAuthModule, SearchPageModule, FilterPageModule, LoginPageModule, SignupPageModule,
-        LabelinputPageModule, NewListPageModule, MessagePageModule, SendMessagePageModule],
+        LabelinputPageModule, ListPageModule, NewListPageModule, AddToListPageModule, MessagePageModule,
+        SendMessagePageModule],
     providers: [
         StatusBar,
         SplashScreen,

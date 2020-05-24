@@ -57,7 +57,7 @@ export class AppComponent {
     }
 
     logout() {
-        this._authService.logout();
         this.router.navigateByUrl('/home');
+        this._authService.logout();
     }
 }

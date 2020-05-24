@@ -6,6 +6,8 @@ import {AuthService} from './auth.service';
 import {Router} from '@angular/router';
 import {Message} from '../models/message.model';
 import {ToastController} from '@ionic/angular';
+import {List} from '../models/list.model';
+import {Game} from '../models/game.model';
 
 @Injectable({
     providedIn: 'root'
@@ -29,23 +31,17 @@ export class DatabaseService {
         });
     }
 
-    getGame(id: string) {
-        return this.firestore.collection('/games').doc(id).valueChanges();
+    getGame(id: number) {
+        return this.firestore.collection('/games').doc(String(id)).valueChanges();
     }
 
     getLabelsCollection() {
         return this.firestore.collection('/labels').valueChanges();
     }
 
-    getLabelsByUser(id: number, userId: string) {
-        return this.firestore.collection('/users').doc(userId).collection('/labeledGames').doc(String(id)).valueChanges();
-    }
-
     getLabels(id: number) {
-        // TODO Get labels for game specified.
         return this.firestore.collection('/games').doc(String(id)).valueChanges();
     }
-
 
     addGame(id: number) {
         const labels = [];
@@ -70,34 +66,6 @@ export class DatabaseService {
 
     getUser(id: string) {
         return this.firestore.collection(`/users`).doc(id).valueChanges();
-    }
-
-    /*getAverageLabels(id: string) {
-        return this.firestore.collection('/users', ref => ref.where());
-    }*/
-
-    setLabel(id: string, data: any[]) {
-        let userId: string;
-        const labels: string[] = [];
-        let length = 0;
-        for (const label in data) {
-            length++;
-        }
-        console.log('Data length', length);
-        for (let i = 0; i < length; i++) {
-            if (data[i]) {
-                labels.push(String(i));
-            }
-        }
-        console.log(labels);
-        this._authService.user.subscribe(user => {
-            userId = user.uid;
-            console.log(userId, id);
-            return this.firestore.collection('/users').doc(userId).collection('/labeledGames').doc(String(id)).set({
-                labels
-            });
-        });
-
     }
 
     goToUser(id: string) {
@@ -129,10 +97,42 @@ export class DatabaseService {
         console.log('Is admin', this.getAdmin());
     }
 
-    newList(userId: string, id: number, name: string) {
-        return this.firestore.collection('/users').doc(userId).collection('/lists').doc(String(id)).set({
-            name
+    newList(userId: string, name: string) {
+        const id = this.currentTimeAndDate(true);
+        return this.firestore.collection('/users').doc(userId).collection('/lists').doc(id).set({
+            id,
+            name,
+            games: []
         });
+    }
+
+    addGameToList(list: List, game: Game) {
+        this._authService.user.subscribe(user => {
+            list.games.push(game.id);
+            this.updateList(user['uid'], list).then(() => this.toast(' added to list "' + list.name + '"', game.title));
+        });
+    }
+
+    updateList(userId: string, list: List, games?: Game[]) {
+        const gameIds = [];
+        if (games) {
+            for (const game of games) {
+                gameIds.push(game.id);
+            }
+        } else {
+            for (const game of list.games) {
+                gameIds.push(game);
+            }
+        }
+        return this.firestore.collection('/users').doc(userId).collection('/lists').doc(list.id).set({
+            id: list.id,
+            name: list.name,
+            games: gameIds
+        });
+    }
+
+    dataToList(data: any) {
+        return new List(data.id, data.name, data.games);
     }
 
     dataToUser(data: any) {
@@ -153,6 +153,11 @@ export class DatabaseService {
             timeAndDate: message.date,
             read: false,
         });
+    }
+
+    deleteList(userId: string, list: List) {
+        this.firestore.collection('/users').doc(userId).collection('/lists').doc(list.id).delete()
+            .then(() => this.toast('List "' + list.name + '" deleted'));
     }
 
     deleteMessage(message: Message) {
@@ -192,6 +197,7 @@ export class DatabaseService {
         return raw ? time + dd + mm + yyyy : time + ' ' + dd + '/' + mm + '/' + yyyy;
     }
 
+
     async toast(message: string, name?: string) {
         const toast = await this.toastController.create({
             message: name + message,
@@ -199,5 +205,34 @@ export class DatabaseService {
             position: 'top'
         });
         await toast.present();
+    }
+
+    // TODO Fix some filters not filtering right
+    matchesCriteria(labels: Label[]) {
+        if (this.filters) {
+            for (const label of labels) {
+                if (this.filters[label.id] == 'no') {
+                    return false;
+                }
+            }
+            for (let i = 0; i < this.filters.length; i++) {
+                const filter = this.filters[i];
+                if (filter == 'yes') {
+                    if (!this.exist(labels, i)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+
+    private exist(labels: Label[], i: number) {
+        for (const label of labels) {
+            if (Number(label.id) == i) {
+                return true;
+            }
+        }
+        return false;
     }
 }

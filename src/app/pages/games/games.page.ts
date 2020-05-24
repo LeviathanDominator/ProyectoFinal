@@ -78,6 +78,7 @@ export class GamesPage implements OnInit {
         });
         modal.onDidDismiss().then(data => {
             this._databaseService.setFilter(data.data.filters);
+            this.filterGames();
         });
         return await modal.present();
     }
@@ -134,41 +135,16 @@ export class GamesPage implements OnInit {
                 }
             });
             this.games.push(newGame);
+            this.filterGames();
         }
     }
 
     // TODO make it work
-    matchesCriteria(labels: Label[]) {
-        return true;
-        /*return new Observable(observer => {
-
-            setTimeout(() => {
-                observer.next(this.match(labels));
-                observer.complete();
-            }, 5);
-        });*/
-        /*return new Promise(resolve => {
-          resolve(true);
-        })*/
-        /*const promise = new Promise(resolve => {
-          const filters = this._databaseService.filters;
-          if (filters == undefined) {
-           // console.log("Undefined");
-           resolve(true);
-          } else {
-            //console.log(labels);
-            for (let label of labels) {
-              if (filters[label.id] == 'no') {
-                console.log("No!!!")
-                resolve(false);
-              } else if (filters[label.id] == 'yes'){
-                resolve(true);
-              } else{
-                resolve(false);
-              }
+    filterGames() {
+        if (this._databaseService.filters) {
+            for (const game of this.games) {
+                game.show = this._databaseService.matchesCriteria(game.labels);
             }
-          }
-        });
-        return await Promise.all(promise);*/
+        }
     }
 }

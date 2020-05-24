@@ -8,5 +8,7 @@
 </ion-header>
 
 <ion-content>
-    <p *ngFor="let platform of platforms" (click)="goToPlatform(platform.id)">{{platform.name}}</p>
+    <div id="container">
+        <ion-item *ngFor="let platform of platforms" (click)="goToPlatform(platform.id)">{{platform.name}}</ion-item>
+    </div>
 </ion-content>

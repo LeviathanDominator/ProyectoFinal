@@ -1,15 +1,17 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Creating a new list</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-title>Creating a new list</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form (ngSubmit)="createList(localForm)" #localForm="ngForm">
-    <ion-item>
-      <ion-label position="floating">Introduce a name for your new list</ion-label>
-      <ion-input [(ngModel)]="name" type="text" name="text" required="true"></ion-input>
-    </ion-item>
-    <ion-button type="submit">Create list</ion-button>
-  </form>
+    <div id="container">
+        <form (ngSubmit)="createList()">
+            <ion-item>
+                <ion-label position="floating">Introduce a name for your new list</ion-label>
+                <ion-input [(ngModel)]="name" type="text" name="name" required="true"></ion-input>
+            </ion-item>
+            <ion-button type="submit">Create list</ion-button>
+        </form>
+    </div>
 </ion-content>

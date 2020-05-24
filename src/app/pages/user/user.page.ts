@@ -28,12 +28,7 @@ export class UserPage implements OnInit {
             this._databaseService.getLists(params.id).subscribe(lists => {
                 this.lists = [];
                 for (const list of lists) {
-                    console.log(list);
-                    const newList = new List();
-                    newList.title = list.title;
-                    newList.games = list.games;
-                    console.log(newList);
-                    this.lists.push(newList);
+                    this.lists.push(this._databaseService.dataToList(list));
                 }
             });
         });

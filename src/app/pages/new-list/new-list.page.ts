@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {DatabaseService} from "../../services/database.service";
-import {AuthService} from "../../services/auth.service";
+import {DatabaseService} from '../../services/database.service';
+import {AuthService} from '../../services/auth.service';
+import {ModalController} from '@ionic/angular';
 
 @Component({
   selector: 'app-new-list',
@@ -10,30 +11,27 @@ import {AuthService} from "../../services/auth.service";
 export class NewListPage implements OnInit {
 
   name: string;
-  id: number;
-  lists: string[];
+  userId: string;
 
-  constructor( private _databaseService: DatabaseService, private _authService: AuthService) {
-    this.name = "";
+  constructor( private _databaseService: DatabaseService, private _authService: AuthService,
+               private modalController: ModalController) {
+    this.name = '';
     // TODO Dont take current user. Take user got by the url parameter.
     _authService.user.subscribe(user => {
-      _databaseService.getLists(user['uid']).subscribe(lists => {
-        this.lists = [];
-        console.log(lists);
-        for (let list of lists){
-          console.log(list);
-        }
-        this.id = lists.length;
-        // TODO New list for this user but with an auto generated id.
-       // _databaseService.newList(user['uid'], this.id, this.name);
-      });
+      this.userId = user.uid;
     });
   }
 
   ngOnInit() {
   }
 
-  createList(form: any) {
-    console.log(form['value']['text']);
+  createList() {
+    this._databaseService.newList(this.userId, this.name).then(() => this.close());
+  }
+
+  close() {
+    this.modalController.dismiss({
+      dismissed: true
+    });
   }
 }

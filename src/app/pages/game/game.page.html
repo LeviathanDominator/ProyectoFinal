@@ -8,11 +8,23 @@
 </ion-header>
 
 <ion-content color="secondary">
+    <ion-fab *ngIf="_authService.user | async" vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="addToList();">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
     <div *ngIf="game" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
    'rgba(0, 0, 0, 0.7)), url(' + game.image + ')'}">
+
         <small>{{game.description}}</small>
-        <small *ngIf="game.dlc_description">{{game.dlc_description}}</small>
+        <small *ngIf="game.dlcDescription">{{game.dlcDescription}}</small>
         <p>ESRB Rating: {{game.esrb}}</p>
+        <div *ngIf="this.game.avgCompletion">
+        <p>Average completion time</p>
+        <small *ngIf="this.game.avgCompletion[0]">Main story: {{this.game.avgCompletion[0]}} hours</small>
+        <small *ngIf="this.game.avgCompletion[1]">Story and extras: {{this.game.avgCompletion[1]}} hours</small>
+        <small *ngIf="this.game.avgCompletion[2]">Completion: {{this.game.avgCompletion[2]}} hours</small>
+        </div>
         <p>Available in: </p>
         <ion-buttons>
             <ion-button *ngFor="let platform of game.platforms"

@@ -13,10 +13,13 @@
 </ion-header>
 
 <ion-content>
-  <ion-item *ngFor="let list of lists">
-      <ion-item-option (click)="goToList(list.id)">
-          {{list.id}} Games: {{list.games.length}}
-      </ion-item-option>
-  </ion-item>
-    <p *ngIf="lists.length == 0">You have not created a list yet.</p>
+    <div id="container" *ngIf="lists">
+        <ion-item *ngFor="let list of lists" (click)="goToList(list.id)">
+            <ion-label>
+                {{list.name}}
+            </ion-label>
+            <ion-item *ngIf="list.games">Games: {{list.games.length}}</ion-item>
+        </ion-item>
+        <p *ngIf="lists.length == 0">You have not created a list yet.</p>
+    </div>
 </ion-content>

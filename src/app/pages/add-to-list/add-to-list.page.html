@@ -1,0 +1,9 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title *ngIf="game">Adding {{game.title}} to a list</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngFor="let list of lists" (click)="addGameToList(list)">{{list.name}}</ion-item>
+</ion-content>

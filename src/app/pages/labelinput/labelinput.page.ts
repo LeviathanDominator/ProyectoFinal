@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {DatabaseService} from "../../services/database.service";
-import {Label} from "../../models/label.model";
+import {DatabaseService} from '../../services/database.service';
+import {Label} from '../../models/label.model';
 
 @Component({
     selector: 'app-labelinput',
@@ -26,8 +26,8 @@ export class LabelinputPage implements OnInit {
     }
 
     setLabel(form: any) {
-        //this._databaseService.getLabels(3498);
+        // this._databaseService.getLabels(3498);
         // TODO Send form to admin
-        //this._databaseService.setLabel(this.id, form['value']);
+        // this._databaseService.setLabel(this.id, form['value']);
     }
 }

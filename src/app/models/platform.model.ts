@@ -7,20 +7,20 @@ export class Platform {
         this.gamesCount = gamesCount;
     }
 
-    // Removes unnecessary HTML code.
-    private removeTags(text: string) {
-        if (text == undefined){
-            return "";
-        }
-        return text.replace("<p>", "")
-            .replace("</p>", "")
-            .replace("&#39;", "'")
-            .replace("<br />", "");
-    }
-
     id: number;
     name: string;
     description: string;
     image: string;
     gamesCount: number;
+
+    // Removes unnecessary HTML code.
+    private removeTags(text: string) {
+        if (text == undefined) {
+            return '';
+        }
+        return text.replace('<p>', '')
+            .replace('</p>', '')
+            .replace('&#39;', '\'')
+            .replace('<br />', '');
+    }
 }

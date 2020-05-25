@@ -8,13 +8,14 @@ import {Message} from '../models/message.model';
 import {ToastController} from '@ionic/angular';
 import {List} from '../models/list.model';
 import {Game} from '../models/game.model';
+import {Filter} from '../models/filter.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DatabaseService {
 
-    filters: string[];
+    filters: Filter[];
 
     constructor(private router: Router, private firestore: AngularFirestore, private _authService: AuthService,
                 private toastController: ToastController) {
@@ -87,7 +88,7 @@ export class DatabaseService {
         }
     }
 
-    getAdmin() {
+   /* getAdmin() {
         this._authService.user.subscribe(user => {
             return this.firestore.collection('/users').doc(user.uid).valueChanges();
         });
@@ -95,7 +96,7 @@ export class DatabaseService {
 
     isAdmin() {
         console.log('Is admin', this.getAdmin());
-    }
+    }*/
 
     newList(userId: string, name: string) {
         const id = this.currentTimeAndDate(true);
@@ -137,6 +138,10 @@ export class DatabaseService {
 
     dataToUser(data: any) {
         return new User(data.id, data.name, data.email, data.signUpDate);
+    }
+
+    getAdmins() {
+        return this.firestore.collection('/admins').valueChanges();
     }
 
     getMessages(id: string) {
@@ -187,6 +192,7 @@ export class DatabaseService {
         return raw ? dd + mm + yyyy : dd + '/' + mm + '/' + yyyy;
     }
 
+
     currentTimeAndDate(raw: boolean) {
         const today = new Date();
         const dd = String(today.getDate()).padStart(2, '0');
@@ -197,7 +203,6 @@ export class DatabaseService {
         return raw ? time + dd + mm + yyyy : time + ' ' + dd + '/' + mm + '/' + yyyy;
     }
 
-
     async toast(message: string, name?: string) {
         const toast = await this.toastController.create({
             message: name + message,
@@ -207,17 +212,16 @@ export class DatabaseService {
         await toast.present();
     }
 
-    // TODO Fix some filters not filtering right
     matchesCriteria(labels: Label[]) {
         if (this.filters) {
             for (const label of labels) {
-                if (this.filters[label.id] == 'no') {
+                if (this.filters[label.id] == Filter.no) {
                     return false;
                 }
             }
             for (let i = 0; i < this.filters.length; i++) {
                 const filter = this.filters[i];
-                if (filter == 'yes') {
+                if (filter == Filter.yes) {
                     if (!this.exist(labels, i)) {
                         return false;
                     }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Platform} from "../../models/platform.model";
-import {ApiService} from "../../services/api.service";
-import {ActivatedRoute} from "@angular/router";
+import {Platform} from '../../models/platform.model';
+import {ApiService} from '../../services/api.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-platform',
@@ -14,10 +14,9 @@ export class PlatformPage implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, private _apiService: ApiService) {
     this.activatedRoute.params.subscribe(params => {
-    _apiService.getPlatform(params['id']).subscribe(platform => {
+    _apiService.getPlatform(params.id).subscribe(platform => {
       this.platform = _apiService.dataToPlatform(platform);
-      console.log(platform);
-    })});
+    });});
   }
 
   ngOnInit() {

@@ -17,14 +17,20 @@ export class ListPage implements OnInit {
     userId = '';
     list: List;
     games: Game[];
+    edit = false;
 
     constructor(private navParams: NavParams, private _authService: AuthService, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private modalController: ModalController) {
-            this.userId = this.navParams.get('userId');
-            this._databaseService.getList(this.navParams.get('listId'), this.userId).subscribe(list => {
-            this.list = this._databaseService.dataToList(list);
-            console.log(this.list.games);
-            this.getGames();
+        this.userId = this.navParams.get('userId');
+        this._authService.user.subscribe(user => {
+            this.edit = user['uid'] == this.userId;
+        });
+        this._databaseService.getList(this.navParams.get('listId'), this.userId).subscribe(list => {
+            if (list) {
+                this.list = this._databaseService.dataToList(list);
+                console.log(this.list.games);
+                this.getGames();
+            }
         });
     }
 
@@ -54,6 +60,7 @@ export class ListPage implements OnInit {
 
     goToGame(game: Game) {
         this._apiService.goToGame(game.id);
+        this.close();
     }
 
     deleteGame(id: number) {
@@ -76,6 +83,7 @@ export class ListPage implements OnInit {
             dismissed: true
         });
     }
+
 // TODO Edit list
     editList(list: List) {
 

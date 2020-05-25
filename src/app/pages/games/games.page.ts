@@ -28,7 +28,6 @@ export class GamesPage implements OnInit {
             for (const platform of platforms['results']) {
                 this.platforms.push(_apiService.dataToPlatform(platform));
             }
-            console.log(this.platforms);
         });
         /*_apiService.getDevelopers(1).subscribe(developers => {
             //console.log(developers['results']);
@@ -139,7 +138,6 @@ export class GamesPage implements OnInit {
         }
     }
 
-    // TODO make it work
     filterGames() {
         if (this._databaseService.filters) {
             for (const game of this.games) {

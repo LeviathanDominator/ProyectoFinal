@@ -7,12 +7,12 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="dark">
     <div id="container">
-        <ion-item *ngFor="let message of messages" (click)="openMessage(message);">
+        <ion-item *ngFor="let message of messages" (click)="openMessage(message)" color="dark">
             <p *ngIf="!message.read">{{message.date}} - {{message.senderName}}</p>
             <p *ngIf="message.read" class="read">{{message.date}} - {{message.senderName}}</p>
         </ion-item>
-        <ion-item *ngIf="messages.length == 0">You have no messages</ion-item>
+        <ion-item *ngIf="messages.length == 0" color="dark">You have no messages</ion-item>
     </div>
 </ion-content>

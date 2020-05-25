@@ -12,14 +12,14 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="dark">
     <div id="container" *ngIf="lists">
-        <ion-item *ngFor="let list of lists" (click)="goToList(list.id)">
+        <ion-item *ngFor="let list of lists" (click)="goToList(list.id)" color="dark">
             <ion-label>
                 {{list.name}}
             </ion-label>
-            <ion-item *ngIf="list.games">Games: {{list.games.length}}</ion-item>
+            <ion-label style="text-align: right" *ngIf="list.games">Games: {{list.games.length}}</ion-label>
         </ion-item>
-        <p *ngIf="lists.length == 0">You have not created a list yet.</p>
+        <ion-item *ngIf="lists.length == 0" color="dark">You have not created a list yet.</ion-item>
     </div>
 </ion-content>

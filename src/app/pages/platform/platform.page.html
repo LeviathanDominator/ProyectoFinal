@@ -7,7 +7,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="dark">
     <div *ngIf="platform" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
    'rgba(0, 0, 0, 0.7)), url(' + platform.image + ')'}">
         <p>Number of games: {{platform.gamesCount}}</p>

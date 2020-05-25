@@ -1,12 +1,14 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
+            <ion-button (click)="close()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
         </ion-buttons>
         <ion-title *ngIf="list">{{list.name}} ({{games.length}} game{{games.length != 1 ? 's' : ''}})</ion-title>
-        <ion-buttons slot="secondary">
+        <ion-buttons *ngIf="edit" slot="secondary">
             <ion-button (click)="editList(list)">
-            <ion-icon name="pencil-outline"></ion-icon>
+                <ion-icon name="pencil-outline"></ion-icon>
             </ion-button>
             <ion-button (click)="deleteList(list)">
                 <ion-icon name="trash-outline" color="danger"></ion-icon>
@@ -14,20 +16,30 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-
-<ion-content>
-    <div id="container" *ngIf="_authService.user | async">
-        <ion-reorder-group *ngIf="(_authService.user | async).uid == this.userId"
-                           (ionItemReorder)="reorderItems($event)" disabled="false">
-            <div class="game" *ngFor="let game of games; let i = index"
-                 [ngStyle]="{'background-image':'url(' + game['image'] + ')'}">
-                <ion-reorder slot="start"></ion-reorder>
-                <p (click)="goToGame(game)">{{i + 1}} - {{game.title}}</p>
-                <ion-button (click)="deleteGame(game.id)">
-                    <ion-icon name="trash-outline"></ion-icon>
-                </ion-button>
-            </div>
-        </ion-reorder-group>
-        <p *ngIf="games.length == 0">Your list is empty. Please search for some games and add them to the list.</p>
+<!--TODO Prevent user to modify another user's list. Check if ID is equal to authService user id.-->
+<ion-content color="dark" *ngIf="games">
+    <div id="container">
+        <ng-container *ngIf="edit">
+            <ion-reorder-group *ngIf="this._authService.user | async"
+                    (ionItemReorder)="reorderItems($event)" disabled="false">
+                <div class="game" *ngFor="let game of games; let i = index"
+                     [ngStyle]="{'background-image':'url(' + game['image'] + ')'}">
+                    <ion-reorder slot="start"></ion-reorder>
+                    <p (click)="goToGame(game)">{{i + 1}} - {{game.title}}</p>
+                    <ion-button (click)="deleteGame(game.id)">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </ion-button>
+                </div>
+            </ion-reorder-group>
+        </ng-container>
+        <ng-container *ngIf="!edit">
+                <div class="game" *ngFor="let game of games; let i = index"
+                     [ngStyle]="{'background-image':'url(' + game['image'] + ')'}">
+                    <ion-reorder slot="start"></ion-reorder>
+                    <p (click)="goToGame(game)">{{i + 1}} - {{game.title}}</p>
+                </div>
+        </ng-container>
+        <p *ngIf="games.length == 0 && edit">Your list is empty. Please search for some games and add them to the list.</p>
+        <p *ngIf="games.length == 0 && !edit">This user's list is empty.</p>
     </div>
 </ion-content>

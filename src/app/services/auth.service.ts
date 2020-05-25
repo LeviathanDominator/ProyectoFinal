@@ -20,18 +20,11 @@ export class AuthService {
             return null;
         }
     });
-    userId;
 
 
 
     constructor(private firebaseAuth: AngularFireAuth, private firestore: AngularFirestore, private alertController: AlertController) {
         this.user = this.firebaseAuth.authState;
-        this.user.subscribe(params => {
-            console.log('User', params);
-            if (params != null) {
-                this.userId = params.uid;
-            }
-        });
     }
 
     register(user: User, password: string) {
@@ -105,7 +98,6 @@ export class AuthService {
         firebase.auth().signOut().then(r => console.log(r));
         this.user = null;
         this.currentUser = null;
-        this.userId = undefined;
     }
 
 }

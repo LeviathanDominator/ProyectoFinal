@@ -4,14 +4,14 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="dark">
     <div id="container">
         <form (ngSubmit)="login(localForm)" #localForm="ngForm">
-            <ion-item>
+            <ion-item color="dark">
                 <ion-label position="floating">Email</ion-label>
                 <ion-input [(ngModel)]="user.email" type="email" name="email" required></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item color="dark">
                 <ion-label position="floating">Password</ion-label>
                 <ion-input [(ngModel)]="password" type="password" name="password" required></ion-input>
             </ion-item>

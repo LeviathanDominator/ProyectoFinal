@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {DatabaseService} from '../../services/database.service';
 import {List} from '../../models/list.model';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {NewListPage} from '../new-list/new-list.page';
-import {ListPage} from "../list/list.page";
+import {ListPage} from '../list/list.page';
 
 @Component({
     selector: 'app-lists',
@@ -20,24 +20,33 @@ export class ListsPage implements OnInit {
     // TODO Get user passed by parameter, not the actual user
 
     constructor(private _authService: AuthService, private _databaseService: DatabaseService, private router: Router,
-                private modalController: ModalController) {
-        _authService.user.subscribe(user => {
-            if (user) {
-                this.userId = user.uid;
-                console.log('User', user);
-                _databaseService.getLists(user.uid).subscribe(lists => {
-                    this.lists = [];
-                    for (const list of lists) {
-                        const newList = this._databaseService.dataToList(list);
-                        console.log(newList);
-                        this.lists.push(newList);
+                private modalController: ModalController, private activatedRoute: ActivatedRoute) {
+        this.activatedRoute.params.subscribe(params => {
+            if (params.id == 0) {
+                _authService.user.subscribe(user => {
+                    if (user) {
+                        this.userId = user.uid;
+                        this.getLists(user.uid);
                     }
                 });
+            } else {
+                this.getLists(params.id);
             }
         });
     }
 
     ngOnInit() {
+    }
+
+    private getLists(id: string) {
+        this._databaseService.getLists(id).subscribe(lists => {
+            this.lists = [];
+            for (const list of lists) {
+                const newList = this._databaseService.dataToList(list);
+                console.log(newList);
+                this.lists.push(newList);
+            }
+        });
     }
 
     async goToList(id: string) {

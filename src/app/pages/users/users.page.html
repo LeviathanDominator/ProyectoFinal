@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-item *ngFor="let user of users" (click)="goToUser(user.id)">
+<ion-content color="dark">
+  <ion-item *ngFor="let user of users" (click)="goToUser(user.id)" color="dark">
     <p>{{user.name}}</p></ion-item>
 </ion-content>

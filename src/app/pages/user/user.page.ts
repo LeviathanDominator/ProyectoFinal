@@ -3,9 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 import {DatabaseService} from '../../services/database.service';
 import {User} from '../../models/user.model';
 import {List} from '../../models/list.model';
-import {LoginPage} from '../login/login.page';
 import {SendMessagePage} from '../send-message/send-message.page';
 import {ModalController} from '@ionic/angular';
+import {ListPage} from '../list/list.page';
 
 @Component({
     selector: 'app-user',
@@ -41,6 +41,17 @@ export class UserPage implements OnInit {
         const modal = await this.modalController.create({
             component: SendMessagePage,
             componentProps: {id}
+        });
+        return await modal.present();
+    }
+
+    async goToList(id: string) {
+        const modal = await this.modalController.create({
+            component: ListPage,
+            componentProps: {
+                userId: this.user.id,
+                listId: id
+            }
         });
         return await modal.present();
     }

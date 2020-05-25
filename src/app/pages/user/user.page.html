@@ -12,8 +12,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card *ngFor="let list of lists">
-    <p>{{list.title}}</p>
+<ion-content color="dark">
+  <ion-card *ngFor="let list of lists" color="dark">
+    <ion-button (click)="goToList(list.id)">{{list.name}}</ion-button>
   </ion-card>
 </ion-content>

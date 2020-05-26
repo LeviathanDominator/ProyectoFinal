@@ -1,3 +1,4 @@
+/* tslint:disable:no-string-literal */
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Label} from '../models/label.model';
@@ -5,7 +6,7 @@ import {User} from '../models/user.model';
 import {AuthService} from './auth.service';
 import {Router} from '@angular/router';
 import {Message} from '../models/message.model';
-import {ToastController} from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
 import {List} from '../models/list.model';
 import {Game} from '../models/game.model';
 import {Filter} from '../models/filter.model';
@@ -17,8 +18,9 @@ export class DatabaseService {
 
     filters: Filter[];
 
+    // tslint:disable-next-line:variable-name
     constructor(private router: Router, private firestore: AngularFirestore, private _authService: AuthService,
-                private toastController: ToastController) {
+                private toastController: ToastController, private alertController: AlertController) {
     }
 
     getBarcodeGame(barcode: string) {
@@ -53,8 +55,8 @@ export class DatabaseService {
         });
     }
 
-    getLabel(id: string) {
-        return this.firestore.collection('/labels').doc(id).valueChanges();
+    getLabel(id: number) {
+        return this.firestore.collection('/labels').doc(String(id)).valueChanges();
     }
 
     dataToLabel(data: any) {
@@ -215,13 +217,13 @@ export class DatabaseService {
     matchesCriteria(labels: Label[]) {
         if (this.filters) {
             for (const label of labels) {
-                if (this.filters[label.id] == Filter.no) {
+                if (this.filters[label.id] === Filter.no) {
                     return false;
                 }
             }
             for (let i = 0; i < this.filters.length; i++) {
                 const filter = this.filters[i];
-                if (filter == Filter.yes) {
+                if (filter === Filter.yes) {
                     if (!this.exist(labels, i)) {
                         return false;
                     }
@@ -233,10 +235,25 @@ export class DatabaseService {
 
     private exist(labels: Label[], i: number) {
         for (const label of labels) {
-            if (Number(label.id) == i) {
+            if (Number(label.id) === i) {
                 return true;
             }
         }
         return false;
+    }
+
+    async alert() {
+        const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'Couldn\'t connect to database. Make sure you have Internet connection.',
+            buttons: [
+                {
+                    text: 'Ok',
+                    role: 'cancel',
+                    cssClass: 'secondary'
+                }
+            ]
+        });
+        await alert.present();
     }
 }

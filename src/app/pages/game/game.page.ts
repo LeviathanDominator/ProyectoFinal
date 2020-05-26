@@ -1,3 +1,4 @@
+/* tslint:disable:no-string-literal variable-name */
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Game} from '../../models/game.model';
@@ -6,9 +7,8 @@ import {DatabaseService} from '../../services/database.service';
 import {ModalController} from '@ionic/angular';
 import {LabelinputPage} from '../labelinput/labelinput.page';
 import {Platform} from '../../models/platform.model';
-import {AuthService} from "../../services/auth.service";
-import {NewListPage} from "../new-list/new-list.page";
-import {AddToListPage} from "../add-to-list/add-to-list.page";
+import {AuthService} from '../../services/auth.service';
+import {AddToListPage} from '../add-to-list/add-to-list.page';
 
 @Component({
     selector: 'app-game',
@@ -64,10 +64,6 @@ export class GamePage implements OnInit {
 
     goToPlatform(id: number) {
         this._apiService.goToPlatform(id);
-    }
-
-    shareViaTwitter() {
-
     }
 
     async addToList() {

@@ -1,3 +1,4 @@
+/* tslint:disable:no-string-literal variable-name */
 import {Component, OnInit} from '@angular/core';
 import {DatabaseService} from '../../services/database.service';
 import {Label} from '../../models/label.model';
@@ -17,7 +18,7 @@ export class LabelinputPage implements OnInit {
         _databaseService.getLabelsCollection().subscribe(labels => {
             console.log(labels);
             for (let i = 0; i < labels.length; i++) {
-                this.labels.push(new Label(String(i), labels[i]['name'], labels[i]['description'], labels[i]['descriptionLarge']));
+                this.labels.push(new Label(i, labels[i]['name'], labels[i]['description'], labels[i]['descriptionLarge']));
             }
         });
     }

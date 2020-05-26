@@ -1,5 +1,5 @@
+/* tslint:disable:no-string-literal variable-name */
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {DatabaseService} from '../../services/database.service';
 import {List} from '../../models/list.model';
@@ -23,7 +23,7 @@ export class ListPage implements OnInit {
                 private _apiService: ApiService, private modalController: ModalController) {
         this.userId = this.navParams.get('userId');
         this._authService.user.subscribe(user => {
-            this.edit = user['uid'] == this.userId;
+            this.edit = user['uid'] === this.userId;
         });
         this._databaseService.getList(this.navParams.get('listId'), this.userId).subscribe(list => {
             if (list) {

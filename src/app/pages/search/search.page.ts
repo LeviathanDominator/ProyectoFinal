@@ -1,7 +1,8 @@
+/* tslint:disable:variable-name */
 import {Component, OnInit} from '@angular/core';
-import {AlertController, ModalController} from "@ionic/angular";
-import {ApiService} from "../../services/api.service";
-import {DatabaseService} from "../../services/database.service";
+import {AlertController, ModalController} from '@ionic/angular';
+import {ApiService} from '../../services/api.service';
+import {DatabaseService} from '../../services/database.service';
 
 @Component({
     selector: 'app-search',
@@ -12,7 +13,6 @@ export class SearchPage implements OnInit {
 
     private searchedGames: any = [];
 
-    // tslint:disable-next-line:variable-name
     constructor(private modalCtrl: ModalController, private _apiService: ApiService,
                 private _databaseService: DatabaseService, private alertController: AlertController) {
         this.searchGames(undefined);

@@ -1,7 +1,7 @@
 import {Filter} from './filter.model';
 
 export class Label {
-    constructor(id: string, name: string, description: string, descriptionLarge: string) {
+    constructor(id: number, name: string, description: string, descriptionLarge: string) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -9,7 +9,7 @@ export class Label {
         this.selectedFilter = Filter.any;
     }
 
-    id: string;
+    id: number;
     name: string;
     description: string;
     descriptionLarge: string;

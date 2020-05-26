@@ -1,3 +1,4 @@
+/* tslint:disable:no-string-literal variable-name */
 import {Component, OnInit} from '@angular/core';
 import {Game} from '../../models/game.model';
 import {Platform} from '../../models/platform.model';
@@ -7,7 +8,6 @@ import {ApiService} from '../../services/api.service';
 import {AuthService} from '../../services/auth.service';
 import {ModalController} from '@ionic/angular';
 import {SearchPage} from '../search/search.page';
-import {Label} from '../../models/label.model';
 import {FilterPage} from '../filter/filter.page';
 
 @Component({
@@ -28,7 +28,10 @@ export class GamesPage implements OnInit {
             for (const platform of platforms['results']) {
                 this.platforms.push(_apiService.dataToPlatform(platform));
             }
-        });
+        }, (error => {
+            console.log(error);
+            _databaseService.alert();
+        }));
         /*_apiService.getDevelopers(1).subscribe(developers => {
             //console.log(developers['results']);
         })*/
@@ -52,6 +55,7 @@ export class GamesPage implements OnInit {
             // this.barcode = barcodeData.text;
         }).catch(error => {
             console.log(error);
+            this._databaseService.alert();
         });
     }
 

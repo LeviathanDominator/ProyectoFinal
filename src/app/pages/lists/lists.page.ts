@@ -17,8 +17,6 @@ export class ListsPage implements OnInit {
     userId: string;
     lists: List[];
 
-    // TODO Get user passed by parameter, not the actual user
-
     constructor(private _authService: AuthService, private _databaseService: DatabaseService, private router: Router,
                 private modalController: ModalController, private activatedRoute: ActivatedRoute) {
         this.activatedRoute.params.subscribe(params => {

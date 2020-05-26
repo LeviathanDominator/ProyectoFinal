@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name no-string-literal */
 import {Component, OnInit} from '@angular/core';
 import {DatabaseService} from '../../services/database.service';
 import {AuthService} from '../../services/auth.service';

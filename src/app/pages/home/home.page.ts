@@ -1,9 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ApiService} from '../../services/api.service';
-import {Game} from '../../models/game.model';
+/* tslint:disable:no-string-literal variable-name */
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {DatabaseService} from "../../services/database.service";
-import {Observable, Subscriber} from "rxjs";
+import {DatabaseService} from '../../services/database.service';
+import {Observable, Subscriber} from 'rxjs';
 
 @Component({
     selector: 'app-home',
@@ -42,15 +41,15 @@ export class HomePage implements OnInit {
     isAdmin(): Observable<boolean> {
         return new Observable<boolean>((subscriber: Subscriber<boolean>) => {
             this._authService.user.subscribe(user => {
-                this._databaseService.getAdmins().subscribe(admins =>{
+                this._databaseService.getAdmins().subscribe(admins => {
                     subscriber.next(false);
-                    if (user){
-                    for (let admin of admins){
-                        console.log(admin['id'], user['uid']);
-                        if (admin['id'] == user['uid']){
-                            subscriber.next(true);
+                    if (user) {
+                        for (const admin of admins) {
+                            console.log(admin['id'], user['uid']);
+                            if (admin['id'] === user['uid']) {
+                                subscriber.next(true);
+                            }
                         }
-                    }
                     }
                     return subscriber.complete();
                 });

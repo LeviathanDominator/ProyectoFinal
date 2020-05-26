@@ -8,42 +8,44 @@
 </ion-header>
 
 <ion-content color="secondary">
-    <ion-fab *ngIf="_authService.user | async" vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button (click)="addToList();">
-            <ion-icon name="add"></ion-icon>
-        </ion-fab-button>
-    </ion-fab>
-    <div *ngIf="game" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
+    <div id="container">
+        <ion-fab *ngIf="_authService.user | async" vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button (click)="addToList();">
+                <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+        <div *ngIf="game" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
    'rgba(0, 0, 0, 0.7)), url(' + game.image + ')'}">
 
-        <small>{{game.description}}</small>
-        <small *ngIf="game.dlcDescription">{{game.dlcDescription}}</small>
-        <p>ESRB Rating: {{game.esrb}}</p>
-        <div *ngIf="this.game.avgCompletion">
-        <p>Average completion time</p>
-        <small *ngIf="this.game.avgCompletion[0]">Main story: {{this.game.avgCompletion[0]}} hours</small>
-        <small *ngIf="this.game.avgCompletion[1]">Story and extras: {{this.game.avgCompletion[1]}} hours</small>
-        <small *ngIf="this.game.avgCompletion[2]">Completion: {{this.game.avgCompletion[2]}} hours</small>
-        </div>
-        <p>Available in: </p>
-        <ion-buttons>
-            <ion-button *ngFor="let platform of game.platforms"
-                        (click)="goToPlatform(platform.id)">{{platform.name}}</ion-button>
-        </ion-buttons>
-        <h2>Labels</h2>
-        <div class="labels">
-            <div class="label" *ngFor="let label of game.labels">
-                <p>{{label.name}}</p>
-                <small>{{label.description}}</small>
+            <small>{{game.description}}</small>
+            <small *ngIf="game.dlcDescription">{{game.dlcDescription}}</small>
+            <p>ESRB Rating: {{game.esrb}}</p>
+            <div *ngIf="this.game.avgCompletion">
+                <p>Average completion time</p>
+                <small *ngIf="this.game.avgCompletion[0]">Main story: {{this.game.avgCompletion[0]}} hours</small>
+                <small *ngIf="this.game.avgCompletion[1]">Story and extras: {{this.game.avgCompletion[1]}} hours</small>
+                <small *ngIf="this.game.avgCompletion[2]">Completion: {{this.game.avgCompletion[2]}} hours</small>
             </div>
-        </div>
-        <ng-container *ngIf="game.labels != undefined">
-            <p *ngIf="game.labels.length == 0">This game has no labels yet</p>
+            <p>Available in: </p>
+            <ion-buttons>
+                <ion-button *ngFor="let platform of game.platforms"
+                            (click)="goToPlatform(platform.id)">{{platform.name}}</ion-button>
+            </ion-buttons>
+            <h2>Labels</h2>
+            <div class="labels">
+                <div class="label" *ngFor="let label of game.labels">
+                    <p>{{label.name}}</p>
+                    <small>{{label.description}}</small>
+                </div>
+            </div>
+            <ng-container *ngIf="game.labels != undefined">
+                <p *ngIf="game.labels.length == 0">This game has no labels yet</p>
 
-            <p>Are these labels inaccurate? Send us a request to change {{game.title}}'s info about labels pressing the
-                button below!</p>
-            <ion-button (click)="shareViaTwitter()">Twitter</ion-button>
-            <ion-button (click)="goToLabelInput()">Press here to change labels</ion-button>
-        </ng-container>
+                <p>Are these labels inaccurate? Send us a request to change {{game.title}}'s info about labels pressing
+                    the
+                    button below!</p>
+                <ion-button (click)="goToLabelInput()">Press here to change labels</ion-button>
+            </ng-container>
+        </div>
     </div>
 </ion-content>

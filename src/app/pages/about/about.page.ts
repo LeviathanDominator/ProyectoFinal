@@ -11,6 +11,7 @@ export class AboutPage implements OnInit {
 
     labels: Label[] = [];
 
+    // tslint:disable-next-line:variable-name
     constructor(private _databaseService: DatabaseService) {
         this._databaseService.getLabelsCollection().subscribe(labels => {
             for (const label of labels) {

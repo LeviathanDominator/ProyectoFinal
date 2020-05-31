@@ -242,7 +242,7 @@ export class DatabaseService {
         return false;
     }
 
-    async alert() {
+    async noConnectionAlert() {
         const alert = await this.alertController.create({
             header: 'Error',
             message: 'Couldn\'t connect to database. Make sure you have Internet connection.',

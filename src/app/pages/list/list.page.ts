@@ -23,7 +23,9 @@ export class ListPage implements OnInit {
                 private _apiService: ApiService, private modalController: ModalController) {
         this.userId = this.navParams.get('userId');
         this._authService.user.subscribe(user => {
-            this.edit = user['uid'] === this.userId;
+            if (user) {
+                this.edit = user['uid'] === this.userId;
+            }
         });
         this._databaseService.getList(this.navParams.get('listId'), this.userId).subscribe(list => {
             if (list) {

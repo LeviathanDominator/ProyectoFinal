@@ -5,15 +5,14 @@
         </ion-buttons>
         <ion-title>Home</ion-title>
         <ion-buttons slot="secondary">
-            <ion-button (click)="searchModal()">
-                <ion-icon slot="icon-only" name="search"></ion-icon>
-            </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content color="secondary">
     <div id="container">
+        <h3 *ngIf="!((_authService.user | async) && user)">Welcome!</h3>
+        <h3 *ngIf="(_authService.user | async) && user">Welcome, {{user.name}}!</h3>
         <div class="buttons">
             <ion-item color="primary" [routerLink]="['/games']">
                 <ion-label>Games</ion-label>
@@ -35,13 +34,15 @@
             <ion-item *ngIf="_authService.user | async"
                       color="primary" [routerLink]="['/messages']">
                 <ion-label>Messages</ion-label>
-                <ion-icon *ngIf="!unreadMessages" name="mail-outline"></ion-icon>
-                <ion-icon *ngIf="unreadMessages" name="mail-unread-outline"></ion-icon>
+                <ion-icon *ngIf="numUnreadMessages == 0" name="mail-outline"></ion-icon>
+                <ion-icon *ngIf="numUnreadMessages != 0" name="mail-unread-outline"></ion-icon>
             </ion-item>
             <ion-item color="primary" [routerLink]="['/about']">
                 <ion-label>About</ion-label>
                 <ion-icon name="information-circle-outline"></ion-icon>
             </ion-item>
         </div>
+        <h4 *ngIf="numUnreadMessages > 1">You have {{numUnreadMessages}} unread messages.</h4>
+        <h4 *ngIf="numUnreadMessages == 1">You have {{numUnreadMessages}} unread message.</h4>
     </div>
 </ion-content>

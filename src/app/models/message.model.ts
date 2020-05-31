@@ -7,6 +7,7 @@ export class Message {
         this.read = read;
         this.id = date.split(':').join('').split(' ').join('').split('/').join('');
     }
+
     id: string;
     message: string;
     sender: string;

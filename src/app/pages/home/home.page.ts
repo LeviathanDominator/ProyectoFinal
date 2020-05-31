@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {DatabaseService} from '../../services/database.service';
 import {Observable, Subscriber} from 'rxjs';
+import {User} from "../../models/user.model";
 
 @Component({
     selector: 'app-home',
@@ -11,27 +12,30 @@ import {Observable, Subscriber} from 'rxjs';
 })
 export class HomePage implements OnInit {
 
-    unreadMessages: boolean;
+    numUnreadMessages = 0;
+    user: User;
 
     constructor(private _databaseService: DatabaseService, private _authService: AuthService) {
-        this.unreadMessages = false;
         _authService.user.subscribe(user => {
             if (user) {
                 _databaseService.getMessages(user['uid']).subscribe(messages => {
-                    console.log(messages);
-                    this.unreadMessages = this.readMessages(messages);
+                    this.numUnreadMessages = this.unreadMessages(messages);
+                });
+                _databaseService.getUser(user['uid']).subscribe(userData => {
+                    this.user = this._databaseService.dataToUser(userData);
                 });
             }
         });
     }
 
-    private readMessages(messages: any) {
+    private unreadMessages(messages: any) {
+        let numMessages = 0;
         for (const message of messages) {
             if (!message['read']) {
-                return true;
+                numMessages++;
             }
         }
-        return false;
+        return numMessages;
     }
 
     ngOnInit(): void {

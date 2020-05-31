@@ -27,6 +27,20 @@ export class AuthService {
         this.user = this.firebaseAuth.authState;
     }
 
+    login(value: any) {
+        return new Promise<any>((resolve, reject) => {
+            firebase.auth().signInWithEmailAndPassword(value.email, value.password)
+                .then(res => {
+                    console.log('Success: ', res);
+                    resolve(res);
+                }, err => {
+                    console.log('Error: ', err);
+                    this.alert('Error signing in', err.message, true);
+                    reject(err);
+                });
+        });
+    }
+
     register(user: User, password: string) {
         return new Promise<any>((resolve, reject) => {
             firebase.auth().createUserWithEmailAndPassword(user.email, password)
@@ -80,24 +94,14 @@ export class AuthService {
         }).then(res => console.log(res));
     }
 
-    login(value: any) {
-        return new Promise<any>((resolve, reject) => {
-            firebase.auth().signInWithEmailAndPassword(value.email, value.password)
-                .then(res => {
-                    console.log('Success: ', res);
-                    resolve(res);
-                }, err => {
-                    console.log('Error: ', err);
-                    this.alert('Error signing in', err.message, true);
-                    reject(err);
-                });
-        });
-    }
-
     logout() {
         firebase.auth().signOut().then(r => console.log(r));
         this.user = null;
         this.currentUser = null;
     }
 
+    // Forces the app to reload to refresh auth changes.
+    reloadApp() {
+        document.location.href = 'index.html';
+    }
 }

@@ -1,3 +1,4 @@
+/* tslint:disable:no-string-literal */
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatabaseService} from '../../services/database.service';
@@ -17,12 +18,13 @@ export class UserPage implements OnInit {
     user: User;
     lists: List[];
 
+    // tslint:disable-next-line:variable-name
     constructor(private activatedRoute: ActivatedRoute, private _databaseService: DatabaseService,
                 private modalController: ModalController) {
         this.activatedRoute.params.subscribe(params => {
             this._databaseService.getUser(params.id).subscribe(user => {
                 if (user) {
-                    this.user = new User(user["id"], user["name"]);
+                    this.user = new User(user['id'], user['name']);
                 }
             });
             this._databaseService.getLists(params.id).subscribe(lists => {

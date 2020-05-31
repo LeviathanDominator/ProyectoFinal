@@ -1,3 +1,4 @@
+/* tslint:disable:no-string-literal */
 import {Component, OnInit} from '@angular/core';
 import {DatabaseService} from '../../services/database.service';
 import {User} from '../../models/user.model';
@@ -11,6 +12,7 @@ export class UsersPage implements OnInit {
 
     users: User[];
 
+    // tslint:disable-next-line:variable-name
     constructor(private _databaseService: DatabaseService) {
         _databaseService.getUsers().subscribe(users => {
             this.users = [];

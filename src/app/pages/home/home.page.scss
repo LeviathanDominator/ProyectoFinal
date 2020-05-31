@@ -3,8 +3,12 @@
   grid-template-columns: repeat(2, 1fr);
 }
 
+h3, h4 {
+  text-align: center;
+}
+
 ion-item {
-  margin: 1em;
+  margin: .5em;
 }
 
 ion-label{

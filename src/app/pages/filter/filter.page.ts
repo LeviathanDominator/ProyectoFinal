@@ -12,6 +12,7 @@ export class FilterPage implements OnInit {
 
     labels: Label[];
 
+    // tslint:disable-next-line:variable-name
     constructor(private _databaseService: DatabaseService, private modalController: ModalController) {
         this._databaseService.getLabelsCollection().subscribe(labels => {
             this.labels = [];

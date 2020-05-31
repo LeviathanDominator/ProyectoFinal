@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouteReuseStrategy} from '@angular/router';
 
-import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
+import {IonicModule, IonicRouteStrategy, IonInfiniteScroll, IonInfiniteScrollContent} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 
@@ -23,7 +23,7 @@ import {NewListPageModule} from './pages/new-list/new-list.module';
 import {SendMessagePageModule} from './pages/send-message/send-message.module';
 import {MessagePageModule} from './pages/message/message.module';
 import {ListPageModule} from './pages/list/list.module';
-import {AddToListPageModule} from "./pages/add-to-list/add-to-list.module";
+import {AddToListPageModule} from './pages/add-to-list/add-to-list.module';
 
 @NgModule({
     declarations: [AppComponent],

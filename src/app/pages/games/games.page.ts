@@ -6,7 +6,7 @@ import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
 import {DatabaseService} from '../../services/database.service';
 import {ApiService} from '../../services/api.service';
 import {AuthService} from '../../services/auth.service';
-import {ModalController} from '@ionic/angular';
+import {IonInfiniteScroll, IonInfiniteScrollContent, ModalController} from '@ionic/angular';
 import {SearchPage} from '../search/search.page';
 import {FilterPage} from '../filter/filter.page';
 
@@ -23,14 +23,15 @@ export class GamesPage implements OnInit {
     private page = 1;
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
-                private _apiService: ApiService, private _authService: AuthService, private modalController: ModalController) {
+                private _apiService: ApiService, private _authService: AuthService,
+                private modalController: ModalController) {
         _apiService.getPlatforms().subscribe(platforms => {
             for (const platform of platforms['results']) {
                 this.platforms.push(_apiService.dataToPlatform(platform));
             }
         }, (error => {
             console.log(error);
-            _databaseService.alert();
+            _databaseService.noConnectionAlert();
         }));
         /*_apiService.getDevelopers(1).subscribe(developers => {
             //console.log(developers['results']);
@@ -55,7 +56,6 @@ export class GamesPage implements OnInit {
             // this.barcode = barcodeData.text;
         }).catch(error => {
             console.log(error);
-            this._databaseService.alert();
         });
     }
 
@@ -99,18 +99,21 @@ export class GamesPage implements OnInit {
         this.getGames();
     }
 
-    loadMoreGames(event) {
+    loadMoreGames(event?) {
         setTimeout(() => {
-            if (this.games.length === 20 * this.page) {
-                this.page++;
-                this.getGames();
+            // if (this.games.length === 20 * this.page) {
+            this.page++;
+            this.getGames();
+            // }
+            if (event) {
+                event.target.complete();
             }
-            event.target.complete();
         }, 500);
     }
 
     private getGames() {
-        if (this.selectedPlatform === 0) {
+        // tslint:disable-next-line:triple-equals
+        if (this.selectedPlatform == 0) {
             this._apiService.getGames(this.page).subscribe(games => {
                 this.setGames(games.results);
             });
@@ -148,5 +151,17 @@ export class GamesPage implements OnInit {
                 game.show = this._databaseService.matchesCriteria(game.labels);
             }
         }
+        if (!this.checkIfAnyGameIsShown()) {
+            this.loadMoreGames();
+        }
+    }
+
+    private checkIfAnyGameIsShown() {
+        for (const game of this.games) {
+            if (game.show) {
+                return true;
+            }
+        }
+        return false;
     }
 }

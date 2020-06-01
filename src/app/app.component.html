@@ -4,7 +4,12 @@
             <ion-title>Menu</ion-title>
         </ion-toolbar>
         <ion-content id="menu" class="menu" color="secondary">
+            <div class="menuAvatar">
+            <ion-avatar *ngIf="user" slot="start">
+                <img [src]="user.avatar" alt="{{user.name}}'s avatar">
+            </ion-avatar>
             <p *ngIf="_authService.user | async">{{ (_authService.user | async)?.email}}</p>
+        </div>
             <ion-button color="secondary" [routerLink]="['/home']">Home</ion-button>
             <ion-button color="secondary" *ngIf="!(_authService.user | async)" (click)="goToLogin()">Login
             </ion-button>
@@ -19,7 +24,7 @@
             </ion-button>
             <ion-button color="secondary" [routerLink]="['/games']">Games</ion-button>
             <ion-button color="secondary" [routerLink]="['/platforms']">Platforms</ion-button>
-            <ion-button color="secondary" [routerLink]="['/users']">Users</ion-button>
+            <ion-button  *ngIf="_authService.user | async" color="secondary" [routerLink]="['/users']">Users</ion-button>
             <ion-button color="secondary" [routerLink]="['/about']">About</ion-button>
             <ion-button color="secondary" *ngIf="_authService.user | async" (click)="logout()">Logout</ion-button>
         </ion-content>

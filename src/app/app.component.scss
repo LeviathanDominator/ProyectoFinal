@@ -1,3 +1,13 @@
 ion-button {
   display: flex;
 }
+
+.menuAvatar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.menuAvatar > ion-avatar {
+  margin: .3em;
+}

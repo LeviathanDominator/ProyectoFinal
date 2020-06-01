@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as firebase from 'firebase';
+import {DatabaseService} from './database.service';
 
 @Injectable({
     providedIn: 'root'
@@ -8,13 +9,15 @@ export class StorageService {
 
     storage;
 
-    constructor() {
+    // tslint:disable-next-line:variable-name
+    constructor(private _databaseService: DatabaseService) {
         this.storage = firebase.storage().ref();
     }
 
     uploadAvatar(userId: string, image: string) {
         const avatarRef = this.storage.child(`avatars/${userId}`);
         avatarRef.putString('data:image/jpeg;base64,' + image, 'data_url', {contentType: 'image/jpg'}).then(success => {
+            this._databaseService.toast('Your new avatar has been uploaded successfully.');
             console.log(success);
         }).catch(error => {
             console.log(error);
@@ -28,6 +31,7 @@ export class StorageService {
     uploadBanner(userId: string, image: string) {
         const avatarRef = this.storage.child(`banners/${userId}`);
         avatarRef.putString('data:image/jpeg;base64,' + image, 'data_url', {contentType: 'image/jpg'}).then(success => {
+            this._databaseService.toast('Your new banner has been uploaded successfully.');
             console.log(success);
         }).catch(error => {
             console.log(error);

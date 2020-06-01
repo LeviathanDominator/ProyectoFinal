@@ -51,6 +51,7 @@ export class ProfilePage implements OnInit {
     setNewAvatar() {
         this.camera.getPicture(this.imageOptions).then(imageData => {
             console.log('Image data', imageData);
+            this._databaseService.toast('Your new avatar is being uploaded...');
             this._storageService.uploadAvatar(this.user.id, imageData);
         }).catch(error => {
             this._databaseService.customAlert('Error', error);
@@ -61,6 +62,7 @@ export class ProfilePage implements OnInit {
     setNewBanner() {
         this.camera.getPicture(this.imageOptions).then(imageData => {
             console.log('Image data', imageData);
+            this._databaseService.toast('Your new banner is being uploaded...');
             this._storageService.uploadBanner(this.user.id, imageData);
         }).catch(error => {
             this._databaseService.customAlert('Error', error);

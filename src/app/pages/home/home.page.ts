@@ -3,7 +3,10 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {DatabaseService} from '../../services/database.service';
 import {Observable, Subscriber} from 'rxjs';
-import {User} from "../../models/user.model";
+import {User} from '../../models/user.model';
+import {SignupPage} from '../signup/signup.page';
+import {Route, Router} from '@angular/router';
+import {ModalController} from '@ionic/angular';
 
 @Component({
     selector: 'app-home',
@@ -15,7 +18,8 @@ export class HomePage implements OnInit {
     numUnreadMessages = 0;
     user: User;
 
-    constructor(private _databaseService: DatabaseService, private _authService: AuthService) {
+    constructor(private _databaseService: DatabaseService, private _authService: AuthService,
+                private router: Router, private modalController: ModalController) {
         _authService.user.subscribe(user => {
             if (user) {
                 _databaseService.getMessages(user['uid']).subscribe(messages => {
@@ -58,6 +62,17 @@ export class HomePage implements OnInit {
                     return subscriber.complete();
                 });
             });
+        });
+    }
+
+    async goToSignUp() {
+        console.log(this._authService.currentUser);
+        const modal = await this.modalController.create({
+            component: SignupPage
+        });
+        return await modal.present().then(() => {
+            // Refresh the page after sign up.
+            this.router.navigateByUrl('/home');
         });
     }
 }

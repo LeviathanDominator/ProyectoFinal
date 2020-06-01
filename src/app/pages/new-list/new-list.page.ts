@@ -26,6 +26,11 @@ export class NewListPage implements OnInit {
     }
 
     createList() {
+        // tslint:disable-next-line:triple-equals
+        if (this.name.length == 0) {
+            this._databaseService.toast('You must input a name for the list.');
+            return;
+        }
         this._databaseService.newList(this.userId, this.name).then(() => this.close());
     }
 

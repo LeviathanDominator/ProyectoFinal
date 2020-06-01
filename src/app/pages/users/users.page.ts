@@ -22,11 +22,9 @@ export class UsersPage implements OnInit {
                 this._storageService.getAvatar(newUser.id).then(url => {
                     if (url) {
                         newUser.avatar = url;
-                        this.pushAndSort(newUser);
                     }
-                }).catch(() => {
-                    this.pushAndSort(newUser);
-                });
+                }).catch(() => console.log('User ' + newUser.id + 'has no avatar.'));
+                this.pushAndSort(newUser);
             }
         });
     }

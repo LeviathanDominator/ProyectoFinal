@@ -206,10 +206,13 @@ export class DatabaseService {
     }
 
     async toast(message: string, name?: string) {
+        if (!name) {
+            name = '';
+        }
         const toast = await this.toastController.create({
             message: name + message,
             duration: 2000,
-            position: 'top'
+            position: 'bottom'
         });
         await toast.present();
     }

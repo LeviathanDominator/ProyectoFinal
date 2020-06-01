@@ -24,6 +24,8 @@ import {SendMessagePageModule} from './pages/send-message/send-message.module';
 import {MessagePageModule} from './pages/message/message.module';
 import {ListPageModule} from './pages/list/list.module';
 import {AddToListPageModule} from './pages/add-to-list/add-to-list.module';
+import {ImagePicker} from '@ionic-native/image-picker/ngx';
+import {Camera} from '@ionic-native/camera/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -37,6 +39,8 @@ import {AddToListPageModule} from './pages/add-to-list/add-to-list.module';
         StatusBar,
         SplashScreen,
         BarcodeScanner,
+        ImagePicker,
+        Camera,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]

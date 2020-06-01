@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {DatabaseService} from '../../services/database.service';
@@ -6,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {NewListPage} from '../new-list/new-list.page';
 import {ListPage} from '../list/list.page';
+import {User} from '../../models/user.model';
 
 @Component({
     selector: 'app-lists',
@@ -14,22 +16,29 @@ import {ListPage} from '../list/list.page';
 })
 export class ListsPage implements OnInit {
 
-    userId: string;
+    user: User;
     lists: List[];
 
     constructor(private _authService: AuthService, private _databaseService: DatabaseService, private router: Router,
                 private modalController: ModalController, private activatedRoute: ActivatedRoute) {
         this.activatedRoute.params.subscribe(params => {
+            // tslint:disable-next-line:triple-equals
             if (params.id == 0) {
                 _authService.user.subscribe(user => {
                     if (user) {
-                        this.userId = user.uid;
-                        this.getLists(user.uid);
+                        this.getUser(user.uid);
                     }
                 });
             } else {
-                this.getLists(params.id);
+                this.getUser(params.id);
             }
+        });
+    }
+
+    private getUser(id: string) {
+        this._databaseService.getUser(id).subscribe(user => {
+            this.user = this._databaseService.dataToUser(user);
+            this.getLists(this.user.id);
         });
     }
 
@@ -48,10 +57,11 @@ export class ListsPage implements OnInit {
     }
 
     async goToList(id: string) {
+        console.log(id);
         const modal = await this.modalController.create({
             component: ListPage,
             componentProps: {
-                userId: this.userId,
+                userId: this.user.id,
                 listId: id
             }
         });

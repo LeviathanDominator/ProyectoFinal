@@ -20,6 +20,7 @@ export class AppComponent {
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
         private modalController: ModalController,
+        // tslint:disable-next-line:variable-name
         public _authService: AuthService,
         private navController: NavController,
         private router: Router,

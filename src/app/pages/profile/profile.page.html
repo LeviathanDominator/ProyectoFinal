@@ -1,20 +1,34 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>{{user.name}}'s profile</ion-title>
+    </ion-toolbar>
+    <ion-buttons slot="secondary">
+        <ion-button (click)="editProfile()">
+            <ion-icon name="pencil"></ion-icon>
+        </ion-button>
     </ion-buttons>
-    <ion-title>{{user.name}}'s profile</ion-title>
-  </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-title>{{user.name}}</ion-title>
-  <p>{{user.email}}</p>
-  <p>a{{user.signUpDate}}</p>
-  <ion-avatar (click)="setNewAvatar()">
-    <img [src]="imageSrc" alt="{{ user.name }}'s avatar"/>
-  </ion-avatar>
-  <ion-card>
-    <ion-card-header>{{user.name}}</ion-card-header>
-  </ion-card>
+<ion-content color="dark">
+    <div id="container">
+        <div class="banner" [ngStyle]="{'background-image': 'url(' + user.banner + ')'}">
+            <ion-button (click)="setNewBanner()">
+                <ion-icon name="camera-outline"></ion-icon>
+            </ion-button>
+            <div class="avatarAndUsername">
+                <ion-avatar (click)="setNewAvatar()">
+                    <img *ngIf="user.avatar" [src]="user.avatar" alt="{{ user.name }}'s avatar"/>
+                </ion-avatar>
+                <p>{{user.name}}</p>
+            </div>
+        </div>
+        <p [style]="{'background-color': 'red'}">{{user.email}}</p>
+        <p *ngIf="user.signUpDate">Member since: {{user.signUpDate}}</p>
+        <div class="buttons">
+            <ion-button [routerLink]="['/lists/' + user.id]">Lists of {{user.name}}</ion-button>
+        </div>
+    </div>
 </ion-content>

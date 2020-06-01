@@ -36,3 +36,22 @@
   height: 110vh;
 }
 
+.banner {
+  position: relative;
+  height: 45vh;
+  background-position: center;
+  background-size: 100% auto;
+}
+
+.buttons {
+  text-align: center;
+}
+
+.avatarAndUsername {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  display: flex;
+  flex-direction: row;
+}
+

@@ -1,19 +1,31 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="home" [icon]="buttonIcon"></ion-back-button>
-    </ion-buttons>
-    <ion-title *ngIf="user">{{user.name}}'s profile</ion-title>
-    <ion-buttons slot="secondary">
-      <ion-button *ngIf="user" (click)="sendMessage(user.id)">
-      <ion-icon name="mail-outline"></ion-icon>
-    </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home" [icon]="buttonIcon"></ion-back-button>
+        </ion-buttons>
+        <ion-title *ngIf="user">{{user.name}}'s profile</ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button *ngIf="user" (click)="sendMessage(user.id)">
+                <ion-icon name="mail-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content color="dark">
-  <ion-card *ngFor="let list of lists" color="dark">
-    <ion-button (click)="goToList(list.id)">{{list.name}}</ion-button>
-  </ion-card>
+    <div id="container" *ngIf="user">
+        <div class="banner" [ngStyle]="{'background-image': 'url(' + user.banner + ')'}">
+            <div class="avatarAndUsername">
+                <ion-avatar>
+                    <img *ngIf="user.avatar" [src]="user.avatar" alt="{{ user.name }}'s avatar"/>
+                </ion-avatar>
+                <p>{{user.name}}</p>
+            </div>
+        </div>
+        <p [style]="{'background-color': 'red'}">{{user.email}}</p>
+        <p *ngIf="user.signUpDate">Member since: {{user.signUpDate}}</p>
+        <div class="buttons">
+            <ion-button [routerLink]="['/lists/' + user.id]">Lists of {{user.name}}</ion-button>
+        </div>
+    </div>
 </ion-content>

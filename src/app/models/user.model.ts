@@ -6,10 +6,14 @@ export class User {
         this.name = name;
         this.email = email;
         this.signUpDate = signUpDate;
+        this.avatar = 'assets/img/default_avatar.jpg';
+        this.banner = 'assets/img/default_banner.jpg';
     }
     id: string;
     name: string;
     email: string;
     signUpDate: string;
+    avatar: string;
+    banner: string;
     lists: List[];
 }

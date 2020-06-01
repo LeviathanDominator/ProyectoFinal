@@ -256,4 +256,19 @@ export class DatabaseService {
         });
         await alert.present();
     }
+
+    async customAlert(header: string, message: string) {
+        const alert = await this.alertController.create({
+            header: 'Error',
+            message,
+            buttons: [
+                {
+                    text: 'Ok',
+                    role: 'cancel',
+                    cssClass: 'secondary'
+                }
+            ]
+        });
+        await alert.present();
+    }
 }

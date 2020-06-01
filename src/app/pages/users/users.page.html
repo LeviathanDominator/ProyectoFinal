@@ -9,5 +9,9 @@
 
 <ion-content color="dark">
   <ion-item *ngFor="let user of users" (click)="goToUser(user.id)" color="dark">
-    <p>{{user.name}}</p></ion-item>
+    <ion-avatar>
+      <img *ngIf="user.avatar" [src]="user.avatar" alt="{{ user.name }}'s avatar"/>
+    </ion-avatar>
+    <p>{{user.name}}</p>
+  </ion-item>
 </ion-content>

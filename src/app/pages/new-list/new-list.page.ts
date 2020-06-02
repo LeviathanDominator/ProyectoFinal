@@ -19,7 +19,10 @@ export class NewListPage implements OnInit {
         this.name = '';
         _authService.user.subscribe(user => {
             this.userId = user.uid;
-        });
+        }, (error => {
+            console.log(error);
+            _databaseService.noConnectionAlert();
+        }));
     }
 
     ngOnInit() {

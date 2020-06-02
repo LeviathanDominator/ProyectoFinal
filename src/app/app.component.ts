@@ -48,10 +48,12 @@ export class AppComponent {
             if (params !== null) {
                 // @ts-ignore
                 this._databaseService.getUser(params.uid).subscribe(user => {
-                    this.user = this._databaseService.dataToUser(user);
-                    this._storageService.getAvatar(this.user.id).then(url => {
-                        this.user.avatar = url;
-                    });
+                    if (user) {
+                        this.user = this._databaseService.dataToUser(user);
+                        this._storageService.getAvatar(this.user.id).then(url => {
+                            this.user.avatar = url;
+                        }).catch(() => console.log('No avatar.'));
+                    }
                 });
             }
         });
@@ -79,7 +81,6 @@ export class AppComponent {
     }
 
     logout() {
-        this.router.navigateByUrl('home');
         this._authService.logout();
     }
 }

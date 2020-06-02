@@ -5,8 +5,8 @@ import {DatabaseService} from '../../services/database.service';
 import {Observable, Subscriber} from 'rxjs';
 import {User} from '../../models/user.model';
 import {SignupPage} from '../signup/signup.page';
-import {Route, Router} from '@angular/router';
-import {ModalController} from '@ionic/angular';
+import {Router} from '@angular/router';
+import {ModalController, Platform} from '@ionic/angular';
 
 @Component({
     selector: 'app-home',
@@ -19,15 +19,28 @@ export class HomePage implements OnInit {
     user: User;
 
     constructor(private _databaseService: DatabaseService, private _authService: AuthService,
-                private router: Router, private modalController: ModalController) {
+                private router: Router, private modalController: ModalController, private platform: Platform) {
         _authService.user.subscribe(user => {
             if (user) {
                 _databaseService.getMessages(user['uid']).subscribe(messages => {
                     this.numUnreadMessages = this.unreadMessages(messages);
-                });
+                }, (() => {
+                    _databaseService.noConnectionAlert();
+                }));
                 _databaseService.getUser(user['uid']).subscribe(userData => {
                     this.user = this._databaseService.dataToUser(userData);
-                });
+                }, (() => {
+                    _databaseService.noConnectionAlert();
+                }));
+            }
+        }, (() => {
+            _databaseService.noConnectionAlert();
+        }));
+        // This allows the user to exit the app when in homepage.
+        this.platform.backButton.subscribe(() => {
+            console.log(this.router.url);
+            if (this.router.url === '/home') {
+                navigator['app'].exitApp();
             }
         });
     }

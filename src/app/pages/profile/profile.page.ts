@@ -1,13 +1,14 @@
 /* tslint:disable:variable-name no-string-literal */
-import {Component, OnInit, SecurityContext} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {DatabaseService} from '../../services/database.service';
 import {User} from '../../models/user.model';
-import {NavController} from '@ionic/angular';
+import {ModalController, NavController} from '@ionic/angular';
 import {Camera} from '@ionic-native/camera/ngx';
 import {StorageService} from '../../services/storage.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import * as firebase from 'firebase';
+import {ListPage} from '../list/list.page';
+import {EditProfilePage} from "../edit-profile/edit-profile.page";
 
 @Component({
     selector: 'app-profile',
@@ -27,7 +28,8 @@ export class ProfilePage implements OnInit {
 
     constructor(private _authService: AuthService, private _databaseService: DatabaseService,
                 private _storageService: StorageService, private sanitizer: DomSanitizer,
-                private navController: NavController, private camera: Camera) {
+                private navController: NavController, private camera: Camera,
+                private modalController: ModalController) {
         _authService.user.subscribe(user => {
             if (user) {
                 this._databaseService.getUser(user.uid).subscribe(userData => {
@@ -38,7 +40,10 @@ export class ProfilePage implements OnInit {
                     this._storageService.getBanner(this.user.id).then(url => {
                         this.user.banner = url;
                     }).catch(() => console.log('No custom banner set'));
-                });
+                }, (error => {
+                    console.log(error);
+                    _databaseService.noConnectionAlert();
+                }));
             } else {
                 navController.navigateBack('home');
             }
@@ -70,7 +75,13 @@ export class ProfilePage implements OnInit {
         });
     }
 
-    editProfile() {
-
+    async editProfile() {
+        const modal = await this.modalController.create({
+            component: EditProfilePage,
+            componentProps: {
+                userId: this.user.id,
+            }
+        });
+        return await modal.present();
     }
 }

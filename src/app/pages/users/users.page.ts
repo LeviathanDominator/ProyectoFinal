@@ -26,9 +26,12 @@ export class UsersPage implements OnInit {
                 }).catch(() => console.log('User ' + newUser.id + 'has no avatar.'));
                 this.pushAndSort(newUser);
             }
-        });
+        }, (() => {
+            _databaseService.noConnectionAlert();
+        }));
     }
 
+    // Sorts user by their name.
     private pushAndSort(user: User) {
         this.users.push(user);
         this.users.sort((a, b) => {

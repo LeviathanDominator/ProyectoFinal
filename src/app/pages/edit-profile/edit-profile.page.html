@@ -1,9 +1,23 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>editProfile</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Editing your profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content color="dark">
+  <div id="container">
+    <form *ngIf="user" (ngSubmit)="editProfile()">
+      <ion-item color="dark">
+        <ion-label position="floating">Name</ion-label>
+        <ion-input [(ngModel)]="user.name" type="text" name="name" required></ion-input>
+      </ion-item>
+      <ion-item color="dark">
+        <ion-label position="floating">Description</ion-label>
+        <ion-input [(ngModel)]="user.description" type="text" name="description" maxlength="200"></ion-input>
+      </ion-item>
+      <div class="buttons">
+        <ion-button type="submit">Update profile</ion-button>
+      </div>
+    </form>
+  </div>
 </ion-content>

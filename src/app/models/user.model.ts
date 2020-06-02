@@ -9,8 +9,10 @@ export class User {
         this.avatar = 'assets/img/default_avatar.jpg';
         this.banner = 'assets/img/default_banner.jpg';
     }
+
     id: string;
     name: string;
+    description: string;
     email: string;
     signUpDate: string;
     avatar: string;

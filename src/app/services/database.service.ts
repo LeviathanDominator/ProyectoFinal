@@ -63,6 +63,12 @@ export class DatabaseService {
         return new Label(data.id, data.name, data.description, data.descriptionLarge);
     }
 
+    suggestLabel(userId: string, gameId: number, label: any) {
+        return this.firestore.collection('/suggestions').doc(userId).collection('/games').doc(String(gameId)).set({
+           label
+        });
+    }
+
     getUsers() {
         return this.firestore.collection('/users').valueChanges();
     }
@@ -89,16 +95,6 @@ export class DatabaseService {
             this.filters[filter.id] = filter.selectedFilter;
         }
     }
-
-   /* getAdmin() {
-        this._authService.user.subscribe(user => {
-            return this.firestore.collection('/users').doc(user.uid).valueChanges();
-        });
-    }
-
-    isAdmin() {
-        console.log('Is admin', this.getAdmin());
-    }*/
 
     newList(userId: string, name: string) {
         const id = this.currentTimeAndDate(true);
@@ -139,7 +135,21 @@ export class DatabaseService {
     }
 
     dataToUser(data: any) {
-        return new User(data.id, data.name, data.email, data.signUpDate);
+        const user = new User(data.id, data.name, data.email, data.signUpDate);
+        if (data.description) {
+            user.description = data.description;
+        }
+        return user;
+    }
+
+    updateUser(user: User) {
+        this.firestore.collection('/users').doc(user.id).set({
+            id: user.id,
+            name: user.name,
+            description: user.description,
+            email: user.email,
+            signUpDate: user.signUpDate,
+        });
     }
 
     getAdmins() {
@@ -186,6 +196,7 @@ export class DatabaseService {
         return new Message(data.message, data.senderId, data.receiverId, data.timeAndDate, data.read);
     }
 
+
     currentDate(raw: boolean) {
         const today = new Date();
         const dd = String(today.getDate()).padStart(2, '0');
@@ -193,7 +204,6 @@ export class DatabaseService {
         const yyyy = today.getFullYear();
         return raw ? dd + mm + yyyy : dd + '/' + mm + '/' + yyyy;
     }
-
 
     currentTimeAndDate(raw: boolean) {
         const today = new Date();

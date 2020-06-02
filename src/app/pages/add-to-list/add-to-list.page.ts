@@ -15,6 +15,7 @@ export class AddToListPage implements OnInit {
   game: Game;
   lists: List[];
 
+  // tslint:disable-next-line:variable-name
   constructor(private navParams: NavParams, private _authService: AuthService, private _databaseService: DatabaseService,
               private modalController: ModalController) {
     this.game = this.navParams.get('game');
@@ -24,8 +25,12 @@ export class AddToListPage implements OnInit {
         for (const list of lists) {
           this.lists.push(this._databaseService.dataToList(list));
         }
-      });
-    });
+      }, (() => {
+        _databaseService.noConnectionAlert();
+      }));
+    }, (() => {
+      _databaseService.noConnectionAlert();
+    }));
   }
 
   ngOnInit() {

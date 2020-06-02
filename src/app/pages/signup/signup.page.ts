@@ -24,14 +24,14 @@ export class SignupPage implements OnInit {
 
     signup(form: any) {
         if (form.invalid) {
+            this._databaseService.toast('All fields are required.');
             return;
         }
         const user = new User();
         user.name = form.value.name;
         user.email = form.value.email;
         user.signUpDate = this._databaseService.currentDate(false);
-        this._authService.register(user, form.value.password).then(() =>
-            this._authService.reloadApp()).catch(r => console.log(r));
+        this._authService.register(user, form.value.password).catch(r => console.log(r));
     }
 
     close() {

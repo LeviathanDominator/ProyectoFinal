@@ -22,8 +22,9 @@
                 <p>{{user.name}}</p>
             </div>
         </div>
-        <p [style]="{'background-color': 'red'}">{{user.email}}</p>
+        <p>{{user.email}}</p>
         <p *ngIf="user.signUpDate">Member since: {{user.signUpDate}}</p>
+        <p *ngIf="user.description">{{user.description}}</p>
         <div class="buttons">
             <ion-button [routerLink]="['/lists/' + user.id]">Lists of {{user.name}}</ion-button>
         </div>

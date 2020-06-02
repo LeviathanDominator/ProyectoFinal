@@ -19,7 +19,10 @@ export class SendMessagePage implements OnInit {
                 private _databaseService: DatabaseService, private _authService: AuthService) {
         this._databaseService.getUser(this.navParams.get('id')).subscribe(user => {
             this.user = this._databaseService.dataToUser(user);
-        });
+        }, (error => {
+            console.log(error);
+            _databaseService.noConnectionAlert();
+        }));
     }
 
     ngOnInit() {

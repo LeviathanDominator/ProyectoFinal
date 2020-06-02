@@ -30,6 +30,7 @@ export class SearchPage implements OnInit {
             this.searchedGames = search.results;
             return search;
         }, error => {
+            this._databaseService.noConnectionAlert();
             return error;
         });
     }
@@ -41,7 +42,7 @@ export class SearchPage implements OnInit {
         this._apiService.goToGame(game.id);
     }
 
-    // TODO ONLY ADMIN SHOULD DO THIS
+    /*// TODO ONLY ADMIN SHOULD DO THIS
     async returnId(game: any) {
         const id: number = game.id;
         const alert = await this.alertController.create({
@@ -64,6 +65,6 @@ export class SearchPage implements OnInit {
             ]
         });
         await alert.present();
-    }
+    }*/
 
 }

@@ -29,9 +29,15 @@ export class MessagesPage implements OnInit {
                             this.messages.push(newMessage);
                         });
                     }
-                });
+                }, (error => {
+                    console.log(error);
+                    _databaseService.noConnectionAlert();
+                }));
             }
-        });
+        }, (error => {
+            console.log(error);
+            _databaseService.noConnectionAlert();
+        }));
     }
 
     ngOnInit() {

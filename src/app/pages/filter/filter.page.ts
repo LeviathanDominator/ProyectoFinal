@@ -23,7 +23,10 @@ export class FilterPage implements OnInit {
                 }
                 this.labels.push(newLabel);
             }
-        });
+        }, (error => {
+            console.log(error);
+            _databaseService.noConnectionAlert();
+        }));
     }
 
     ngOnInit() {

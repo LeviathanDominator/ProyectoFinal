@@ -40,6 +40,11 @@ div {
   background-color: dodgerblue;
 }
 
+h4 {
+  margin: auto;
+  text-align: center;
+}
+
 @media screen and (orientation: landscape) {
   div {
     background-size: auto 400%;

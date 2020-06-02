@@ -28,11 +28,17 @@ export class ListsPage implements OnInit {
                     if (user) {
                         this.getUser(user.uid);
                     }
-                });
+                }, (error => {
+                    console.log(error);
+                    _databaseService.noConnectionAlert();
+                }));
             } else {
                 this.getUser(params.id);
             }
-        });
+        }, (error => {
+            console.log(error);
+            _databaseService.noConnectionAlert();
+        }));
     }
 
     private getUser(id: string) {

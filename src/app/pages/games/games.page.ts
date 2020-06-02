@@ -6,7 +6,7 @@ import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
 import {DatabaseService} from '../../services/database.service';
 import {ApiService} from '../../services/api.service';
 import {AuthService} from '../../services/auth.service';
-import {IonInfiniteScroll, IonInfiniteScrollContent, ModalController} from '@ionic/angular';
+import {ModalController} from '@ionic/angular';
 import {SearchPage} from '../search/search.page';
 import {FilterPage} from '../filter/filter.page';
 
@@ -21,6 +21,9 @@ export class GamesPage implements OnInit {
     platforms: Platform[] = [];
     selectedPlatform = 0;
     private page = 1;
+    private maxPages = 50;
+    private controlMaxPages = 0;
+    private noResults = false;
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private _authService: AuthService,
@@ -49,11 +52,11 @@ export class GamesPage implements OnInit {
                 if (data != null) {
                     this.goToGame(data['id']);
                 } else {
+                    this._databaseService.toast('Bar code not found in database.');
                     // this.searchModal(barcodeData.text);
                 }
             });
             console.log('Barcode Data', barcodeData);
-            // this.barcode = barcodeData.text;
         }).catch(error => {
             console.log(error);
         });
@@ -94,6 +97,7 @@ export class GamesPage implements OnInit {
     }
 
     loadGames() {
+        this.noResults = false;
         this.page = 1;
         this.games = [];
         this.getGames();
@@ -102,11 +106,13 @@ export class GamesPage implements OnInit {
     loadMoreGames(event?) {
         setTimeout(() => {
             // if (this.games.length === 20 * this.page) {
-            this.page++;
-            this.getGames();
-            // }
-            if (event) {
-                event.target.complete();
+            if (this.controlMaxPages < this.maxPages) {
+                this.page++;
+                this.getGames();
+                // }
+                if (event) {
+                    event.target.complete();
+                }
             }
         }, 500);
     }
@@ -145,14 +151,18 @@ export class GamesPage implements OnInit {
         }
     }
 
+    // This method filters all shown games for the criteria specified for the user.
+    // It has a limit that prevents the app to be stuck in a loop.
     filterGames() {
         if (this._databaseService.filters) {
             for (const game of this.games) {
                 game.show = this._databaseService.matchesCriteria(game.labels);
             }
         }
-        if (!this.checkIfAnyGameIsShown()) {
+        this.noResults = !this.checkIfAnyGameIsShown();
+        if (!this.checkIfAnyGameIsShown() && this.controlMaxPages < this.maxPages) {
             this.loadMoreGames();
+            this.controlMaxPages++;
         }
     }
 

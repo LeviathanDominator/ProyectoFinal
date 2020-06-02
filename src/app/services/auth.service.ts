@@ -85,19 +85,22 @@ export class AuthService {
     }
 
     private addUserToDatabase(user: User) {
-        console.log(user);
         this.firestore.collection('/users').doc(user.id).set({
             id: user.id,
             name: user.name,
             email: user.email,
             signUpDate: user.signUpDate,
-        }).then(res => console.log(res));
+        }).then(() => this.reloadApp());
     }
 
+    // Logs user out and reloads app to prevent errors.
     logout() {
-        firebase.auth().signOut().then(r => console.log(r));
-        this.user = null;
-        this.currentUser = null;
+        firebase.auth().signOut().then(r => {
+            console.log(r);
+            this.user = null;
+            this.currentUser = null;
+            this.reloadApp();
+        });
     }
 
     // Forces the app to reload to refresh auth changes.

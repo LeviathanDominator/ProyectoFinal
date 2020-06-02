@@ -17,7 +17,9 @@ export class AboutPage implements OnInit {
             for (const label of labels) {
                 this.labels.push(_databaseService.dataToLabel(label));
             }
-        });
+        }, (() => {
+            _databaseService.noConnectionAlert();
+        }));
     }
 
     ngOnInit() {

@@ -34,13 +34,19 @@ export class UserPage implements OnInit {
                         this.user.banner = url;
                     }).catch(() => console.log('No custom avatar set'));
                 }
-            });
+            }, (error => {
+                console.log(error);
+                _databaseService.noConnectionAlert();
+            }));
             this._databaseService.getLists(params.id).subscribe(lists => {
                 this.lists = [];
                 for (const list of lists) {
                     this.lists.push(this._databaseService.dataToList(list));
                 }
-            });
+            }, (error => {
+                console.log(error);
+                _databaseService.noConnectionAlert();
+            }));
         });
     }
 

@@ -43,9 +43,18 @@ export class GamePage implements OnInit {
                             });
                         }
                     }
-                });
-            });
-        });
+                }, (error => {
+                    console.log(error);
+                    _databaseService.noConnectionAlert();
+                }));
+            }, (error => {
+                console.log(error);
+                _databaseService.noConnectionAlert();
+            }));
+        }, (error => {
+            console.log(error);
+            _databaseService.noConnectionAlert();
+        }));
     }
 
     ngOnInit() {

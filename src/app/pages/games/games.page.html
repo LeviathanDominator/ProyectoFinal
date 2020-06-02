@@ -28,6 +28,7 @@
 
 <ion-content color="secondary">
   <div id="container">
+    <h4 *ngIf="noResults">No games have been found with the specified criteria.</h4>
     <ion-infinite-scroll *ngFor="let game of games" threshold="100px" (ionInfinite)="loadMoreGames($event)" >
       <ion-infinite-scroll-content *ngIf="game.show" (click)="goToGame(game.id)"  loadingSpinner="bubbles" loadingText="Loading more games...">
         <div [ngStyle]="{'background-image':'url(' + game.image + ')'}">

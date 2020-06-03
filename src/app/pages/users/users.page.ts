@@ -31,6 +31,12 @@ export class UsersPage implements OnInit {
         }));
     }
 
+    loadMoreUsers(event) {
+            setTimeout(() => {
+                event.target.complete();
+            }, 500);
+    }
+
     // Sorts user by their name.
     private pushAndSort(user: User) {
         this.users.push(user);

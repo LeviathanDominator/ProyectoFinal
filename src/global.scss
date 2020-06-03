@@ -29,18 +29,16 @@
 .gameBackground {
   color: white;
   text-align: center;
-  background-size: auto 100%;
+  background-size: cover;
   background-position: center;
-  background-attachment: fixed;
-  object-fit: cover;
   height: 110vh;
 }
 
 .banner {
   position: relative;
-  height: 25vh;
-  background-position: center;
-  background-size: 120% auto;
+  height: 35vh;
+  background-position: 50% 50%;
+  background-size: cover;
 }
 
 .buttons {

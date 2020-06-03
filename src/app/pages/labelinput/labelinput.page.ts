@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {DatabaseService} from '../../services/database.service';
 import {Label} from '../../models/label.model';
 import {AuthService} from '../../services/auth.service';
-import {ModalController} from "@ionic/angular";
+import {ModalController} from '@ionic/angular';
 
 @Component({
     selector: 'app-labelinput',
@@ -17,9 +17,8 @@ export class LabelinputPage implements OnInit {
 
     constructor(private _databaseService: DatabaseService, private _authService: AuthService,
                 private modalController: ModalController) {
-        this.labels = [];
         _databaseService.getLabelsCollection().subscribe(labels => {
-            console.log(labels);
+            this.labels = [];
             for (let i = 0; i < labels.length; i++) {
                 this.labels.push(new Label(i, labels[i]['name'], labels[i]['description'], labels[i]['descriptionLarge']));
             }

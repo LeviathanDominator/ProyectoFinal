@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="primary">
         <ion-title>Suggesting labels for {{title}}</ion-title>
     </ion-toolbar>
 </ion-header>
@@ -11,6 +11,8 @@
             <ion-checkbox [(ngModel)]="!label.id" name="{{label.id}}" checked="false">
             </ion-checkbox>
         </ion-item>
-        <ion-button type="submit">Submit</ion-button>
+        <div class="buttons">
+            <ion-button type="submit">Submit</ion-button>
+        </div>
     </form>
 </ion-content>

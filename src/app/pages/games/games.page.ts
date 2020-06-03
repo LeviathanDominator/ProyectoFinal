@@ -19,11 +19,11 @@ export class GamesPage implements OnInit {
 
     games: Game[] = [];
     platforms: Platform[] = [];
-    selectedPlatform = 0;
-    private page = 1;
-    private maxPages = 50;
-    private controlMaxPages = 0;
-    private noResults = false;
+    selectedPlatform = '0'; // Needs to be a string in order to get default value.
+    private page = 1; // Number of page to get from API.
+    private maxPages = 50; // Max pages of games loaded without matching criteria.
+    private controlMaxPages = 0; // While it's below maxPages it will keep loading games.
+    private noResults = false; // Shows a message when no results are being displayed.
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private _authService: AuthService,
@@ -36,9 +36,6 @@ export class GamesPage implements OnInit {
             console.log(error);
             _databaseService.noConnectionAlert();
         }));
-        /*_apiService.getDevelopers(1).subscribe(developers => {
-            //console.log(developers['results']);
-        })*/
     }
 
     ngOnInit(): void {
@@ -119,7 +116,7 @@ export class GamesPage implements OnInit {
 
     private getGames() {
         // tslint:disable-next-line:triple-equals
-        if (this.selectedPlatform == 0) {
+        if (this.selectedPlatform == '0') {
             this._apiService.getGames(this.page).subscribe(games => {
                 this.setGames(games.results);
             });

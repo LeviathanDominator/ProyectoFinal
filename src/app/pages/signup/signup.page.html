@@ -13,7 +13,8 @@
             </ion-item>
             <ion-item>
                 <ion-label position="floating">Name</ion-label>
-                <ion-input [(ngModel)]="user.name" type="name" name="name" maxlength="30" required></ion-input>
+                <ion-input [(ngModel)]="user.name" type="name" name="name"
+                           maxlength="{{this._databaseService.nameLength}}" required></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">Password</ion-label>

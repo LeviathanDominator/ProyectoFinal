@@ -8,9 +8,11 @@
 </ion-header>
 
 <ion-content color="dark">
-    <div *ngIf="platform" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
+    <div id="container">
+        <div *ngIf="platform" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
    'rgba(0, 0, 0, 0.7)), url(' + platform.image + ')'}">
-        <p>Number of games: {{platform.gamesCount}}</p>
-        <small *ngIf="platform.gamesCount">{{platform.description}}</small>
+            <h4>Number of games: {{platform.gamesCount}}</h4>
+            <p *ngIf="platform.gamesCount">{{platform.description}}</p>
+        </div>
     </div>
 </ion-content>

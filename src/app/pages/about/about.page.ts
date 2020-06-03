@@ -9,11 +9,12 @@ import {DatabaseService} from '../../services/database.service';
 })
 export class AboutPage implements OnInit {
 
-    labels: Label[] = [];
+    labels: Label[];
 
     // tslint:disable-next-line:variable-name
     constructor(private _databaseService: DatabaseService) {
         this._databaseService.getLabelsCollection().subscribe(labels => {
+            this.labels = [];
             for (const label of labels) {
                 this.labels.push(_databaseService.dataToLabel(label));
             }

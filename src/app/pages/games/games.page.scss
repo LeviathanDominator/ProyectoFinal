@@ -6,9 +6,12 @@ ion-card-content {
 }
 
 div {
-  background-size: 150% auto;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: 50% 20%;
+  background-position: center;
+  border-bottom-style: solid;
+  border-bottom-color: #2a2a2a;
+  border-bottom-width: 1px;
 }
 
 .labels img {
@@ -43,10 +46,4 @@ div {
 h4 {
   margin: auto;
   text-align: center;
-}
-
-@media screen and (orientation: landscape) {
-  div {
-    background-size: auto 400%;
-  }
 }

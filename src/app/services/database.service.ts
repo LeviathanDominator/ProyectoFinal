@@ -16,7 +16,8 @@ import {Filter} from '../models/filter.model';
 })
 export class DatabaseService {
 
-    filters: Filter[];
+    nameLength = 30; // Max length for name input.
+    filters: Filter[]; // Filters for labels.
 
     // tslint:disable-next-line:variable-name
     constructor(private router: Router, private firestore: AngularFirestore, private _authService: AuthService,
@@ -32,10 +33,6 @@ export class DatabaseService {
         return this.firestore.collection('/barcode').doc(barcode).set({
             id
         });
-    }
-
-    getGame(id: number) {
-        return this.firestore.collection('/games').doc(String(id)).valueChanges();
     }
 
     getLabelsCollection() {
@@ -160,6 +157,7 @@ export class DatabaseService {
         return this.firestore.collection('/users').doc(id).collection('messages').valueChanges();
     }
 
+    // Sends a message to the receiver user.
     sendMessage(senderId: string, receiverId: string, messageString: string) {
         const message = new Message(messageString, senderId, receiverId, this.currentTimeAndDate(false));
         console.log(message);
@@ -172,16 +170,19 @@ export class DatabaseService {
         });
     }
 
+    // Deletes a list from the database.
     deleteList(userId: string, list: List) {
         this.firestore.collection('/users').doc(userId).collection('/lists').doc(list.id).delete()
             .then(() => this.toast('List "' + list.name + '" deleted'));
     }
 
+    // Deletes a message from the database.
     deleteMessage(message: Message) {
         this.firestore.collection('/users').doc(message.receiver).collection('/messages').doc(message.id).delete()
             .then(() => this.toast('Message deleted'));
     }
 
+    // Marks a message as read when the user opens it.
     markMessageAsRead(message: Message) {
         return this.firestore.collection('/users').doc(message.receiver).collection('/messages').doc(message.id).set({
             receiverId: message.receiver,
@@ -192,11 +193,12 @@ export class DatabaseService {
         });
     }
 
+    // Turns data into a Message object.
     dataToMessage(data: any) {
         return new Message(data.message, data.senderId, data.receiverId, data.timeAndDate, data.read);
     }
 
-
+    // Gets the current date. If raw is true it returns numbers only.
     currentDate(raw: boolean) {
         const today = new Date();
         const dd = String(today.getDate()).padStart(2, '0');
@@ -205,6 +207,7 @@ export class DatabaseService {
         return raw ? dd + mm + yyyy : dd + '/' + mm + '/' + yyyy;
     }
 
+    // Gets the current time and date. If raw is true it returns numbers only.
     currentTimeAndDate(raw: boolean) {
         const today = new Date();
         const dd = String(today.getDate()).padStart(2, '0');
@@ -215,6 +218,7 @@ export class DatabaseService {
         return raw ? time + dd + mm + yyyy : time + ' ' + dd + '/' + mm + '/' + yyyy;
     }
 
+    // Shows a custom toast.
     async toast(message: string, name?: string) {
         if (!name) {
             name = '';
@@ -227,7 +231,8 @@ export class DatabaseService {
         await toast.present();
     }
 
-    matchesCriteria(labels: Label[]) {
+    // This method checks if the game's labels matches the filters.
+    matchesCriteria(labels: Label[]): boolean {
         if (this.filters) {
             for (const label of labels) {
                 if (this.filters[label.id] === Filter.no) {
@@ -246,6 +251,8 @@ export class DatabaseService {
         }
     }
 
+    // This method checks if a filter (represented as a number) exists in a group of labels.
+    // Returns true the moment it finds it.
     private exist(labels: Label[], i: number) {
         for (const label of labels) {
             if (Number(label.id) === i) {
@@ -255,6 +262,7 @@ export class DatabaseService {
         return false;
     }
 
+    // Shows an alert when no Internet connection is available.
     async noConnectionAlert() {
         const alert = await this.alertController.create({
             header: 'Error',
@@ -270,6 +278,7 @@ export class DatabaseService {
         await alert.present();
     }
 
+    // Shows an alert with specified header and message.
     async customAlert(header: string, message: string) {
         const alert = await this.alertController.create({
             header: 'Error',

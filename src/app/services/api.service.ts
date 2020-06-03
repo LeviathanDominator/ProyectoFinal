@@ -23,7 +23,7 @@ export class ApiService {
         return this.http.get(`${this.url}games?page=${page}`).pipe();
     }
 
-    getGamesByPlatform(platform: number, page: number): Observable<any> {
+    getGamesByPlatform(platform: string, page: number): Observable<any> {
         return this.http.get(`${this.url}games?platforms=${platform}&page=${page}`).pipe();
     }
 
@@ -54,17 +54,5 @@ export class ApiService {
 
     dataToPlatform(data: any) {
         return new Platform(data.id, data.name, data.description, data.image_background, data.games_count);
-    }
-
-    getGenres(page: number) {
-        return this.http.get(`${this.url}genres?page=${page}`).pipe();
-    }
-
-    getGamesCount(genre: number) {
-        return this.http.get(`${this.url}genres/${genre}`).pipe();
-    }
-
-    getDevelopers(page: number) {
-        return this.http.get(`${this.url}developers?page=${page}`).pipe();
     }
 }

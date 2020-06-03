@@ -22,10 +22,9 @@
                 <ion-avatar (click)="setNewAvatar()">
                     <img *ngIf="user.avatar" [src]="user.avatar" alt="{{ user.name }}'s avatar"/>
                 </ion-avatar>
-                <p>{{user.name}}</p>
+                <p>{{user.name}} | {{user.email}}</p>
             </div>
         </div>
-        <p>{{user.email}}</p>
         <p *ngIf="user.signUpDate">Member since: {{user.signUpDate}}</p>
         <p *ngIf="user.description">{{user.description}}</p>
         <div class="buttons">

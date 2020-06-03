@@ -8,10 +8,18 @@
 </ion-header>
 
 <ion-content color="dark">
-    <ion-item *ngFor="let user of users" (click)="goToUser(user.id)" color="dark">
-        <ion-avatar>
-            <img *ngIf="user.avatar" [src]="user.avatar" alt="{{ user.name }}'s avatar"/>
-        </ion-avatar>
-        <p>{{user.name}} | </p><small>{{user.email}}</small>
-    </ion-item>
+    <div id="container">
+        <ion-infinite-scroll *ngFor="let user of users" threshold="100px" (ionInfinite)="loadMoreUsers($event)">
+            <ion-infinite-scroll-content (click)="goToUser(user.id)" loadingSpinner="bubbles"
+                                         loadingText="Loading more users...">
+                <ion-item color="dark">
+                    <ion-avatar>
+                        <img *ngIf="user.avatar" [src]="user.avatar" alt="{{ user.name }}'s avatar"/>
+                    </ion-avatar>
+                    <ion-label>{{user.name}}</ion-label>
+                    <small>{{user.email}}</small>
+                </ion-item>
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
 </ion-content>

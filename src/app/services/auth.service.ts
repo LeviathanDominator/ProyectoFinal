@@ -31,7 +31,6 @@ export class AuthService {
         return new Promise<any>((resolve, reject) => {
             firebase.auth().signInWithEmailAndPassword(value.email, value.password)
                 .then(res => {
-                    console.log('Success: ', res);
                     resolve(res);
                 }, err => {
                     console.log('Error: ', err);
@@ -95,8 +94,7 @@ export class AuthService {
 
     // Logs user out and reloads app to prevent errors.
     logout() {
-        firebase.auth().signOut().then(r => {
-            console.log(r);
+        firebase.auth().signOut().then(() => {
             this.user = null;
             this.currentUser = null;
             this.reloadApp();

@@ -48,7 +48,6 @@ export class ApiService {
     }
 
     dataToGame(data: any) {
-        console.log('Game', data);
         return new Game(data.id, data.name, data.description_raw, data.background_image,
             data.short_screenshots, data.esrb_rating ? data.esrb_rating.name : '', data.developers,
             data.rating, data.stores);

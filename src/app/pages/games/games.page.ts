@@ -1,12 +1,12 @@
 /* tslint:disable:no-string-literal variable-name */
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Game} from '../../models/game.model';
 import {Platform} from '../../models/platform.model';
 import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
 import {DatabaseService} from '../../services/database.service';
 import {ApiService} from '../../services/api.service';
 import {AuthService} from '../../services/auth.service';
-import {ModalController} from '@ionic/angular';
+import {IonInfiniteScroll, ModalController} from '@ionic/angular';
 import {SearchPage} from '../search/search.page';
 import {FilterPage} from '../filter/filter.page';
 
@@ -16,7 +16,7 @@ import {FilterPage} from '../filter/filter.page';
     styleUrls: ['./games.page.scss'],
 })
 export class GamesPage implements OnInit {
-
+    @ViewChild(IonInfiniteScroll, {read: undefined, static: true}) infiniteScroll: IonInfiniteScroll;
     games: Game[] = [];
     platforms: Platform[] = [];
     selectedPlatform = '0'; // Needs to be a string in order to get default value.
@@ -24,6 +24,7 @@ export class GamesPage implements OnInit {
     private maxPages = 50; // Max pages of games loaded without matching criteria.
     private controlMaxPages = 0; // While it's below maxPages it will keep loading games.
     private noResults = false; // Shows a message when no results are being displayed.
+    private controlInfiniteScroll = 0;
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private _authService: AuthService,
@@ -49,12 +50,11 @@ export class GamesPage implements OnInit {
                 if (data != null) {
                     this.goToGame(data['id']);
                 } else {
-                    this._databaseService.toast('Bar code not found in database.');
-                    // this.searchModal(barcodeData.text);
+                    this._databaseService.toast('Game not found in database.');
                 }
             });
-            console.log('Barcode Data', barcodeData);
         }).catch(error => {
+            this._databaseService.toast('There was an error loading the scanner.');
             console.log(error);
         });
     }
@@ -62,18 +62,6 @@ export class GamesPage implements OnInit {
     goToGame(id: number) {
         this._apiService.goToGame(id);
     }
-
-    // Admin barcode
-
-    /*async searchModal(barcode: string) {
-        const modal = await this.modalController.create({
-            component: SearchPage
-        });
-        modal.onDidDismiss().then(game =>
-            this._databaseService.addBarcodeGame(barcode, game.data)
-        );
-        return await modal.present();
-    }*/
 
     async filterModal() {
         const modal = await this.modalController.create({
@@ -102,11 +90,9 @@ export class GamesPage implements OnInit {
 
     loadMoreGames(event?) {
         setTimeout(() => {
-            // if (this.games.length === 20 * this.page) {
             if (this.controlMaxPages < this.maxPages) {
                 this.page++;
                 this.getGames();
-                // }
                 if (event) {
                     event.target.complete();
                 }

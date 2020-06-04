@@ -25,13 +25,13 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-
 .gameBackground {
   color: white;
   text-align: center;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  height: 100vh;
 }
 
 .banner {

@@ -36,13 +36,6 @@ export class DatabaseService {
         return this.firestore.collection('/barcode').doc(barcode).valueChanges();
     }
 
-    addBarcodeGame(barcode: string, id: number) {
-        this.addGame(id);
-        return this.firestore.collection('/barcode').doc(barcode).set({
-            id
-        });
-    }
-
     getLabelsCollection() {
         return this.firestore.collection('/labels').valueChanges();
     }
@@ -82,7 +75,6 @@ export class DatabaseService {
     getAverageLabels(gameId: number) {
         return new Promise(resolve => {
             this.fireSql.query(`SELECT labels FROM suggestions WHERE gameId = ${gameId}`).then(documents => {
-                console.log(documents);
                 // tslint:disable-next-line:triple-equals
                 if (documents.length == 0) {
                     resolve(undefined);
@@ -224,10 +216,6 @@ export class DatabaseService {
         });
     }
 
-    getAdmins() {
-        return this.firestore.collection('/admins').valueChanges();
-    }
-
     getMessages(id: string) {
         return this.firestore.collection('/users').doc(id).collection('messages').valueChanges();
     }
@@ -235,7 +223,6 @@ export class DatabaseService {
     // Sends a message to the receiver user.
     sendMessage(senderId: string, receiverId: string, messageString: string) {
         const message = new Message(messageString, senderId, receiverId, this.currentTimeAndDate(false));
-        console.log(message);
         return this.firestore.collection('/users').doc(message.receiver).collection('/messages').doc(message.id).set({
             receiverId: message.receiver,
             senderId: message.sender,
@@ -339,7 +326,7 @@ export class DatabaseService {
         const loading = await this.loadingController.create({
             cssClass: 'loading',
             message,
-            duration: 1500
+            duration: 500
         });
         await loading.present();
     }

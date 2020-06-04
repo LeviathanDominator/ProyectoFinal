@@ -30,7 +30,7 @@
                 <small *ngIf="this.game.avgCompletion[2]">Completion: {{this.game.avgCompletion[2]}} hours</small>
             </div>
             <p>Available in: </p>
-            <ion-buttons>
+            <ion-buttons class="platforms">
                 <ion-button *ngFor="let platform of game.platforms"
                             (click)="goToPlatform(platform.id)">{{platform.name}}</ion-button>
             </ion-buttons>

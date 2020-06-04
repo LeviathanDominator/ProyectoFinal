@@ -1,49 +1,52 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Games</ion-title>
-    <ion-buttons slot="secondary">
-      <ion-button (click)="scanGame()">
-        <ion-icon slot="icon-only" name="barcode-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="filterModal()">
-        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="searchModal()">
-        <ion-icon slot="icon-only" name="search"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Games</ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="scanGame()">
+                <ion-icon slot="icon-only" name="barcode-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="filterModal()">
+                <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="searchModal()">
+                <ion-icon slot="icon-only" name="search"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-item color="secondary">
-  <ion-label>Platform</ion-label>
-  <ion-select interface="popover"
-              [(ngModel)]="selectedPlatform"
-              (ionChange)="loadGames()">
-    <ion-select-option value="0">All</ion-select-option>
-    <ion-select-option *ngFor="let platform of platforms"
-                       value="{{platform.id}}">{{platform.name}}</ion-select-option>
-  </ion-select>
+    <ion-label>Platform</ion-label>
+    <ion-select interface="popover"
+                [(ngModel)]="selectedPlatform"
+                (ionChange)="loadGames()">
+        <ion-select-option value="0">All</ion-select-option>
+        <ion-select-option *ngFor="let platform of platforms"
+                           value="{{platform.id}}">{{platform.name}}</ion-select-option>
+    </ion-select>
 </ion-item>
 
 <ion-content color="secondary">
-  <div id="container">
-    <h4 *ngIf="noResults">No games have been found with the specified criteria.</h4>
-    <ion-infinite-scroll *ngFor="let game of games" threshold="100px" (ionInfinite)="loadMoreGames($event)" >
-      <ion-infinite-scroll-content *ngIf="game.show" (click)="goToGame(game.id)"  loadingSpinner="bubbles" loadingText="Loading more games...">
-        <div [ngStyle]="{'background-image':'url(' + game.image + ')'}">
-          <h1 class="title">{{game.title}}</h1>
-          <div class="labels">
-            <p class="label" *ngFor="let label of game.labels">{{ label.name }}</p>
-            <ng-container *ngIf="game.labels != undefined">
-              <p *ngIf="game.labels.length == 0">This game has no labels yet</p>
-            </ng-container>
-          </div>
-        </div>
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-  </div>
+    <div id="container">
+        <h4 *ngIf="noResults">No games have been found with the specified criteria.</h4>
+        <ng-container *ngFor="let game of games">
+            <div *ngIf="game.show" (click)="goToGame(game.id)"
+                 [ngStyle]="{'background-image':'url(' + game.image + ')'}">
+                <h1 class="title">{{game.title}}</h1>
+                <div class="labels">
+                    <p class="label" *ngFor="let label of game.labels">{{ label.name }}</p>
+                    <ng-container *ngIf="game.labels != undefined">
+                        <p *ngIf="game.labels.length == 0">This game has no labels yet</p>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreGames($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more games...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
 </ion-content>

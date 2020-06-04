@@ -16,7 +16,7 @@
 
 <ion-content>
     <form #localForm="ngForm">
-        <ion-item *ngFor="let label of labels">
+        <ion-item *ngFor="let label of labels" color="dark">
             <ion-label>{{label.name}}</ion-label>
             <ion-checkbox [(ngModel)]="!label.selectedFilter" name="{{label.id}}">
             </ion-checkbox>

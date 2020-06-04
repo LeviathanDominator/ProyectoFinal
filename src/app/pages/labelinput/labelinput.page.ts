@@ -39,7 +39,6 @@ export class LabelinputPage implements OnInit {
         }
         this._authService.user.subscribe(user => {
             if (user) {
-                console.log('Form', form['value']);
                 this._databaseService.suggestLabel(user.uid, this.id, form['value'])
                     .then(() => {
                         this._databaseService.toast('Your label suggestion has been sent! Thank you!');

@@ -1,18 +1,25 @@
 <ion-header>
     <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button (click)="close()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title>Suggesting labels for {{title}}</ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="setLabel(localForm)">
+                <ion-icon name="checkmark-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <form (ngSubmit)="setLabel(localForm)" #localForm="ngForm">
+    <form #localForm="ngForm">
         <ion-item *ngFor="let label of labels">
             <ion-label>{{label.name}}</ion-label>
-            <ion-checkbox [(ngModel)]="!label.id" name="{{label.id}}" checked="false">
+            <ion-checkbox [(ngModel)]="!label.selectedFilter" name="{{label.id}}">
             </ion-checkbox>
         </ion-item>
-        <div class="buttons">
-            <ion-button type="submit">Submit</ion-button>
-        </div>
     </form>
 </ion-content>

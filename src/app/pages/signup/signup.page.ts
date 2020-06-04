@@ -26,6 +26,9 @@ export class SignupPage implements OnInit {
         if (form.invalid) {
             this._databaseService.toast('All fields are required.');
             return;
+        } else if (this.user.name.length > this._databaseService.nameLength) {
+            this._databaseService.toast('Your name is too long.');
+            return;
         }
         const user = new User();
         user.name = form.value.name;

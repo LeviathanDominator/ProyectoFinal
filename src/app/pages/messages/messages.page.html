@@ -3,7 +3,9 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Your messages</ion-title>
+        <ion-title>Your messages
+            <ng-container *ngIf="numUnreadMessages != 0"> ({{numUnreadMessages}} unread messages)</ng-container>
+        </ion-title>
     </ion-toolbar>
 </ion-header>
 

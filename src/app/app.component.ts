@@ -20,6 +20,7 @@ import {StorageService} from './services/storage.service';
 export class AppComponent {
 
     private user: User;
+    private numUnreadMessages: number;
 
     constructor(
         private platform: Platform,
@@ -40,6 +41,8 @@ export class AppComponent {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
             this.loadUser();
+        }).catch(() => {
+            this._databaseService.noConnectionAlert();
         });
     }
 
@@ -53,6 +56,11 @@ export class AppComponent {
                         this._storageService.getAvatar(this.user.id).then(url => {
                             this.user.avatar = url;
                         }).catch(() => console.log('No avatar.'));
+                        this._databaseService.getMessages(this.user.id).subscribe(messages => {
+                            this.numUnreadMessages = this._databaseService.numUnreadMessages(messages);
+                        }, (() => {
+                            this._databaseService.noConnectionAlert();
+                        }));
                     }
                 });
             }

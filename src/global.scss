@@ -31,7 +31,7 @@
   text-align: center;
   background-size: cover;
   background-position: center;
-  height: 110vh;
+  background-attachment: fixed;
 }
 
 .banner {
@@ -53,3 +53,9 @@
   flex-direction: row;
 }
 
+.loading {
+  --background: #222;
+  --spinner-color: #263379;
+
+  color: #fff;
+}

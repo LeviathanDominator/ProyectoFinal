@@ -31,6 +31,9 @@ export class EditProfilePage implements OnInit {
         if (this.user.name.length == 0) {
           this._databaseService.toast('Name input cannot be empty.');
           return;
+        } else if (this.user.name.length > this._databaseService.nameLength) {
+            this._databaseService.toast('Your name is too long.');
+            return;
         }
         this._databaseService.updateUser(this.user);
         this._databaseService.toast(`Your profile has been updated, ${this.user.name}.`);

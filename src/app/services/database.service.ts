@@ -6,22 +6,30 @@ import {User} from '../models/user.model';
 import {AuthService} from './auth.service';
 import {Router} from '@angular/router';
 import {Message} from '../models/message.model';
-import {AlertController, ToastController} from '@ionic/angular';
+import {AlertController, LoadingController, ToastController} from '@ionic/angular';
 import {List} from '../models/list.model';
 import {Game} from '../models/game.model';
 import {Filter} from '../models/filter.model';
+import {FireSQL} from 'firesql';
+import * as firebase from 'firebase';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DatabaseService {
 
+    private fireSql = new FireSQL(firebase.firestore());
     nameLength = 30; // Max length for name input.
     filters: Filter[]; // Filters for labels.
+    labelsLength; // Number of labels in database.
 
     // tslint:disable-next-line:variable-name
     constructor(private router: Router, private firestore: AngularFirestore, private _authService: AuthService,
-                private toastController: ToastController, private alertController: AlertController) {
+                private toastController: ToastController, private alertController: AlertController,
+                private loadingController: LoadingController) {
+        this.getLabelsCollection().subscribe(labels => {
+            this.labelsLength = labels.length;
+        });
     }
 
     getBarcodeGame(barcode: string) {
@@ -60,9 +68,76 @@ export class DatabaseService {
         return new Label(data.id, data.name, data.description, data.descriptionLarge);
     }
 
-    suggestLabel(userId: string, gameId: number, label: any) {
-        return this.firestore.collection('/suggestions').doc(userId).collection('/games').doc(String(gameId)).set({
-           label
+    // Set a suggestion for the labels of a game with gameId and userId.
+    // It's made this way because collections within collections cannot be used in FireSQL.
+    suggestLabel(userId: string, gameId: number, labels: any) {
+        return this.firestore.collection('/suggestions').doc(String(gameId + userId)).set({
+            labels,
+            gameId
+        });
+    }
+
+    // Uses an SQL statement to get every suggestion voted for every user to calculate average of labels in a game.
+    // If a label has the majority of votes, it will show.
+    getAverageLabels(gameId: number) {
+        return new Promise(resolve => {
+            this.fireSql.query(`SELECT labels FROM suggestions WHERE gameId = ${gameId}`).then(documents => {
+                console.log(documents);
+                // tslint:disable-next-line:triple-equals
+                if (documents.length == 0) {
+                    resolve(undefined);
+                }
+                const result: number[] = [];
+                const labels = new Array<number>(this.labelsLength);
+                for (let i = 0; i < labels.length; i++) {
+                    labels[i] = 0;
+                }
+                const size = documents.length;
+                for (const document of documents) {
+                    const data = document['labels'];
+                    for (let i = 0; i < Object.keys(data).length; i++) {
+                        if (data[i]) {
+                            labels[i]++;
+                        }
+                    }
+                }
+                for (let i = 0; i < labels.length; i++) {
+                    if (labels[i] >= size / 2) {
+                        result.push(i);
+                    }
+                }
+                resolve(result);
+            }).catch(() => {
+                resolve(undefined);
+            });
+        });
+    }
+
+
+    getAverageLabelsData(game: Game) {
+        this.getAverageLabels(game.id).then(suggestions => {
+            if (suggestions) {
+                for (const suggestion of Object.keys(suggestions)) {
+                    this.getLabel(suggestions[suggestion]).subscribe(label => {
+                        if (game.labels) {
+                            game.labels.push(this.dataToLabel(label));
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    // Sort label by id.
+    sortLabels(labels: Label[]) {
+        labels.sort((a, b) => {
+            if (a.id > b.id) {
+                return 1;
+            }
+            if (a.id < b.id) {
+                return -1;
+            }
+            return 0;
         });
     }
 
@@ -193,6 +268,17 @@ export class DatabaseService {
         });
     }
 
+    // Checks how many messages from logged user has not been red yet.
+    numUnreadMessages(messages: any) {
+        let numMessages = 0;
+        for (const message of messages) {
+            if (!message['read']) {
+                numMessages++;
+            }
+        }
+        return numMessages;
+    }
+
     // Turns data into a Message object.
     dataToMessage(data: any) {
         return new Message(data.message, data.senderId, data.receiverId, data.timeAndDate, data.read);
@@ -216,19 +302,6 @@ export class DatabaseService {
         const time = raw ? today.getHours() + today.getMinutes() + today.getSeconds()
             : today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
         return raw ? time + dd + mm + yyyy : time + ' ' + dd + '/' + mm + '/' + yyyy;
-    }
-
-    // Shows a custom toast.
-    async toast(message: string, name?: string) {
-        if (!name) {
-            name = '';
-        }
-        const toast = await this.toastController.create({
-            message: name + message,
-            duration: 2000,
-            position: 'bottom'
-        });
-        await toast.present();
     }
 
     // This method checks if the game's labels matches the filters.
@@ -262,6 +335,28 @@ export class DatabaseService {
         return false;
     }
 
+    async presentLoading(message: string) {
+        const loading = await this.loadingController.create({
+            cssClass: 'loading',
+            message,
+            duration: 1500
+        });
+        await loading.present();
+    }
+
+    // Shows a custom toast.
+    async toast(message: string, name?: string) {
+        if (!name) {
+            name = '';
+        }
+        const toast = await this.toastController.create({
+            message: name + message,
+            duration: 2000,
+            position: 'bottom'
+        });
+        await toast.present();
+    }
+
     // Shows an alert when no Internet connection is available.
     async noConnectionAlert() {
         const alert = await this.alertController.create({
@@ -293,4 +388,5 @@ export class DatabaseService {
         });
         await alert.present();
     }
+
 }

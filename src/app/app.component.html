@@ -18,6 +18,7 @@
             <ion-button color="secondary" *ngIf="_authService.user | async" [routerLink]="['/profile']">Profile
             </ion-button>
             <ion-button color="secondary" *ngIf="_authService.user | async" [routerLink]="['/messages']">Messages
+                <ion-badge *ngIf="numUnreadMessages" color="danger">{{numUnreadMessages}}</ion-badge>
             </ion-button>
             <ion-button color="secondary" *ngIf="(_authService.user | async) && _authService.user"
                         [routerLink]="['/lists/0']">My lists

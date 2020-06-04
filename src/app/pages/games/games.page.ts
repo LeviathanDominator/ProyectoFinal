@@ -134,12 +134,16 @@ export class GamesPage implements OnInit {
                 newGame.labels = [];
                 if (labels === undefined) {
                     console.log('Game not found in database');
-                    // _databaseService.addGame(this.game.id);
+                    this._databaseService.getAverageLabelsData(newGame);
                 } else {
-                    for (const labelData of labels['labels']) {
-                        this._databaseService.getLabel(labelData).subscribe(label => {
-                            newGame.labels.push(this._databaseService.dataToLabel(label));
-                        });
+                    if (labels['labels']) {
+                        for (const labelData of labels['labels']) {
+                            this._databaseService.getLabel(labelData).subscribe(label => {
+                                newGame.labels.push(this._databaseService.dataToLabel(label));
+                            });
+                        }
+                    } else {
+                        this._databaseService.getAverageLabelsData(newGame);
                     }
                 }
             });

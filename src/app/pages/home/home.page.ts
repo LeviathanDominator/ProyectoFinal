@@ -23,7 +23,7 @@ export class HomePage implements OnInit {
         _authService.user.subscribe(user => {
             if (user) {
                 _databaseService.getMessages(user['uid']).subscribe(messages => {
-                    this.numUnreadMessages = this.unreadMessages(messages);
+                    this.numUnreadMessages = this._databaseService.numUnreadMessages(messages);
                 }, (() => {
                     _databaseService.noConnectionAlert();
                 }));
@@ -45,37 +45,7 @@ export class HomePage implements OnInit {
         });
     }
 
-    private unreadMessages(messages: any) {
-        let numMessages = 0;
-        for (const message of messages) {
-            if (!message['read']) {
-                numMessages++;
-            }
-        }
-        return numMessages;
-    }
-
     ngOnInit(): void {
-    }
-
-
-    isAdmin(): Observable<boolean> {
-        return new Observable<boolean>((subscriber: Subscriber<boolean>) => {
-            this._authService.user.subscribe(user => {
-                this._databaseService.getAdmins().subscribe(admins => {
-                    subscriber.next(false);
-                    if (user) {
-                        for (const admin of admins) {
-                            console.log(admin['id'], user['uid']);
-                            if (admin['id'] === user['uid']) {
-                                subscriber.next(true);
-                            }
-                        }
-                    }
-                    return subscriber.complete();
-                });
-            });
-        });
     }
 
     async goToSignUp() {

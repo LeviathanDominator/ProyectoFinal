@@ -16,9 +16,13 @@
     <div id="container">
         <div *ngIf="game" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
    'rgba(0, 0, 0, 0.7)), url(' + game.image + ')'}">
+            <p *ngIf="game.developers">Developed by: {{game.developers}}</p>
             <small>{{game.description}}</small>
             <small *ngIf="game.dlcDescription">{{game.dlcDescription}}</small>
-            <p>ESRB Rating: {{game.esrb}}</p>
+            <div class="ratings">
+                <p *ngIf="game.ratings">Rating: {{game.ratings}} / 5</p>
+                <p *ngIf="game.esrb">ESRB Rating: {{game.esrb}}</p>
+            </div>
             <div *ngIf="this.game.avgCompletion">
                 <p>Average completion time</p>
                 <small *ngIf="this.game.avgCompletion[0]">Main story: {{this.game.avgCompletion[0]}} hours</small>
@@ -45,6 +49,10 @@
                     button below!</p>
                 <ion-button (click)="goToLabelInput()">Press here to change labels</ion-button>
             </ng-container>
+            <p *ngIf="game.stores">Where to buy {{game.title}}:</p>
+            <div class="stores">
+                <a [href]="store.url" *ngFor="let store of this.game.stores">{{store.name}}</a>
+            </div>
         </div>
     </div>
 </ion-content>

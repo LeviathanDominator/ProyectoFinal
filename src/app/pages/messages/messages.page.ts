@@ -14,16 +14,21 @@ import {MessagePage} from '../message/message.page';
 export class MessagesPage implements OnInit {
 
     messages: Message[] = [];
+    numUnreadMessages = 0;
 
     constructor(private _authService: AuthService, private _databaseService: DatabaseService,
                 private modalController: ModalController) {
         this._authService.user.subscribe(user => {
             if (user) {
                 this._databaseService.getMessages(user.uid).subscribe(messages => {
-                  this.messages = [];
-                  for (const message of messages) {
+                    this.messages = [];
+                    this.numUnreadMessages = 0;
+                    for (const message of messages) {
                         console.log(message);
                         const newMessage = _databaseService.dataToMessage(message);
+                        if (!newMessage.read) {
+                            this.numUnreadMessages++;
+                        }
                         this._databaseService.getUser(newMessage.sender).subscribe(sender => {
                             newMessage.senderName = sender['name'];
                             this.messages.push(newMessage);

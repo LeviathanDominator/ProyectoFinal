@@ -19,9 +19,10 @@ export class LabelinputPage implements OnInit {
                 private modalController: ModalController) {
         _databaseService.getLabelsCollection().subscribe(labels => {
             this.labels = [];
-            for (let i = 0; i < labels.length; i++) {
-                this.labels.push(new Label(i, labels[i]['name'], labels[i]['description'], labels[i]['descriptionLarge']));
+            for (const label of labels) {
+                this.labels.push(this._databaseService.dataToLabel(label));
             }
+            this._databaseService.sortLabels(this.labels);
         }, (error => {
             console.log(error);
             _databaseService.noConnectionAlert();
@@ -32,15 +33,29 @@ export class LabelinputPage implements OnInit {
     }
 
     setLabel(form: any) {
+        if (this.checkIfAllAreFalse(form['value'])) {
+            this._databaseService.toast('You need to check at least one label.');
+            return;
+        }
         this._authService.user.subscribe(user => {
             if (user) {
+                console.log('Form', form['value']);
                 this._databaseService.suggestLabel(user.uid, this.id, form['value'])
                     .then(() => {
-                        this._databaseService.toast('Thank you for sending your suggestions! An admin will check them out soon.');
+                        this._databaseService.toast('Your label suggestion has been sent! Thank you!');
                         this.close();
                     });
             }
         });
+    }
+
+    private checkIfAllAreFalse(labels: any) {
+        for (const label of Object.keys(labels)) {
+            if (labels[label]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     close() {

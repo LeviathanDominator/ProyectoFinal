@@ -1,4 +1,10 @@
 export class Platform {
+    id: number;
+    name: string;
+    description: string;
+    image: string;
+    gamesCount: number;
+
     constructor(id: number, name: string, description?: string, image?: string, gamesCount?: number) {
         this.id = id;
         this.name = name;
@@ -7,14 +13,9 @@ export class Platform {
         this.gamesCount = gamesCount;
     }
 
-    id: number;
-    name: string;
-    description: string;
-    image: string;
-    gamesCount: number;
-
     // Removes unnecessary HTML code.
     private removeTags(text: string) {
+        // tslint:disable-next-line:triple-equals
         if (text == undefined) {
             return '';
         }

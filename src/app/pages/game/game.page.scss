@@ -2,6 +2,10 @@
   margin: 0;
 }
 
+#container > * {
+  padding: .5em;
+}
+
 h1, h2 {
   padding-top: 1.5em;
   padding-bottom: 1.5em;
@@ -9,7 +13,7 @@ h1, h2 {
 
 small {
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -40,6 +44,36 @@ ion-buttons {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+}
+
+ion-button {
+  margin-bottom: 1em;
+}
+
+.ratings {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-around;
+}
+
+.stores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+a {
+  background-color: #263379;
+  border: none;
+  color: white;
+  padding: 1em;
+  margin: .5em;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 2px 2px black;
+  display: inline-block;
+  border-radius: 2em;
+  font-size: 16px;
 }
 
 @media screen and (orientation: landscape) {

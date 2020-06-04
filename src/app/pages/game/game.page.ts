@@ -33,14 +33,18 @@ export class GamePage implements OnInit {
                     this.game.labels = [];
                     if (labels === undefined) {
                         console.log('Game not found in database');
-                        // _databaseService.addGame(this.game.id);
+                        this._databaseService.getAverageLabelsData(this.game);
                     } else {
                         this.game.dlcDescription = labels['description'];
                         this.game.avgCompletion = labels['avgCompletion'];
-                        for (const labelData of labels['labels']) {
-                            _databaseService.getLabel(labelData).subscribe(label => {
-                                this.game.labels.push(_databaseService.dataToLabel(label));
-                            });
+                        if (labels['labels']) {
+                            for (const labelData of labels['labels']) {
+                                _databaseService.getLabel(labelData).subscribe(label => {
+                                    this.game.labels.push(_databaseService.dataToLabel(label));
+                                });
+                            }
+                        } else {
+                            this._databaseService.getAverageLabelsData(this.game);
                         }
                     }
                 }, (error => {
@@ -61,6 +65,7 @@ export class GamePage implements OnInit {
     }
 
     async goToLabelInput() {
+        this._databaseService.presentLoading('Loading labels...');
         const modal = await this.modalController.create({
             component: LabelinputPage,
             componentProps: {

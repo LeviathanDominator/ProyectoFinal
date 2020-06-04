@@ -21,8 +21,7 @@
         <ng-container *ngIf="edit">
             <ion-reorder-group *ngIf="this._authService.user | async"
                     (ionItemReorder)="reorderItems($event)" disabled="{{!this.moveItem}}">
-                <div class="game" *ngFor="let game of games; let i = index"
-                     [ngStyle]="{'background-image':'url(' + game['image'] + ')'}">
+                <div class="game" *ngFor="let game of games; let i = index" [ngStyle]="{'background-image':'url(' + game['image'] + ')'}">
                     <ion-reorder slot="start"></ion-reorder>
                     <p (click)="goToGame(game)">{{i + 1}} - {{game.title}}</p>
                     <ion-button (click)="deleteGame(game.id)">

@@ -1,22 +1,27 @@
 <ion-header>
     <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button (click)="close()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title>Sign up</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="dark">
     <div id="container">
         <form (ngSubmit)="signup(localForm)" #localForm="ngForm">
-            <ion-item>
+            <ion-item color="dark">
                 <ion-label position="floating">Email</ion-label>
                 <ion-input [(ngModel)]="user.email" type="email" name="email" required></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item color="dark">
                 <ion-label position="floating">Name</ion-label>
                 <ion-input [(ngModel)]="user.name" type="name" name="name"
                            maxlength="{{this._databaseService.nameLength}}" required></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item color="dark">
                 <ion-label position="floating">Password</ion-label>
                 <ion-input [(ngModel)]="password" type="password" name="password" required></ion-input>
             </ion-item>

@@ -42,29 +42,4 @@ export class SearchPage implements OnInit {
         this._apiService.goToGame(game.id);
     }
 
-    /*// TODO ONLY ADMIN SHOULD DO THIS
-    async returnId(game: any) {
-        const id: number = game.id;
-        const alert = await this.alertController.create({
-            header: 'Adding game',
-            message: 'Add ' + game.name + ' to barcode database?',
-            buttons: [
-                {
-                    text: 'No',
-                    role: 'cancel',
-                    cssClass: 'secondary',
-                    handler: () => {
-                        console.log('Cancel');
-                    }
-                }, {
-                    text: 'Yes',
-                    handler: () => {
-                        this.modalCtrl.dismiss(id).then(() => console.log(game.name + ' added to database.'));
-                    }
-                }
-            ]
-        });
-        await alert.present();
-    }*/
-
 }

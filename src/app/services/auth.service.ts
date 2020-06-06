@@ -23,7 +23,8 @@ export class AuthService {
 
 
 
-    constructor(private firebaseAuth: AngularFireAuth, private firestore: AngularFirestore, private alertController: AlertController) {
+    constructor(private firebaseAuth: AngularFireAuth, private firestore: AngularFirestore,
+                private alertController: AlertController) {
         this.user = this.firebaseAuth.authState;
     }
 
@@ -45,7 +46,6 @@ export class AuthService {
             firebase.auth().createUserWithEmailAndPassword(user.email, password)
                 .then(res => {
                     user.id = res.user.uid;
-                    this.addUserToDatabase(user);
                     resolve(res);
                 }, err => {
                     this.alert('Error signing up', err.message, true);
@@ -62,6 +62,20 @@ export class AuthService {
         });
 
         await alert.present();
+    }
+
+    // Logs user out and reloads app to prevent errors.
+    logout() {
+        firebase.auth().signOut().then(() => {
+            this.user = null;
+            this.currentUser = null;
+            this.reloadApp();
+        });
+    }
+
+    // Forces the app to reload to refresh auth changes.
+    reloadApp() {
+        document.location.href = 'index.html';
     }
 
     errorMessage(error: string) {
@@ -81,28 +95,5 @@ export class AuthService {
             default:
                 return error;
         }
-    }
-
-    private addUserToDatabase(user: User) {
-        this.firestore.collection('/users').doc(user.id).set({
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            signUpDate: user.signUpDate,
-        }).then(() => this.reloadApp());
-    }
-
-    // Logs user out and reloads app to prevent errors.
-    logout() {
-        firebase.auth().signOut().then(() => {
-            this.user = null;
-            this.currentUser = null;
-            this.reloadApp();
-        });
-    }
-
-    // Forces the app to reload to refresh auth changes.
-    reloadApp() {
-        document.location.href = 'index.html';
     }
 }

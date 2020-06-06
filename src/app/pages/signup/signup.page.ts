@@ -34,7 +34,13 @@ export class SignupPage implements OnInit {
         user.name = form.value.name;
         user.email = form.value.email;
         user.signUpDate = this._databaseService.currentDate(false);
-        this._authService.register(user, form.value.password).catch(r => console.log(r));
+        this._authService.register(user, form.value.password).then(data => {
+            user.id = data.user.uid;
+            this._databaseService.addUserToDatabase(user).then(() => {
+                this.close();
+                this._authService.reloadApp();
+            });
+        });
     }
 
     close() {

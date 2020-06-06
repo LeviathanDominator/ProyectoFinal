@@ -9,6 +9,7 @@ import {LabelinputPage} from '../labelinput/labelinput.page';
 import {Platform} from '../../models/platform.model';
 import {AuthService} from '../../services/auth.service';
 import {AddToListPage} from '../add-to-list/add-to-list.page';
+import {ScreenshotPage} from '../screenshot/screenshot.page';
 
 @Component({
     selector: 'app-game',
@@ -25,7 +26,9 @@ export class GamePage implements OnInit {
         this.activatedRoute.params.subscribe(params => {
             console.log(params.id);
             this._apiService.getGame(params.id).subscribe(game => {
+                console.log(game);
                 this.game = _apiService.dataToGame(game);
+                console.log(this.game);
                 for (const platform of game.platforms) {
                     this.game.platforms.push(new Platform(platform.platform.id, platform.platform.name));
                 }
@@ -51,6 +54,11 @@ export class GamePage implements OnInit {
                     console.log(error);
                     _databaseService.noConnectionAlert();
                 }));
+                _apiService.getScreenshots(this.game.id).subscribe(screenshots => {
+                    if (screenshots) {
+                        this.game.screenshots = _apiService.dataToScreenshots(screenshots);
+                    }
+                });
             }, (error => {
                 console.log(error);
                 _databaseService.noConnectionAlert();
@@ -85,6 +93,17 @@ export class GamePage implements OnInit {
             component: AddToListPage,
             componentProps: {
                 game: this.game
+            }
+        });
+        return await modal.present();
+    }
+
+    async openScreenshot(screenshot: string, i: number) {
+        const modal = await this.modalController.create({
+            component: ScreenshotPage,
+            componentProps: {
+                title: this.game.title + ` #${i+1}`,
+                screenshot,
             }
         });
         return await modal.present();

@@ -33,7 +33,7 @@
     <div id="container">
         <h4 *ngIf="noResults">No games have been found with the specified criteria.</h4>
         <ng-container *ngFor="let game of games">
-            <div *ngIf="game.show" (click)="goToGame(game.id)"
+            <div class="gameBox" *ngIf="game.show" (click)="goToGame(game.id)"
                  [ngStyle]="{'background-image':'url(' + game.image + ')'}">
                 <h1 class="title">{{game.title}}</h1>
                 <div class="labels">

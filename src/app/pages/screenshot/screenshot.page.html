@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button (click)="close()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>{{title}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+    <div id="container">
+        <ion-img [src]="screenshot" [alt]="title"></ion-img>
+    </div>
+</ion-content>

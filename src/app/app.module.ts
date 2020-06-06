@@ -2,14 +2,16 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouteReuseStrategy} from '@angular/router';
 
-import {IonicModule, IonicRouteStrategy, IonInfiniteScroll, IonInfiniteScrollContent} from '@ionic/angular';
+import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
+import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
-import {StatusBar} from '@ionic-native/status-bar/ngx';
+import {ImagePicker} from '@ionic-native/image-picker/ngx';
 
+import {Camera} from '@ionic-native/camera/ngx';
+import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
@@ -25,8 +27,7 @@ import {MessagePageModule} from './pages/message/message.module';
 import {ListPageModule} from './pages/list/list.module';
 import {AddToListPageModule} from './pages/add-to-list/add-to-list.module';
 import {EditProfilePageModule} from './pages/edit-profile/edit-profile.module';
-import {ImagePicker} from '@ionic-native/image-picker/ngx';
-import {Camera} from '@ionic-native/camera/ngx';
+import {ScreenshotPageModule} from './pages/screenshot/screenshot.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -35,7 +36,7 @@ import {Camera} from '@ionic-native/camera/ngx';
         AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule,
         AngularFireAuthModule, SearchPageModule, FilterPageModule, LoginPageModule, SignupPageModule,
         LabelinputPageModule, ListPageModule, NewListPageModule, AddToListPageModule, MessagePageModule,
-        SendMessagePageModule, EditProfilePageModule],
+        SendMessagePageModule, EditProfilePageModule, ScreenshotPageModule],
     providers: [
         StatusBar,
         SplashScreen,

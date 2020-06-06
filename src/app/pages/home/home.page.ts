@@ -28,7 +28,9 @@ export class HomePage implements OnInit {
                     _databaseService.noConnectionAlert();
                 }));
                 _databaseService.getUser(user['uid']).subscribe(userData => {
-                    this.user = this._databaseService.dataToUser(userData);
+                    if (userData) {
+                        this.user = this._databaseService.dataToUser(userData);
+                    }
                 }, (() => {
                     _databaseService.noConnectionAlert();
                 }));

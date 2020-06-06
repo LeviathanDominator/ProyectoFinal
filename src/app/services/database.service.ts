@@ -44,15 +44,6 @@ export class DatabaseService {
         return this.firestore.collection('/games').doc(String(id)).valueChanges();
     }
 
-    addGame(id: number) {
-        const labels = [];
-        const description = '';
-        return this.firestore.collection('/games').doc(String(id)).set({
-            labels,
-            description,
-        });
-    }
-
     getLabel(id: number) {
         return this.firestore.collection('/labels').doc(String(id)).valueChanges();
     }
@@ -206,7 +197,20 @@ export class DatabaseService {
         return user;
     }
 
+    addUserToDatabase(user: User) {
+        return this.firestore.collection('/users').doc(user.id).set({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            signUpDate: user.signUpDate,
+        });
+    }
+
     updateUser(user: User) {
+        // tslint:disable-next-line:triple-equals
+        if (user.description == undefined ) {
+            user.description = '';
+        }
         this.firestore.collection('/users').doc(user.id).set({
             id: user.id,
             name: user.name,

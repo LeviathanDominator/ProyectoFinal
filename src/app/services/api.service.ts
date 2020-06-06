@@ -19,6 +19,18 @@ export class ApiService {
         return this.http.get(`${this.url}games/${id}`).pipe();
     }
 
+    getScreenshots(id: number): Observable<any> {
+        return this.http.get(`${this.url}games/${id}/screenshots`).pipe();
+    }
+
+    dataToScreenshots(screenshotsData: any) {
+        const screenshots = [];
+        for (const screenshot of screenshotsData.results) {
+            screenshots.push(screenshot.image);
+        }
+        return screenshots;
+    }
+
     getGames(page: number): Observable<any> {
         return this.http.get(`${this.url}games?page=${page}`).pipe();
     }
@@ -35,6 +47,16 @@ export class ApiService {
         this.router.navigate(['/game', id]);
     }
 
+    dataToGame(data: any) {
+        return new Game(data.id, data.name, data.description_raw, data.background_image,
+            data.short_screenshots, data.esrb_rating ? data.esrb_rating.name : '', data.developers,
+            data.rating, data.stores);
+    }
+
+    dataToPlatform(data: any) {
+        return new Platform(data.id, data.name, data.description, data.image_background, data.games_count);
+    }
+
     getPlatforms() {
         return this.http.get(`${this.url}platforms`).pipe();
     }
@@ -45,15 +67,5 @@ export class ApiService {
 
     goToPlatform(id: number) {
         this.router.navigate(['/platform', id]);
-    }
-
-    dataToGame(data: any) {
-        return new Game(data.id, data.name, data.description_raw, data.background_image,
-            data.short_screenshots, data.esrb_rating ? data.esrb_rating.name : '', data.developers,
-            data.rating, data.stores);
-    }
-
-    dataToPlatform(data: any) {
-        return new Platform(data.id, data.name, data.description, data.image_background, data.games_count);
     }
 }

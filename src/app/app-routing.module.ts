@@ -89,6 +89,10 @@ const routes: Routes = [
   {
     path: 'edit-profile',
     loadChildren: () => import('./pages/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
+  },
+  {
+    path: 'screenshot',
+    loadChildren: () => import('./pages/screenshot/screenshot.module').then( m => m.ScreenshotPageModule)
   }
 
 

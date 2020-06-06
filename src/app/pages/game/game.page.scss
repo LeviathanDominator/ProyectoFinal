@@ -6,7 +6,7 @@
   padding: .5em;
 }
 
-h1, h2 {
+h1 {
   padding-top: 1em;
   padding-bottom: 1em;
 }
@@ -64,10 +64,18 @@ ion-button {
   justify-content: space-around;
 }
 
-.stores {
+.stores, .screenshots {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.screenshots > ion-img {
+  margin: .4em;
+  border-style: solid;
+  border-width: .1em;
+  border-color: var(--ion-color-primary);
+  width: 45%;
 }
 
 a {
@@ -87,5 +95,9 @@ a {
 @media screen and (orientation: landscape) {
   .labels {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .screenshots > ion-img {
+    width: 30%;
   }
 }

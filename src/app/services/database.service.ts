@@ -151,12 +151,16 @@ export class DatabaseService {
         }
     }
 
-    newList(userId: string, name: string) {
+    newList(userId: string, name: string, gameId?: number) {
         const id = this.currentTimeAndDate(true);
+        const games: number[] = [];
+        if (gameId) {
+            games.push(gameId);
+        }
         return this.firestore.collection('/users').doc(userId).collection('/lists').doc(id).set({
             id,
             name,
-            games: []
+            games
         });
     }
 

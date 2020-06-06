@@ -49,8 +49,14 @@
   position: absolute;
   bottom: 1em;
   left: 1em;
+  right: 1em;
   display: flex;
   flex-direction: row;
+}
+
+.avatarAndUsername > ion-avatar {
+  width: 64px;
+  min-width: 64px;
 }
 
 .loading {

@@ -1,9 +1,24 @@
 <ion-header>
     <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button (click)="close()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title *ngIf="game">Adding {{game.title}} to a list</ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="addList()">
+                <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content color="dark">
     <ion-item *ngFor="let list of lists" (click)="addGameToList(list)" color="dark">{{list.name}}</ion-item>
+    <ng-container *ngIf="lists">
+        <ion-item *ngIf="lists.length == 0" color="dark">
+            <ion-label>You have not created any list yet.</ion-label>
+        </ion-item>
+    </ng-container>
 </ion-content>

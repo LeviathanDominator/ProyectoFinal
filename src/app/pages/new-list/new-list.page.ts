@@ -2,7 +2,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DatabaseService} from '../../services/database.service';
 import {AuthService} from '../../services/auth.service';
-import {ModalController} from '@ionic/angular';
+import {ModalController, NavParams} from '@ionic/angular';
 
 @Component({
     selector: 'app-new-list',
@@ -13,10 +13,18 @@ export class NewListPage implements OnInit {
 
     name: string;
     userId: string;
+    gameId: number;
+    gameTitle: string;
 
     constructor(private _databaseService: DatabaseService, private _authService: AuthService,
-                private modalController: ModalController) {
+                private modalController: ModalController, private navParams: NavParams) {
         this.name = '';
+        if (this.navParams.get('gameId')) {
+            this.gameId = this.navParams.get('gameId');
+        }
+        if (this.navParams.get('gameTitle')) {
+            this.gameTitle = this.navParams.get('gameTitle');
+        }
         _authService.user.subscribe(user => {
             this.userId = user.uid;
         }, (error => {
@@ -34,7 +42,7 @@ export class NewListPage implements OnInit {
             this._databaseService.toast('You must input a name for the list.');
             return;
         }
-        this._databaseService.newList(this.userId, this.name).then(() => this.close());
+        this._databaseService.newList(this.userId, this.name, this.gameId).then(() => this.close());
     }
 
     close() {

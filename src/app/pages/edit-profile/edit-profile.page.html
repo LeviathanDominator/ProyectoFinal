@@ -16,6 +16,18 @@
                 <ion-label position="floating">Description</ion-label>
                 <ion-input [(ngModel)]="user.description" type="text" name="description" maxlength="200"></ion-input>
             </ion-item>
+            <ion-item color="dark">
+                <ion-label position="floating">Steam ID</ion-label>
+                <ion-input [(ngModel)]="user.steam" type="text" name="steam" maxlength="30"></ion-input>
+            </ion-item>
+            <ion-item color="dark">
+                <ion-label position="floating">PlayStation ID</ion-label>
+                <ion-input [(ngModel)]="user.playstation" type="text" name="playstation" maxlength="30"></ion-input>
+            </ion-item>
+            <ion-item color="dark">
+                <ion-label position="floating">Xbox Gamertag</ion-label>
+                <ion-input [(ngModel)]="user.xbox" type="text" name="xbox" maxlength="30"></ion-input>
+            </ion-item>
             <div class="buttons">
                 <ion-button type="submit">Update profile</ion-button>
             </div>

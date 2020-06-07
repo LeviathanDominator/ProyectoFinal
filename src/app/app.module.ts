@@ -28,6 +28,7 @@ import {ListPageModule} from './pages/list/list.module';
 import {AddToListPageModule} from './pages/add-to-list/add-to-list.module';
 import {EditProfilePageModule} from './pages/edit-profile/edit-profile.module';
 import {ScreenshotPageModule} from './pages/screenshot/screenshot.module';
+import {GooglePlus} from '@ionic-native/google-plus/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -43,6 +44,7 @@ import {ScreenshotPageModule} from './pages/screenshot/screenshot.module';
         BarcodeScanner,
         ImagePicker,
         Camera,
+        GooglePlus,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]

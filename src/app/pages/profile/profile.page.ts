@@ -7,8 +7,7 @@ import {ModalController, NavController} from '@ionic/angular';
 import {Camera} from '@ionic-native/camera/ngx';
 import {StorageService} from '../../services/storage.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {ListPage} from '../list/list.page';
-import {EditProfilePage} from "../edit-profile/edit-profile.page";
+import {EditProfilePage} from '../edit-profile/edit-profile.page';
 
 @Component({
     selector: 'app-profile',

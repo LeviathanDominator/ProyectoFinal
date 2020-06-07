@@ -19,10 +19,8 @@ export class NewListPage implements OnInit {
     constructor(private _databaseService: DatabaseService, private _authService: AuthService,
                 private modalController: ModalController, private navParams: NavParams) {
         this.name = '';
-        if (this.navParams.get('gameId')) {
+        if (this.navParams.get('gameId') && this.navParams.get('gameTitle')) {
             this.gameId = this.navParams.get('gameId');
-        }
-        if (this.navParams.get('gameTitle')) {
             this.gameTitle = this.navParams.get('gameTitle');
         }
         _authService.user.subscribe(user => {

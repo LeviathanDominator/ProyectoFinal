@@ -27,6 +27,18 @@
         </div>
         <p *ngIf="user.signUpDate">Member since: {{user.signUpDate}}</p>
         <p *ngIf="user.description">{{user.description}}</p>
+        <ng-container *ngIf="user.steam">
+            <p *ngIf="user.steam.length != 0"><ion-icon name="logo-steam"></ion-icon> <a
+                    href="https://steamcommunity.com/id/{{user.steam}}">{{user.steam}}</a></p>
+        </ng-container>
+        <ng-container *ngIf="user.playstation">
+            <p *ngIf="user.playstation.length != 0"><ion-icon name="logo-playstation"></ion-icon> <a
+                    href="https://my.playstation.com/profile/{{user.playstation}}">{{user.playstation}}</a></p>
+        </ng-container>
+        <ng-container *ngIf="user.xbox">
+            <p *ngIf="user.xbox.length != 0"><ion-icon name="logo-xbox"></ion-icon> <a
+                    href="http://live.xbox.com/Profile?Gamertag={{user.xbox}}">{{user.xbox}}</a></p>
+        </ng-container>
         <div class="buttons">
             <ion-button [routerLink]="['/lists/' + user.id]">Lists of {{user.name}}</ion-button>
         </div>

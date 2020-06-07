@@ -4,7 +4,8 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import * as firebase from 'firebase';
 import {User} from '../models/user.model';
-import {AlertController} from '@ionic/angular';
+import {AlertController, Platform} from '@ionic/angular';
+import {GooglePlus} from '@ionic-native/google-plus/ngx';
 
 @Injectable({
     providedIn: 'root'
@@ -21,10 +22,8 @@ export class AuthService {
         }
     });
 
-
-
     constructor(private firebaseAuth: AngularFireAuth, private firestore: AngularFirestore,
-                private alertController: AlertController) {
+                private alertController: AlertController, private platform: Platform, private googlePlus: GooglePlus) {
         this.user = this.firebaseAuth.authState;
     }
 
@@ -39,6 +38,24 @@ export class AuthService {
                     reject(err);
                 });
         });
+    }
+
+    loginGoogle() {
+        return this.platform.is('android') ? this.loginGoogleAndroid() : this.loginGoogleWeb();
+    }
+
+    async loginGoogleAndroid() {
+        const res = await this.googlePlus.login({
+            webClientId: '100817615086-5jv8pbal136rofbrgad483dkeikteg8t.apps.googleusercontent.com',
+            offline: true
+        });
+        const resConfirmed = await this.firebaseAuth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken));
+        return resConfirmed.user;
+    }
+
+    async loginGoogleWeb() {
+        const google = await this.firebaseAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+        return google.user;
     }
 
     register(user: User, password: string) {

@@ -1,4 +1,4 @@
-/* tslint:disable:no-string-literal */
+/* tslint:disable:no-string-literal triple-equals */
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Label} from '../models/label.model';
@@ -194,7 +194,8 @@ export class DatabaseService {
     }
 
     dataToUser(data: any) {
-        const user = new User(data.id, data.name, data.email, data.signUpDate);
+        const user = new User(data.id, data.name, data.email, data.signUpDate, data.steam, data.playstation,
+            data.xbox);
         if (data.description) {
             user.description = data.description;
         }
@@ -202,25 +203,39 @@ export class DatabaseService {
     }
 
     addUserToDatabase(user: User) {
+        user.signUpDate = this.currentDate(false);
         return this.firestore.collection('/users').doc(user.id).set({
             id: user.id,
             name: user.name,
             email: user.email,
             signUpDate: user.signUpDate,
+            avatar: user.avatar,
         });
     }
 
     updateUser(user: User) {
-        // tslint:disable-next-line:triple-equals
-        if (user.description == undefined ) {
+        if (user.description == undefined) {
             user.description = '';
         }
+        if (user.steam == undefined) {
+            user.steam = '';
+        }
+        if (user.playstation == undefined) {
+            user.playstation = '';
+        }
+        if (user.xbox == undefined) {
+            user.xbox = '';
+        }
+        console.log(user.playstation);
         this.firestore.collection('/users').doc(user.id).set({
             id: user.id,
             name: user.name,
             description: user.description,
             email: user.email,
             signUpDate: user.signUpDate,
+            steam: user.steam,
+            playstation: user.playstation,
+            xbox: user.xbox,
         });
     }
 

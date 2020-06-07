@@ -33,12 +33,26 @@ export class SignupPage implements OnInit {
         const user = new User();
         user.name = form.value.name;
         user.email = form.value.email;
-        user.signUpDate = this._databaseService.currentDate(false);
         this._authService.register(user, form.value.password).then(data => {
             user.id = data.user.uid;
             this._databaseService.addUserToDatabase(user).then(() => {
                 this.close();
                 this._authService.reloadApp();
+            });
+        });
+    }
+
+    loginGoogle() {
+        this._authService.loginGoogle().then(user => {
+            const newUser = new User(user.uid, user.displayName, user.email);
+            this._databaseService.getUser(newUser.id).subscribe(userData => {
+                if (!userData) {
+                    this._databaseService.addUserToDatabase(newUser).then(() => {
+                        this.close();
+                    });
+                } else {
+                    this.close();
+                }
             });
         });
     }

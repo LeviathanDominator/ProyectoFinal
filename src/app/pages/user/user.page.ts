@@ -7,7 +7,7 @@ import {List} from '../../models/list.model';
 import {SendMessagePage} from '../send-message/send-message.page';
 import {ModalController} from '@ionic/angular';
 import {ListPage} from '../list/list.page';
-import {StorageService} from "../../services/storage.service";
+import {StorageService} from '../../services/storage.service';
 
 @Component({
     selector: 'app-user',

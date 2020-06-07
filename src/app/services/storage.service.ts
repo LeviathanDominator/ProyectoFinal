@@ -15,6 +15,7 @@ export class StorageService {
     }
 
     uploadAvatar(userId: string, image: string) {
+        console.log(image);
         const avatarRef = this.storage.child(`avatars/${userId}`);
         avatarRef.putString('data:image/jpeg;base64,' + image, 'data_url', {contentType: 'image/jpg'}).then(success => {
             this._databaseService.toast('Your new avatar has been uploaded successfully.');

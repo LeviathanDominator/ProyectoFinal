@@ -46,6 +46,7 @@ export class SignupPage implements OnInit {
     loginGoogle() {
         this._authService.loginGoogle().then(user => {
             const newUser = new User(user.uid, user.displayName, user.email);
+            newUser.signUpDate = new Date();
             this._databaseService.getUser(newUser.id).subscribe(userData => {
                 if (!userData) {
                     this._databaseService.addUserToDatabase(newUser).then(() => {

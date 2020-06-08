@@ -31,13 +31,11 @@ export class LoginPage implements OnInit {
 
     loginGoogle() {
         this._authService.loginGoogle().then(user => {
-            console.log(user);
             const newUser = new User(user.uid, user.displayName, user.email);
+            newUser.signUpDate = new Date();
             this._databaseService.getUser(newUser.id).subscribe(userData => {
                if (!userData) {
-                   this._databaseService.addUserToDatabase(newUser).then(() => {
-                       this.close();
-                   });
+                   this._databaseService.addUserToDatabase(newUser);
                } else {
                    this.close();
                }

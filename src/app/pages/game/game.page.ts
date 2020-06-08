@@ -21,7 +21,7 @@ export class GamePage implements OnInit {
     game: Game;
 
     constructor(private activatedRoute: ActivatedRoute, private _apiService: ApiService,
-                private _databaseService: DatabaseService, private _authService: AuthService,
+                private _databaseService: DatabaseService, public _authService: AuthService,
                 private modalController: ModalController) {
         this.activatedRoute.params.subscribe(params => {
             console.log(params.id);

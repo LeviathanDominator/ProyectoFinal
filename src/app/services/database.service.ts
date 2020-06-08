@@ -227,13 +227,12 @@ export class DatabaseService {
         if (user.xbox == undefined) {
             user.xbox = '';
         }
-        console.log(user.playstation);
         this.firestore.collection('/users').doc(user.id).set({
             id: user.id,
             name: user.name,
             description: user.description,
             email: user.email,
-            signUpDate: user.signUpDate,
+            signUpDate: user.parseDate(),
             steam: user.steam,
             playstation: user.playstation,
             xbox: user.xbox,
@@ -341,6 +340,7 @@ export class DatabaseService {
         return false;
     }
 
+    // Shows a loading screen.
     async presentLoading(message: string) {
         const loading = await this.loadingController.create({
             cssClass: 'loading',

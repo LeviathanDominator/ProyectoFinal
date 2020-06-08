@@ -34,7 +34,7 @@ export class Message {
         const seconds = this.twoDigits(this.date.getSeconds());
         const day = this.twoDigits(this.date.getDate());
         const month = this.twoDigits(this.date.getMonth() + 1);
-        const year = this.twoDigits(this.date.getFullYear());
+        const year = this.date.getFullYear();
         return {hours, minutes, seconds, day, month, year};
     }
 

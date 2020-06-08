@@ -28,7 +28,7 @@ export class User {
     parseDate() {
         const day = this.twoDigits(this.signUpDate.getDate());
         const month = this.twoDigits(this.signUpDate.getMonth() + 1);
-        const year = this.twoDigits(this.signUpDate.getFullYear());
+        const year = this.signUpDate.getFullYear();
         return `${day}/${month}/${year}`;
     }
 

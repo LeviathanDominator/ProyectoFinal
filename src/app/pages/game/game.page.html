@@ -44,10 +44,10 @@
             <ng-container *ngIf="game.labels != undefined">
                 <p *ngIf="game.labels.length == 0">This game has no labels yet</p>
 
-                <p>Are these labels inaccurate? Send us a request to change {{game.title}}'s info about labels pressing
+                <p *ngIf="_authService.user | async">Are these labels inaccurate? Send us a request to change {{game.title}}'s info about labels pressing
                     the
                     button below!</p>
-                <ion-button (click)="goToLabelInput()">Press here to change labels</ion-button>
+                <ion-button *ngIf="_authService.user | async" (click)="goToLabelInput()">Press here to change labels</ion-button>
             </ng-container>
             <ng-container *ngIf="game.stores">
             <p *ngIf="game.stores.length != 0">Where to buy {{game.title}}:</p>

@@ -69,8 +69,14 @@ export class Game {
         if (isNaN(this.released.getDay()) || isNaN(this.released.getMonth()) || isNaN(this.released.getFullYear())) {
             return 'No release date';
         } else {
-            const month = this.released.getMonth();
-            return `${this.released.getDate()}/${month + 1}/${this.released.getFullYear()}`;
+            const day = this.twoDigits(this.released.getDate());
+            const month = this.twoDigits(this.released.getMonth() + 1);
+            const year = this.released.getFullYear();
+            return `${day}/${month}/${year}`;
         }
+    }
+
+    private twoDigits(value: number) {
+        return ('0' + value).slice(-2);
     }
 }

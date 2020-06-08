@@ -58,7 +58,6 @@ export class ProfilePage implements OnInit {
             this._databaseService.toast('Your new avatar is being uploaded...');
             this._storageService.uploadAvatar(this.user.id, imageData);
         }).catch(error => {
-            this._databaseService.customAlert('Error', error);
             console.log('Error', error);
         });
     }
@@ -69,7 +68,6 @@ export class ProfilePage implements OnInit {
             this._databaseService.toast('Your new banner is being uploaded...');
             this._storageService.uploadBanner(this.user.id, imageData);
         }).catch(error => {
-            this._databaseService.customAlert('Error', error);
             console.log('Error', error);
         });
     }

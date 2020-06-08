@@ -43,6 +43,16 @@
 
 .buttons {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.profileData {
+  margin: .5em;
+}
+
+.profileData > p > a {
+  margin-left: .5em;
 }
 
 .avatarAndUsername {
@@ -62,6 +72,5 @@
 .loading {
   --background: #222;
   --spinner-color: #263379;
-
   color: #fff;
 }

@@ -24,7 +24,7 @@ export class GamesPage implements OnInit {
     private maxPages = 50; // Max pages of games loaded without matching criteria.
     private controlMaxPages = 0; // While it's below maxPages it will keep loading games.
     private noResults = false; // Shows a message when no results are being displayed.
-    private controlInfiniteScroll = 0;
+    private order = '';
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private _authService: AuthService,
@@ -43,6 +43,44 @@ export class GamesPage implements OnInit {
         this.loadGames();
     }
 
+    private getGames() {
+        // tslint:disable-next-line:triple-equals
+        if (this.selectedPlatform == '0') {
+            this._apiService.getGames(this.page, this.order).subscribe(games => {
+                this.setGames(games.results);
+            });
+        } else {
+            this._apiService.getGamesByPlatform(this.selectedPlatform, this.page, this.order).subscribe(games => {
+                this.setGames(games.results);
+            });
+        }
+    }
+
+    private setGames(results: any) {
+        for (const game of results) {
+            const newGame = this._apiService.dataToGame(game);
+            this._databaseService.getLabels(newGame.id).subscribe(labels => {
+                newGame.labels = [];
+                if (labels === undefined) {
+                    console.log('Game not found in database');
+                    this._databaseService.getAverageLabelsData(newGame);
+                } else {
+                    if (labels['labels']) {
+                        for (const labelData of labels['labels']) {
+                            this._databaseService.getLabel(labelData).subscribe(label => {
+                                newGame.labels.push(this._databaseService.dataToLabel(label));
+                            });
+                        }
+                    } else {
+                        this._databaseService.getAverageLabelsData(newGame);
+                    }
+                }
+            });
+            this.games.push(newGame);
+            this.filterGames();
+        }
+    }
+
     scanGame() {
         this.barcodeScanner.scan().then(barcodeData => {
             console.log(barcodeData.text);
@@ -54,7 +92,6 @@ export class GamesPage implements OnInit {
                 }
             });
         }).catch(error => {
-            this._databaseService.toast('There was an error loading the scanner.');
             console.log(error);
         });
     }
@@ -98,44 +135,6 @@ export class GamesPage implements OnInit {
                 }
             }
         }, 500);
-    }
-
-    private getGames() {
-        // tslint:disable-next-line:triple-equals
-        if (this.selectedPlatform == '0') {
-            this._apiService.getGames(this.page).subscribe(games => {
-                this.setGames(games.results);
-            });
-        } else {
-            this._apiService.getGamesByPlatform(this.selectedPlatform, this.page).subscribe(games => {
-                this.setGames(games.results);
-            });
-        }
-    }
-
-    private setGames(results: any) {
-        for (const game of results) {
-            const newGame = this._apiService.dataToGame(game);
-            this._databaseService.getLabels(newGame.id).subscribe(labels => {
-                newGame.labels = [];
-                if (labels === undefined) {
-                    console.log('Game not found in database');
-                    this._databaseService.getAverageLabelsData(newGame);
-                } else {
-                    if (labels['labels']) {
-                        for (const labelData of labels['labels']) {
-                            this._databaseService.getLabel(labelData).subscribe(label => {
-                                newGame.labels.push(this._databaseService.dataToLabel(label));
-                            });
-                        }
-                    } else {
-                        this._databaseService.getAverageLabelsData(newGame);
-                    }
-                }
-            });
-            this.games.push(newGame);
-            this.filterGames();
-        }
     }
 
     // This method filters all shown games for the criteria specified for the user.

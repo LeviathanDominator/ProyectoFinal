@@ -9,6 +9,7 @@ export class Game {
     dlcDescription: string;
     avgCompletion: number[];
     image: string;
+    released: string;
     screenshots: string[];
     esrb: string;
     platforms: Platform[];
@@ -18,12 +19,13 @@ export class Game {
     stores: Store[];
     show: boolean;
 
-    constructor(id: number, title: string, description?: string, image?: string, screenshots?: string[], esrb?: string,
+    constructor(id: number, title: string, description?: string, image?: string, released?: string, screenshots?: string[], esrb?: string,
                 developers?: any, ratings?: number, stores?: any) {
         this.id = id;
         this.title = title;
         this.description = description ? description : '';
         this.image = image;
+        this.released = released ? released : 'No date of release';
         this.screenshots = screenshots;
         this.esrb = esrb ? esrb : 'None';
         this.platforms = [];

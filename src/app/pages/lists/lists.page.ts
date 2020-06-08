@@ -18,12 +18,14 @@ export class ListsPage implements OnInit {
 
     user: User;
     lists: List[];
+    isUser = false;
 
     constructor(private _authService: AuthService, private _databaseService: DatabaseService, private router: Router,
                 private modalController: ModalController, private activatedRoute: ActivatedRoute) {
         this.activatedRoute.params.subscribe(params => {
             // tslint:disable-next-line:triple-equals
             if (params.id == 0) {
+                this.isUser = true;
                 _authService.user.subscribe(user => {
                     if (user) {
                         this.getUser(user.uid);

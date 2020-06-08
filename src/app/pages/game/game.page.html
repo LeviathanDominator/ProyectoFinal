@@ -48,7 +48,9 @@
                     button below!</p>
                 <ion-button (click)="goToLabelInput()">Press here to change labels</ion-button>
             </ng-container>
-            <p *ngIf="game.stores">Where to buy {{game.title}}:</p>
+            <ng-container *ngIf="game.stores">
+            <p *ngIf="game.stores.length != 0">Where to buy {{game.title}}:</p>
+            </ng-container>
             <div class="stores" *ngIf="game.stores">
                 <a [href]="store.url" *ngFor="let store of this.game.stores">{{store.name}}</a>
             </div>

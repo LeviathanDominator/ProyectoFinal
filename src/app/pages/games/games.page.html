@@ -3,8 +3,14 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Games</ion-title>
         <ion-buttons slot="secondary">
+            <ion-select interface="action-sheet"
+                        [(ngModel)]="selectedPlatform"
+                        (ionChange)="loadGames()">
+                <ion-select-option value="0">All</ion-select-option>
+                <ion-select-option *ngFor="let platform of platforms"
+                                   value="{{platform.id}}">{{platform.name}}</ion-select-option>
+            </ion-select>
             <ion-button (click)="scanGame()">
                 <ion-icon slot="icon-only" name="barcode-outline"></ion-icon>
             </ion-button>
@@ -19,13 +25,17 @@
 </ion-header>
 
 <ion-item color="secondary">
-    <ion-label>Platform</ion-label>
-    <ion-select interface="popover"
-                [(ngModel)]="selectedPlatform"
+    <ion-label>Sort by</ion-label>
+    <ion-select interface="action-sheet"
+                [(ngModel)]="order"
                 (ionChange)="loadGames()">
-        <ion-select-option value="0">All</ion-select-option>
-        <ion-select-option *ngFor="let platform of platforms"
-                           value="{{platform.id}}">{{platform.name}}</ion-select-option>
+        <ion-select-option value="">Default</ion-select-option>
+        <ion-select-option value="name">Title (Descending)</ion-select-option>
+        <ion-select-option value="-name">Title (Ascending)</ion-select-option>
+        <ion-select-option value="released">Release date (Descending)</ion-select-option>
+        <ion-select-option value="-released">Release date (Ascending)</ion-select-option>
+        <ion-select-option value="rating">Rating (Descending)</ion-select-option>
+        <ion-select-option value="-rating">Rating (Ascending)</ion-select-option>
     </ion-select>
 </ion-item>
 
@@ -35,7 +45,11 @@
         <ng-container *ngFor="let game of games">
             <div class="gameBox" *ngIf="game.show" (click)="goToGame(game.id)"
                  [ngStyle]="{'background-image':'url(' + game.image + ')'}">
-                <h1 class="title">{{game.title}}</h1>
+                <div class="title">
+                    <h1>{{game.title}}</h1>
+                    <h5 *ngIf="order.replace('-', '') == 'released'">{{game.released}}</h5>
+                    <h5 *ngIf="order.replace('-', '') == 'rating'">{{game.ratings}} / 5</h5>
+                </div>
                 <div class="labels">
                     <p class="label" *ngFor="let label of game.labels">{{ label.name }}</p>
                     <ng-container *ngIf="game.labels != undefined">

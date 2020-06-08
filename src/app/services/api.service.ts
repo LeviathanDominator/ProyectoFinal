@@ -31,12 +31,23 @@ export class ApiService {
         return screenshots;
     }
 
-    getGames(page: number): Observable<any> {
-        return this.http.get(`${this.url}games?page=${page}`).pipe();
+    getGames(page: number, orderBy: string): Observable<any> {
+        console.log(orderBy);
+        // tslint:disable-next-line:triple-equals
+        if (orderBy.length == 0) {
+            return this.http.get(`${this.url}games?page=${page}`).pipe();
+        } else {
+            return this.http.get(`${this.url}games?page=${page}&ordering=${orderBy}`).pipe();
+        }
     }
 
-    getGamesByPlatform(platform: string, page: number): Observable<any> {
-        return this.http.get(`${this.url}games?platforms=${platform}&page=${page}`).pipe();
+    getGamesByPlatform(platform: string, page: number, orderBy): Observable<any> {
+        // tslint:disable-next-line:triple-equals
+        if (orderBy.length == 0) {
+            return this.http.get(`${this.url}games?platforms=${platform}&page=${page}`).pipe();
+        } else {
+            return this.http.get(`${this.url}games?platforms=${platform}&page=${page}&ordering=${orderBy}`).pipe();
+        }
     }
 
     searchGames(search: string): Observable<any> {
@@ -48,7 +59,7 @@ export class ApiService {
     }
 
     dataToGame(data: any) {
-        return new Game(data.id, data.name, data.description_raw, data.background_image,
+        return new Game(data.id, data.name, data.description_raw, data.background_image, data.released,
             data.short_screenshots, data.esrb_rating ? data.esrb_rating.name : '', data.developers,
             data.rating, data.stores);
     }

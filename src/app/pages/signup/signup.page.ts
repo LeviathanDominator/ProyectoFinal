@@ -33,6 +33,7 @@ export class SignupPage implements OnInit {
         const user = new User();
         user.name = form.value.name;
         user.email = form.value.email;
+        user.signUpDate = new Date();
         this._authService.register(user, form.value.password).then(data => {
             user.id = data.user.uid;
             this._databaseService.addUserToDatabase(user).then(() => {

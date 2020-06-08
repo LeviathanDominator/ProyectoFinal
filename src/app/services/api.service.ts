@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {Platform} from '../models/platform.model';
 import {Game} from '../models/game.model';
+import * as moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
@@ -59,7 +60,8 @@ export class ApiService {
     }
 
     dataToGame(data: any) {
-        return new Game(data.id, data.name, data.description_raw, data.background_image, data.released,
+        const released = moment(data.released, 'YYYY-MM-DD').toDate();
+        return new Game(data.id, data.name, data.description_raw, data.background_image, released,
             data.short_screenshots, data.esrb_rating ? data.esrb_rating.name : '', data.developers,
             data.rating, data.stores);
     }

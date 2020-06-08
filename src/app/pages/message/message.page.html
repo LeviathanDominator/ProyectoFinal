@@ -1,6 +1,11 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-title>Message</ion-title>
+        <ion-buttons slot="start">
+            <ion-button (click)="close()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>{{message.title}}</ion-title>
         <ion-buttons slot="secondary" (click)="deleteMessage()">
             <ion-icon name="trash-outline" color="danger"></ion-icon>
         </ion-buttons>
@@ -9,7 +14,14 @@
 
 <ion-content color="dark">
     <div id="container">
-        <p>From: {{message.senderName}}</p>
-        <small>{{message.message}}</small>
+        <small>{{message.parseDate()}}</small>
+        <div class="avatar" (click)="goToUser()">
+            <ion-avatar>
+                <img *ngIf="senderAvatar" [src]="senderAvatar" alt="{{ message.senderName }}'s avatar"/>
+            </ion-avatar>
+            <ion-label>{{message.senderName}}</ion-label>
+        </div>
+        <p>{{senderEmail}}</p>
+        <p>{{message.message}}</p>
     </div>
 </ion-content>

@@ -16,6 +16,7 @@
     <div id="container">
         <div *ngIf="game" class="gameBackground" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), ' +
    'rgba(0, 0, 0, 0.7)), url(' + game.image + ')'}">
+            <p *ngIf="game.released">Release date: {{game.parseDate()}}</p>
             <p *ngIf="game.developers">Developed by: {{game.developers}}</p>
             <small>{{game.description}}</small>
             <small *ngIf="game.dlcDescription">{{game.dlcDescription}}</small>

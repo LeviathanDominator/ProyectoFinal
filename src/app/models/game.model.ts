@@ -9,7 +9,7 @@ export class Game {
     dlcDescription: string;
     avgCompletion: number[];
     image: string;
-    released: string;
+    released: Date;
     screenshots: string[];
     esrb: string;
     platforms: Platform[];
@@ -19,13 +19,13 @@ export class Game {
     stores: Store[];
     show: boolean;
 
-    constructor(id: number, title: string, description?: string, image?: string, released?: string, screenshots?: string[], esrb?: string,
+    constructor(id: number, title: string, description?: string, image?: string, released?: Date, screenshots?: string[], esrb?: string,
                 developers?: any, ratings?: number, stores?: any) {
         this.id = id;
         this.title = title;
         this.description = description ? description : '';
         this.image = image;
-        this.released = released ? released : 'No date of release';
+        this.released = released;
         this.screenshots = screenshots;
         this.esrb = esrb ? esrb : 'None';
         this.platforms = [];
@@ -63,5 +63,14 @@ export class Game {
             }
         }
         return developers;
+    }
+
+    parseDate() {
+        if (isNaN(this.released.getDay()) || isNaN(this.released.getMonth()) || isNaN(this.released.getFullYear())) {
+            return 'No release date';
+        } else {
+            const month = this.released.getMonth();
+            return `${this.released.getDate()}/${month + 1}/${this.released.getFullYear()}`;
+        }
     }
 }

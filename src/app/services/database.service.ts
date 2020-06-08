@@ -12,6 +12,7 @@ import {Game} from '../models/game.model';
 import {Filter} from '../models/filter.model';
 import {FireSQL} from 'firesql';
 import * as firebase from 'firebase';
+import * as moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
@@ -194,7 +195,8 @@ export class DatabaseService {
     }
 
     dataToUser(data: any) {
-        const user = new User(data.id, data.name, data.email, data.signUpDate, data.steam, data.playstation,
+        const date = moment(data.signUpDate, 'DD/MM/YYYY').toDate();
+        const user = new User(data.id, data.name, data.email, date, data.steam, data.playstation,
             data.xbox);
         if (data.description) {
             user.description = data.description;
@@ -203,12 +205,11 @@ export class DatabaseService {
     }
 
     addUserToDatabase(user: User) {
-        user.signUpDate = this.currentDate(false);
         return this.firestore.collection('/users').doc(user.id).set({
             id: user.id,
             name: user.name,
             email: user.email,
-            signUpDate: user.signUpDate,
+            signUpDate: user.parseDate(),
             avatar: user.avatar,
         });
     }
@@ -244,13 +245,15 @@ export class DatabaseService {
     }
 
     // Sends a message to the receiver user.
-    sendMessage(senderId: string, receiverId: string, messageString: string) {
-        const message = new Message(messageString, senderId, receiverId, this.currentTimeAndDate(false));
+    sendMessage(senderId: string, receiverId: string, title: string, messageString: string) {
+        const date = new Date();
+        const message = new Message(title, messageString, senderId, receiverId, date);
         return this.firestore.collection('/users').doc(message.receiver).collection('/messages').doc(message.id).set({
             receiverId: message.receiver,
             senderId: message.sender,
+            title: message.title,
             message: message.message,
-            timeAndDate: message.date,
+            timeAndDate: message.parseDate(),
             read: false,
         });
     }
@@ -272,8 +275,9 @@ export class DatabaseService {
         return this.firestore.collection('/users').doc(message.receiver).collection('/messages').doc(message.id).set({
             receiverId: message.receiver,
             senderId: message.sender,
+            title: message.title,
             message: message.message,
-            timeAndDate: message.date,
+            timeAndDate: message.parseDate(),
             read: true,
         });
     }
@@ -291,16 +295,8 @@ export class DatabaseService {
 
     // Turns data into a Message object.
     dataToMessage(data: any) {
-        return new Message(data.message, data.senderId, data.receiverId, data.timeAndDate, data.read);
-    }
-
-    // Gets the current date. If raw is true it returns numbers only.
-    currentDate(raw: boolean) {
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const yyyy = today.getFullYear();
-        return raw ? dd + mm + yyyy : dd + '/' + mm + '/' + yyyy;
+        const date = moment(data.timeAndDate, 'HH:mm:ss DD/MM/YYYY').toDate();
+        return new Message(data.title, data.message, data.senderId, data.receiverId, date, data.read);
     }
 
     // Gets the current time and date. If raw is true it returns numbers only.

@@ -5,7 +5,7 @@ export class User {
     name: string;
     description: string;
     email: string;
-    signUpDate: string;
+    signUpDate: Date;
     avatar: string;
     banner: string;
     steam: string;
@@ -13,7 +13,7 @@ export class User {
     xbox: string;
     lists: List[];
 
-    constructor(id?: string, name?: string, email?: string, signUpDate?: string, steam?: string, playstation?: string, xbox?: string) {
+    constructor(id?: string, name?: string, email?: string, signUpDate?: Date, steam?: string, playstation?: string, xbox?: string) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -23,5 +23,16 @@ export class User {
         this.steam = steam;
         this.playstation = playstation;
         this.xbox = xbox;
+    }
+
+    parseDate() {
+        const day = this.twoDigits(this.signUpDate.getDate());
+        const month = this.twoDigits(this.signUpDate.getMonth() + 1);
+        const year = this.twoDigits(this.signUpDate.getFullYear());
+        return `${day}/${month}/${year}`;
+    }
+
+    private twoDigits(value: number) {
+        return ('0' + value).slice(-2);
     }
 }

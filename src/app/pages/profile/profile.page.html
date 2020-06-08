@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="profileData">
-            <p *ngIf="user.signUpDate">Member since: {{user.signUpDate}}</p>
+            <p *ngIf="user.signUpDate">Member since: {{user.signUpDate.toDateString()}}</p>
             <p *ngIf="user.description">{{user.description}}</p>
             <ng-container *ngIf="user.steam">
                 <p *ngIf="user.steam.length != 0">

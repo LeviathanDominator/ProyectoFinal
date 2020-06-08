@@ -1,0 +1,12 @@
+#container {
+  margin: .5em;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+}
+
+.avatar > ion-label {
+  margin-left: .2em;
+}

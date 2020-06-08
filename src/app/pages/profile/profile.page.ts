@@ -32,13 +32,15 @@ export class ProfilePage implements OnInit {
         _authService.user.subscribe(user => {
             if (user) {
                 this._databaseService.getUser(user.uid).subscribe(userData => {
-                    this.user = this._databaseService.dataToUser(userData);
-                    this._storageService.getAvatar(this.user.id).then(url => {
-                        this.user.avatar = url;
-                    }).catch(() => console.log('No custom avatar set'));
-                    this._storageService.getBanner(this.user.id).then(url => {
-                        this.user.banner = url;
-                    }).catch(() => console.log('No custom banner set'));
+                    if (userData) {
+                        this.user = this._databaseService.dataToUser(userData);
+                        this._storageService.getAvatar(this.user.id).then(url => {
+                            this.user.avatar = url;
+                        }).catch(() => console.log('No custom avatar set'));
+                        this._storageService.getBanner(this.user.id).then(url => {
+                            this.user.banner = url;
+                        }).catch(() => console.log('No custom banner set'));
+                    }
                 }, (error => {
                     console.log(error);
                     _databaseService.noConnectionAlert();

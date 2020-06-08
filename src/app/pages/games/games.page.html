@@ -47,7 +47,7 @@
                  [ngStyle]="{'background-image':'url(' + game.image + ')'}">
                 <div class="title">
                     <h1>{{game.title}}</h1>
-                    <h5 *ngIf="order.replace('-', '') == 'released'">{{game.released}}</h5>
+                    <h5 *ngIf="order.replace('-', '') == 'released'">{{game.parseDate()}}</h5>
                     <h5 *ngIf="order.replace('-', '') == 'rating'">{{game.ratings}} / 5</h5>
                 </div>
                 <div class="labels">

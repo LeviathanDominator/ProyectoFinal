@@ -30,7 +30,11 @@ export class MessagesPage implements OnInit {
                             this.numUnreadMessages++;
                         }
                         this._databaseService.getUser(newMessage.sender).subscribe(sender => {
-                            newMessage.senderName = sender['name'];
+                            if (sender) {
+                                newMessage.senderName = sender['name'];
+                            } else {
+                                newMessage.senderName = 'Unknown';
+                            }
                             this.messages.push(newMessage);
                         });
                     }

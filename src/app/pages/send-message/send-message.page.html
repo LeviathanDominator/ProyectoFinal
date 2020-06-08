@@ -11,8 +11,12 @@
             <ion-input *ngIf="user" [(ngModel)]="user.name" type="text" name="sender" disabled></ion-input>
         </ion-item>
         <ion-item>
+            <ion-label position="floating">Title</ion-label>
+            <ion-textarea [(ngModel)]="title" type="text" name="title" required maxlength="20"></ion-textarea>
+        </ion-item>
+        <ion-item>
             <ion-label position="floating">Message</ion-label>
-            <ion-textarea [(ngModel)]="message" type="text" name="message" required></ion-textarea>
+            <ion-textarea [(ngModel)]="message" type="text" name="message" required maxlength="500"></ion-textarea>
         </ion-item>
         <div class="buttons">
             <ion-button type="submit">Send message</ion-button>

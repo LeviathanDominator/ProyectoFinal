@@ -37,14 +37,14 @@ export class UsersPage implements OnInit {
             }, 500);
     }
 
-    // Sorts user by their name.
+    // Sorts user by sign up date.
     private pushAndSort(user: User) {
         this.users.push(user);
         this.users.sort((a, b) => {
-            if (a.name.toLowerCase() > b.name.toLowerCase()) {
+            if (a.signUpDate > b.signUpDate) {
                 return 1;
             }
-            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            if (a.signUpDate < b.signUpDate) {
                 return -1;
             }
             return 0;

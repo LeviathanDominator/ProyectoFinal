@@ -82,17 +82,14 @@ const routes: Routes = [
   {
     path: 'messages',
     loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
-  },  {
+  },
+  {
     path: 'add-to-list',
     loadChildren: () => import('./pages/add-to-list/add-to-list.module').then( m => m.AddToListPageModule)
   },
   {
     path: 'edit-profile',
     loadChildren: () => import('./pages/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
-  },
-  {
-    path: 'screenshot',
-    loadChildren: () => import('./pages/screenshot/screenshot.module').then( m => m.ScreenshotPageModule)
   }
 
 

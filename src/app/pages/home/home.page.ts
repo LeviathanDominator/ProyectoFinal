@@ -18,7 +18,7 @@ export class HomePage implements OnInit {
     numUnreadMessages = 0;
     user: User;
 
-    constructor(private _databaseService: DatabaseService, private _authService: AuthService,
+    constructor(private _databaseService: DatabaseService, public _authService: AuthService,
                 private router: Router, private modalController: ModalController, private platform: Platform) {
         _authService.user.subscribe(user => {
             if (user) {

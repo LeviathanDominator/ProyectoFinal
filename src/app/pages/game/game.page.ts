@@ -9,7 +9,7 @@ import {LabelinputPage} from '../labelinput/labelinput.page';
 import {Platform} from '../../models/platform.model';
 import {AuthService} from '../../services/auth.service';
 import {AddToListPage} from '../add-to-list/add-to-list.page';
-import {ScreenshotPage} from '../screenshot/screenshot.page';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 @Component({
     selector: 'app-game',
@@ -22,7 +22,7 @@ export class GamePage implements OnInit {
 
     constructor(private activatedRoute: ActivatedRoute, private _apiService: ApiService,
                 private _databaseService: DatabaseService, public _authService: AuthService,
-                private modalController: ModalController) {
+                private modalController: ModalController, private photoViewer: PhotoViewer) {
         this.activatedRoute.params.subscribe(params => {
             console.log(params.id);
             this._apiService.getGame(params.id).subscribe(game => {
@@ -73,7 +73,7 @@ export class GamePage implements OnInit {
     }
 
     async goToLabelInput() {
-        this._databaseService.presentLoading('Loading labels...');
+        await this._databaseService.presentLoading('Loading labels...');
         const modal = await this.modalController.create({
             component: LabelinputPage,
             componentProps: {
@@ -98,14 +98,14 @@ export class GamePage implements OnInit {
         return await modal.present();
     }
 
-    async openScreenshot(screenshot: string, i: number) {
-        const modal = await this.modalController.create({
-            component: ScreenshotPage,
-            componentProps: {
-                title: this.game.title + ` #${i+1}`,
-                screenshot,
-            }
-        });
-        return await modal.present();
+    openScreenshot(screenshot: string, number: number) {
+        const options = {
+            share: true,
+            closeButton: true,
+            copyToReference: true,
+            headers: ''
+        };
+        this.photoViewer.show(screenshot, this.game.title + ` - Screenshot #${number + 1}`, options);
     }
+
 }

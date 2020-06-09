@@ -14,13 +14,16 @@ export class LabelinputPage implements OnInit {
     id;
     title;
     labels: Label[];
+    selectedLabels: boolean[];
 
     constructor(private _databaseService: DatabaseService, private _authService: AuthService,
                 private modalController: ModalController) {
         _databaseService.getLabelsCollection().subscribe(labels => {
             this.labels = [];
+            this.selectedLabels = [];
             for (const label of labels) {
                 this.labels.push(this._databaseService.dataToLabel(label));
+                this.selectedLabels.push(false);
             }
             this._databaseService.sortLabels(this.labels);
         }, (error => {

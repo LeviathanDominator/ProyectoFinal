@@ -10,24 +10,53 @@
                 </ion-avatar>
                 <ion-label *ngIf="_authService.user | async">{{ (_authService.user | async)?.email}}</ion-label>
             </ion-item>
-            <ion-button color="secondary" [routerLink]="['/home']">Home</ion-button>
-            <ion-button color="secondary" *ngIf="!(_authService.user | async)" (click)="goToLogin()">Login
+            <ion-button expand="full" color="secondary" [routerLink]="['/home']">
+                <ion-icon name="home"></ion-icon>
+                <span>Home</span>
             </ion-button>
-            <ion-button color="secondary" *ngIf="!(_authService.user | async)" (click)="goToSignUp()">SignUp
+            <ion-button expand="full" color="secondary" *ngIf="!(_authService.user | async)" (click)="goToLogin()">
+                <ion-icon name="log-in"></ion-icon>
+                <span>Login</span>
             </ion-button>
-            <ion-button color="secondary" *ngIf="_authService.user | async" [routerLink]="['/profile']">Profile
+            <ion-button expand="full" color="secondary" *ngIf="!(_authService.user | async)" (click)="goToSignUp()">
+                <ion-icon name="person-add"></ion-icon>
+                <span>SignUp</span>
             </ion-button>
-            <ion-button color="secondary" *ngIf="_authService.user | async" [routerLink]="['/messages']">Messages
+            <ion-button expand="full" color="secondary" *ngIf="_authService.user | async" [routerLink]="['/profile']">
+                <ion-icon name="person"></ion-icon>
+                <span>Profile</span>
+            </ion-button>
+            <ion-button expand="full" color="secondary" *ngIf="_authService.user | async" [routerLink]="['/messages']">
+                <ion-icon *ngIf="numUnreadMessages == 0" name="mail"></ion-icon>
+                <ion-icon *ngIf="numUnreadMessages != 0" name="mail-unread"></ion-icon>
+                <span>Messages</span>
                 <ion-badge *ngIf="numUnreadMessages" color="danger">{{numUnreadMessages}}</ion-badge>
             </ion-button>
-            <ion-button color="secondary" *ngIf="(_authService.user | async) && _authService.user"
-                        [routerLink]="['/lists/0']">My lists
+            <ion-button expand="full" color="secondary" *ngIf="(_authService.user | async) && _authService.user"
+                        [routerLink]="['/lists/0']">
+                <ion-icon name="list"></ion-icon>
+                <span>My lists</span>
             </ion-button>
-            <ion-button color="secondary" [routerLink]="['/games']">Games</ion-button>
-            <ion-button color="secondary" [routerLink]="['/platforms']">Platforms</ion-button>
-            <ion-button *ngIf="_authService.user | async" color="secondary" [routerLink]="['/users']">Users</ion-button>
-            <ion-button color="secondary" [routerLink]="['/about']">About</ion-button>
-            <ion-button color="secondary" *ngIf="_authService.user | async" (click)="logout()">Logout</ion-button>
+            <ion-button expand="full" color="secondary" [routerLink]="['/games']">
+                <ion-icon name="game-controller"></ion-icon>
+                <span>Games</span>
+            </ion-button>
+            <ion-button expand="full" color="secondary" [routerLink]="['/platforms']">
+                <ion-icon name="desktop"></ion-icon>
+                <span>Platforms</span>
+            </ion-button>
+            <ion-button expand="full" *ngIf="_authService.user | async" color="secondary" [routerLink]="['/users']">
+                <ion-icon name="people"></ion-icon>
+                <span>Users</span>
+            </ion-button>
+            <ion-button expand="full" color="secondary" [routerLink]="['/about']">
+                <ion-icon name="information-circle"></ion-icon>
+                <span>About</span>
+            </ion-button>
+            <ion-button expand="full" color="secondary" *ngIf="_authService.user | async" (click)="logout()">
+                <ion-icon name="log-out"></ion-icon>
+                <span>Logout</span>
+            </ion-button>
         </ion-content>
     </ion-menu>
     <ion-router-outlet></ion-router-outlet>

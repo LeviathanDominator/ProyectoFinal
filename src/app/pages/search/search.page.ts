@@ -11,7 +11,7 @@ import {DatabaseService} from '../../services/database.service';
 })
 export class SearchPage implements OnInit {
 
-    private searchedGames: any = [];
+    searchedGames: any = [];
 
     constructor(private modalCtrl: ModalController, private _apiService: ApiService,
                 private _databaseService: DatabaseService, private alertController: AlertController) {

@@ -6,8 +6,10 @@ import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
-
 import {Camera} from '@ionic-native/camera/ngx';
+import {GooglePlus} from '@ionic-native/google-plus/ngx';
+import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
+
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -27,8 +29,6 @@ import {MessagePageModule} from './pages/message/message.module';
 import {ListPageModule} from './pages/list/list.module';
 import {AddToListPageModule} from './pages/add-to-list/add-to-list.module';
 import {EditProfilePageModule} from './pages/edit-profile/edit-profile.module';
-import {ScreenshotPageModule} from './pages/screenshot/screenshot.module';
-import {GooglePlus} from '@ionic-native/google-plus/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -37,7 +37,7 @@ import {GooglePlus} from '@ionic-native/google-plus/ngx';
         AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule,
         AngularFireAuthModule, SearchPageModule, FilterPageModule, LoginPageModule, SignupPageModule,
         LabelinputPageModule, ListPageModule, NewListPageModule, AddToListPageModule, MessagePageModule,
-        SendMessagePageModule, EditProfilePageModule, ScreenshotPageModule],
+        SendMessagePageModule, EditProfilePageModule],
     providers: [
         StatusBar,
         SplashScreen,
@@ -45,6 +45,7 @@ import {GooglePlus} from '@ionic-native/google-plus/ngx';
         ImagePicker,
         Camera,
         GooglePlus,
+        PhotoViewer,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]

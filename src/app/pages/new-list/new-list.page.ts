@@ -11,7 +11,7 @@ import {ModalController, NavParams} from '@ionic/angular';
 })
 export class NewListPage implements OnInit {
 
-    name: string;
+    name: string; // List name
     userId: string;
     gameId: number;
     gameTitle: string;
@@ -40,7 +40,15 @@ export class NewListPage implements OnInit {
             this._databaseService.toast('You must input a name for the list.');
             return;
         }
-        this._databaseService.newList(this.userId, this.name, this.gameId).then(() => this.close());
+        this._databaseService.newList(this.userId, this.name, this.gameId).then(() => {
+            const listCreated = `List "${this.name}" created`;
+            if (this.gameTitle) {
+                this._databaseService.toast(`${listCreated}, added "${this.gameTitle}" to the new list`);
+            } else {
+                this._databaseService.toast(listCreated);
+            }
+            this.close();
+        });
     }
 
     close() {

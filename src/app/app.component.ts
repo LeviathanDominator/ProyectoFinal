@@ -19,8 +19,8 @@ import {StorageService} from './services/storage.service';
 })
 export class AppComponent {
 
-    private user: User;
-    private numUnreadMessages: number;
+    user: User;
+    numUnreadMessages: number;
 
     constructor(
         private platform: Platform,

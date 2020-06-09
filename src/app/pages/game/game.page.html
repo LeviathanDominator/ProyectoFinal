@@ -57,7 +57,7 @@
             </div>
             <div class="screenshots" *ngIf="game.screenshots">
                 <ion-img [src]="screenshot" *ngFor="let screenshot of game.screenshots, let i = index"
-                         [alt]="game.title + '' + i" (click)="openScreenshot(screenshot, i)"></ion-img>
+                         [alt]="game.title + ' - Screenshot #' + i" (click)="openScreenshot(screenshot, i)"></ion-img>
             </div>
         </div>
     </div>

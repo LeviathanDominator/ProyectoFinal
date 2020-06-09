@@ -8,4 +8,5 @@
     <div (click)="goToGame(searched)" *ngFor="let searched of searchedGames">
         <p [ngStyle]="{'background-image':'url(' + searched['background_image'] + ')'}">{{searched.name}}</p>
     </div>
+    <p *ngIf="searchedGames.length == 0">No results found</p>
 </ion-content>

@@ -46,9 +46,14 @@ a {
 }
 
 .buttons {
+  margin-top: 1.5em;
   text-align: center;
   display: flex;
   flex-direction: column;
+}
+
+.noResults {
+  margin-top: 50%;
 }
 
 .profileData {

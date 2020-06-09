@@ -13,7 +13,8 @@ export class EditProfilePage implements OnInit {
 
     user: User;
 
-    constructor(private navParams: NavParams, private modalController: ModalController, private _databaseService: DatabaseService) {
+    constructor(private navParams: NavParams, private modalController: ModalController,
+                public _databaseService: DatabaseService) {
         const userId = this.navParams.get('userId');
         if (userId) {
             this.close();
@@ -29,8 +30,8 @@ export class EditProfilePage implements OnInit {
     editProfile() {
         // tslint:disable-next-line:triple-equals
         if (this.user.name.length == 0) {
-          this._databaseService.toast('Name input cannot be empty.');
-          return;
+            this._databaseService.toast('Name input cannot be empty.');
+            return;
         } else if (this.user.name.length > this._databaseService.nameLength) {
             this._databaseService.toast('Your name is too long.');
             return;

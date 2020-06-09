@@ -41,7 +41,7 @@
 
 <ion-content color="secondary">
     <div id="container">
-        <h4 *ngIf="noResults">No games have been found with the specified criteria.</h4>
+        <h4 *ngIf="noResults" class="noResults">No games have been found with the specified criteria.</h4>
         <ng-container *ngFor="let game of games">
             <div class="gameBox" *ngIf="game.show" (click)="goToGame(game.id)"
                  [ngStyle]="{'background-image':'url(' + game.image + ')'}">

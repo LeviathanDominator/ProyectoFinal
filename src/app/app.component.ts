@@ -68,24 +68,17 @@ export class AppComponent {
     }
 
     async goToLogin() {
-        console.log(this._authService.currentUser);
         const modal = await this.modalController.create({
             component: LoginPage
         });
-        return await modal.present().then(() => {
-            // Refresh the page after login.
-            this.router.navigateByUrl('/home');
-        });
+        return await modal.present();
     }
 
     async goToSignUp() {
         const modal = await this.modalController.create({
             component: SignupPage
         });
-        return await modal.present().then(() => {
-            // Refresh the page after sign up.
-            this.router.navigateByUrl('/home');
-        });
+        return await modal.present();
     }
 
     logout() {

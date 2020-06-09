@@ -15,10 +15,13 @@
             </ion-avatar>
             <ion-label>{{user.name}}</ion-label>
             <div class="email-date">
-            <small>{{user.email}}</small>
-            <small class="date">{{user.signUpDate.toDateString()}}</small>
+                <small>{{user.email}}</small>
+                <small class="date">{{user.signUpDate.toDateString()}}</small>
             </div>
         </ion-item>
+        <ng-container *ngIf="users">
+            <ion-item *ngIf="users.length == 0" color="dark">No users.</ion-item>
+        </ng-container>
         <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreUsers($event)">
             <ion-infinite-scroll-content loadingSpinner="bubbles"
                                          loadingText="Loading more users...">

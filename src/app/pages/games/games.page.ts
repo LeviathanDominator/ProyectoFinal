@@ -23,8 +23,8 @@ export class GamesPage implements OnInit {
     private page = 1; // Number of page to get from API.
     private maxPages = 50; // Max pages of games loaded without matching criteria.
     private controlMaxPages = 0; // While it's below maxPages it will keep loading games.
-    private noResults = false; // Shows a message when no results are being displayed.
-    private order = '';
+    noResults = false; // Shows a message when no results are being displayed.
+    order = ''; // Current sorting criteria.
 
     constructor(private barcodeScanner: BarcodeScanner, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private _authService: AuthService,

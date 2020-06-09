@@ -15,7 +15,7 @@ export class SignupPage implements OnInit {
     password = '';
 
     // tslint:disable-next-line:variable-name
-    constructor(private _authService: AuthService, private _databaseService: DatabaseService,
+    constructor(private _authService: AuthService, public _databaseService: DatabaseService,
                 private modalController: ModalController) {
     }
 

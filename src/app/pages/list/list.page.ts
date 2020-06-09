@@ -20,7 +20,7 @@ export class ListPage implements OnInit {
     edit = false;
     moveItem = true;
 
-    constructor(private navParams: NavParams, private _authService: AuthService, private _databaseService: DatabaseService,
+    constructor(private navParams: NavParams, public _authService: AuthService, private _databaseService: DatabaseService,
                 private _apiService: ApiService, private modalController: ModalController,
                 private alertController: AlertController) {
         this.userId = this.navParams.get('userId');

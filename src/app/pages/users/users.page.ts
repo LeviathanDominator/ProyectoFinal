@@ -32,9 +32,9 @@ export class UsersPage implements OnInit {
     }
 
     loadMoreUsers(event) {
-            setTimeout(() => {
-                event.target.complete();
-            }, 500);
+        setTimeout(() => {
+            event.target.complete();
+        }, 500);
     }
 
     // Sorts user by sign up date.

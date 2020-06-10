@@ -4,7 +4,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="dark">
     <div (click)="goToGame(searched)" *ngFor="let searched of searchedGames">
         <p [ngStyle]="{'background-image':'url(' + searched['background_image'] + ')'}">{{searched.name}}</p>
     </div>

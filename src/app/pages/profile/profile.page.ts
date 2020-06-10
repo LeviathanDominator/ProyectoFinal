@@ -34,12 +34,8 @@ export class ProfilePage implements OnInit {
                 this._databaseService.getUser(user.uid).subscribe(userData => {
                     if (userData) {
                         this.user = this._databaseService.dataToUser(userData);
-                        this._storageService.getAvatar(this.user.id).then(url => {
-                            this.user.avatar = url;
-                        }).catch(() => console.log('No custom avatar set'));
-                        this._storageService.getBanner(this.user.id).then(url => {
-                            this.user.banner = url;
-                        }).catch(() => console.log('No custom banner set'));
+                        this.loadAvatar();
+                        this.loadBanner();
                     }
                 }, (error => {
                     console.log(error);
@@ -58,20 +54,32 @@ export class ProfilePage implements OnInit {
         this.camera.getPicture(this.imageOptions).then(imageData => {
             console.log('Image data', imageData);
             this._databaseService.toast('Your new avatar is being uploaded...');
-            this._storageService.uploadAvatar(this.user.id, imageData);
+            this._storageService.uploadAvatar(this.user.id, imageData).then(() => this.loadAvatar());
         }).catch(error => {
             console.log('Error', error);
         });
+    }
+
+    private loadAvatar() {
+        this._storageService.getAvatar(this.user.id).then(url => {
+            this.user.avatar = url;
+        }).catch(() => console.log('No custom avatar set'));
     }
 
     setNewBanner() {
         this.camera.getPicture(this.imageOptions).then(imageData => {
             console.log('Image data', imageData);
             this._databaseService.toast('Your new banner is being uploaded...');
-            this._storageService.uploadBanner(this.user.id, imageData);
+            this._storageService.uploadBanner(this.user.id, imageData).then(() => this.loadBanner());
         }).catch(error => {
             console.log('Error', error);
         });
+    }
+
+    private loadBanner() {
+        this._storageService.getBanner(this.user.id).then(url => {
+            this.user.banner = url;
+        }).catch(() => console.log('No custom banner set'));
     }
 
     async editProfile() {

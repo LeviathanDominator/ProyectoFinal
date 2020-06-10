@@ -18,7 +18,7 @@ export class ListsPage implements OnInit {
 
     user: User;
     lists: List[];
-    isUser = false;
+    isUser = false; // Checks if user is logged in and allows to add new lists.
 
     constructor(private _authService: AuthService, private _databaseService: DatabaseService, private router: Router,
                 private modalController: ModalController, private activatedRoute: ActivatedRoute) {
@@ -36,6 +36,15 @@ export class ListsPage implements OnInit {
                 }));
             } else {
                 this.getUser(params.id);
+                _authService.user.subscribe(user => {
+                    if (user) {
+                        // tslint:disable-next-line:triple-equals
+                        this.isUser = params.id == user.uid;
+                    }
+                }, (error => {
+                    console.log(error);
+                    _databaseService.noConnectionAlert();
+                }));
             }
         }, (error => {
             console.log(error);
@@ -58,14 +67,12 @@ export class ListsPage implements OnInit {
             this.lists = [];
             for (const list of lists) {
                 const newList = this._databaseService.dataToList(list);
-                console.log(newList);
                 this.lists.push(newList);
             }
         });
     }
 
     async goToList(id: string) {
-        console.log(id);
         const modal = await this.modalController.create({
             component: ListPage,
             componentProps: {

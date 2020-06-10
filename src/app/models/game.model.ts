@@ -1,6 +1,7 @@
 import {Label} from './label.model';
 import {Platform} from './platform.model';
 import {Store} from './store.model';
+import {Movie} from './movie.model';
 
 export class Game {
     id: number;
@@ -11,6 +12,7 @@ export class Game {
     image: string;
     released: Date;
     screenshots: string[];
+    movies: Movie[];
     esrb: string;
     platforms: Platform[];
     labels: Label[];
@@ -37,7 +39,7 @@ export class Game {
     }
 
 
-    private getStores(storeData: any) {
+    private getStores(storeData: any): undefined | Store[] {
         if (!storeData) {
             return undefined;
         }
@@ -48,24 +50,24 @@ export class Game {
         return stores;
     }
 
-    private getDevelopers(developersData: any) {
-        if (!developersData) {
+    private getDevelopers(devData: any): string | undefined {
+        if (!devData) {
             return undefined;
         }
         let developers = '';
-        for (let i = 0; i < developersData.length; i++) {
-            developers = developers.concat(developersData[i].name);
-            if (i + 1 < developersData.length - 1) {
+        for (let i = 0; i < devData.length; i++) {
+            developers = developers.concat(devData[i].name);
+            if (i + 1 < devData.length - 1) {
                 developers = developers.concat(', ');
                 // tslint:disable-next-line:triple-equals
-            } else if (i + 1 == developersData.length - 1) {
+            } else if (i + 1 == devData.length - 1) {
                 developers = developers.concat(' and ');
             }
         }
         return developers;
     }
 
-    parseDate() {
+    parseDate(): string {
         if (isNaN(this.released.getDay()) || isNaN(this.released.getMonth()) || isNaN(this.released.getFullYear())) {
             return 'No release date';
         } else {
@@ -76,7 +78,7 @@ export class Game {
         }
     }
 
-    private twoDigits(value: number) {
+    private twoDigits(value: number): string {
         return ('0' + value).slice(-2);
     }
 }

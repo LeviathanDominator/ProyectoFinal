@@ -18,12 +18,12 @@ export class Message {
         this.id = this.generateId();
     }
 
-    parseDate() {
+    parseDate(): string {
         const values = this.dateValues();
         return `${values.hours}:${values.minutes}:${values.seconds} ${values.day}/${values.month}/${values.year}`;
     }
 
-    private generateId() {
+    private generateId(): string {
         const values = this.dateValues();
         return `${values.hours}${values.minutes}${values.seconds}${values.day}${values.month}${values.year}`;
     }
@@ -38,7 +38,7 @@ export class Message {
         return {hours, minutes, seconds, day, month, year};
     }
 
-    private twoDigits(value: number) {
+    private twoDigits(value: number): string {
         return ('0' + value).slice(-2);
     }
 }

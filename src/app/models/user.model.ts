@@ -25,7 +25,7 @@ export class User {
         this.xbox = xbox;
     }
 
-    parseDate() {
+    parseDate(): string {
         const day = this.twoDigits(this.signUpDate.getDate());
         const month = this.twoDigits(this.signUpDate.getMonth() + 1);
         const year = this.signUpDate.getFullYear();

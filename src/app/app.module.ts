@@ -9,6 +9,7 @@ import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import {Camera} from '@ionic-native/camera/ngx';
 import {GooglePlus} from '@ionic-native/google-plus/ngx';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
+import {VideoPlayer} from '@ionic-native/video-player/ngx';
 
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppRoutingModule} from './app-routing.module';
@@ -46,6 +47,7 @@ import {EditProfilePageModule} from './pages/edit-profile/edit-profile.module';
         Camera,
         GooglePlus,
         PhotoViewer,
+        VideoPlayer,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]

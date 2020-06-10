@@ -14,7 +14,7 @@ export class Platform {
     }
 
     // Removes unnecessary HTML code.
-    private removeTags(text: string) {
+    private removeTags(text: string): string {
         // tslint:disable-next-line:triple-equals
         if (text == undefined) {
             return '';

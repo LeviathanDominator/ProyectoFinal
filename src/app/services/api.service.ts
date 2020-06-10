@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Platform} from '../models/platform.model';
 import {Game} from '../models/game.model';
 import * as moment from 'moment';
+import {Movie} from '../models/movie.model';
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +19,18 @@ export class ApiService {
 
     getGame(id: number): Observable<any> {
         return this.http.get(`${this.url}games/${id}`).pipe();
+    }
+
+    getMovies(id: number): Observable<any> {
+        return this.http.get(`${this.url}games/${id}/movies`).pipe();
+    }
+
+    dataToMovies(moviesData: any) {
+        const movies = [];
+        for (const movie of moviesData.results) {
+            movies.push(new Movie(movie.name, movie.data.max, movie.preview));
+        }
+        return movies;
     }
 
     getScreenshots(id: number): Observable<any> {

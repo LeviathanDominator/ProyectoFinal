@@ -9,7 +9,9 @@ import {LabelinputPage} from '../labelinput/labelinput.page';
 import {Platform} from '../../models/platform.model';
 import {AuthService} from '../../services/auth.service';
 import {AddToListPage} from '../add-to-list/add-to-list.page';
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
+import {VideoPlayer} from '@ionic-native/video-player/ngx';
+import {Movie} from '../../models/movie.model';
 
 @Component({
     selector: 'app-game',
@@ -22,13 +24,12 @@ export class GamePage implements OnInit {
 
     constructor(private activatedRoute: ActivatedRoute, private _apiService: ApiService,
                 private _databaseService: DatabaseService, public _authService: AuthService,
-                private modalController: ModalController, private photoViewer: PhotoViewer) {
+                private modalController: ModalController, private photoViewer: PhotoViewer,
+                private videoPlayer: VideoPlayer) {
         this.activatedRoute.params.subscribe(params => {
-            console.log(params.id);
             this._apiService.getGame(params.id).subscribe(game => {
                 console.log(game);
                 this.game = _apiService.dataToGame(game);
-                console.log(this.game);
                 for (const platform of game.platforms) {
                     this.game.platforms.push(new Platform(platform.platform.id, platform.platform.name));
                 }
@@ -57,6 +58,11 @@ export class GamePage implements OnInit {
                 _apiService.getScreenshots(this.game.id).subscribe(screenshots => {
                     if (screenshots) {
                         this.game.screenshots = _apiService.dataToScreenshots(screenshots);
+                    }
+                });
+                _apiService.getMovies(this.game.id).subscribe(movies => {
+                    if (movies) {
+                        this.game.movies = _apiService.dataToMovies(movies);
                     }
                 });
             }, (error => {
@@ -98,6 +104,11 @@ export class GamePage implements OnInit {
         return await modal.present();
     }
 
+    watchMovie(movie: Movie) {
+        console.log(movie);
+        this.videoPlayer.play(movie.movieUrl, {scalingMode: 2});
+    }
+
     openScreenshot(screenshot: string, number: number) {
         const options = {
             share: true,
@@ -107,5 +118,4 @@ export class GamePage implements OnInit {
         };
         this.photoViewer.show(screenshot, this.game.title + ` - Screenshot #${number + 1}`, options);
     }
-
 }

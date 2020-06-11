@@ -113,7 +113,16 @@ ion-button {
 
 .similarGames {
   margin-bottom: 5px;
+  border-width:1px;
+  border-radius: 20%;
+  border-color: var(--ion-color-primary);
+}
+
+.similarGames > div {
+  border-width: 2px;
+  border-style: solid;
   border-color: var(--ion-color-secondary);
+  -webkit-filter: grayscale(90%);
   background-position: center;
   background-size: 100% auto;
 }

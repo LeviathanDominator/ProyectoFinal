@@ -18,7 +18,7 @@
    'rgba(0, 0, 0, 0.7)), url(' + game.image + ')'}">
             <p *ngIf="game.released">Release date: {{game.parseDate()}}</p>
             <p *ngIf="game.developers">Developed by: {{game.developers}}</p>
-            <small>{{game.description}}</small>
+            <small (click)="fullDescription()">{{game.description}}</small>
             <small *ngIf="game.dlcDescription">{{game.dlcDescription}}</small>
             <div class="ratings">
                 <p *ngIf="game.ratings">Rating: {{game.ratings}} / 5</p>
@@ -73,9 +73,12 @@
                 </ion-card>
             </div>
             <p *ngIf="similarGames.length != 0">Do you like {{game.title}}? You may also like...</p>
-            <div class="similarGames" [ngStyle]="{'background-image':'url(' + similarGame.image + ')'}"
+            <div class="similarGames"
                  *ngFor="let similarGame of similarGames" (click)="goToGame(similarGame.id)">
-                <h4>{{similarGame.title}}</h4>
+                <div [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.85), ' +
+   'rgba(0, 0, 0, 0.85)), url(' + similarGame.image + ')'}">
+                    <h4>{{similarGame.title}}</h4>
+                </div>
             </div>
         </div>
     </div>

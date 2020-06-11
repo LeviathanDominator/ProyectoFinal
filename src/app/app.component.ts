@@ -1,13 +1,12 @@
 /* tslint:disable:variable-name */
 import {Component} from '@angular/core';
 
-import {ModalController, NavController, Platform} from '@ionic/angular';
+import {ModalController, Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {LoginPage} from './pages/login/login.page';
 import {AuthService} from './services/auth.service';
 import {SignupPage} from './pages/signup/signup.page';
-import {Router} from '@angular/router';
 import {DatabaseService} from './services/database.service';
 import {User} from './models/user.model';
 import {StorageService} from './services/storage.service';
@@ -30,8 +29,6 @@ export class AppComponent {
         public _authService: AuthService,
         private _storageService: StorageService,
         private _databaseService: DatabaseService,
-        private navController: NavController,
-        private router: Router,
     ) {
         this.initializeApp();
     }
@@ -41,8 +38,6 @@ export class AppComponent {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
             this.loadUser();
-        }).catch(() => {
-            this._databaseService.noConnectionAlert();
         });
     }
 

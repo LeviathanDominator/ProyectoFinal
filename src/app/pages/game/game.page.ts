@@ -133,4 +133,8 @@ export class GamePage implements OnInit {
     goToGame(id: number) {
         this._apiService.goToGame(id);
     }
+
+    fullDescription() {
+        this._databaseService.customAlert(this.game.title, this.game.description);
+    }
 }

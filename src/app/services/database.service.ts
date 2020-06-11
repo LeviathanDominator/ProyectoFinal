@@ -220,7 +220,6 @@ export class DatabaseService {
             name: user.name,
             email: user.email,
             signUpDate: user.parseDate(),
-            avatar: user.avatar,
         });
     }
 
@@ -394,11 +393,11 @@ export class DatabaseService {
     // Shows an alert with specified header and message.
     async customAlert(header: string, message: string) {
         const alert = await this.alertController.create({
-            header: 'Error',
+            header,
             message,
             buttons: [
                 {
-                    text: 'Ok',
+                    text: 'Close',
                     role: 'cancel',
                     cssClass: 'secondary'
                 }

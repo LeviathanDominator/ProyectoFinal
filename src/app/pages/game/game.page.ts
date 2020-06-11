@@ -21,6 +21,7 @@ import {Movie} from '../../models/movie.model';
 export class GamePage implements OnInit {
 
     game: Game;
+    similarGames: Game[] = [];
 
     constructor(private activatedRoute: ActivatedRoute, private _apiService: ApiService,
                 private _databaseService: DatabaseService, public _authService: AuthService,
@@ -41,6 +42,12 @@ export class GamePage implements OnInit {
                 _apiService.getMovies(this.game.id).subscribe(movies => {
                     if (movies) {
                         this.game.movies = _apiService.dataToMovies(movies);
+                    }
+                });
+                _apiService.getSimilarGames(this.game.id).subscribe(similarGames => {
+                    this.similarGames = [];
+                    for (const similarGame of similarGames['results']) {
+                        this.similarGames.push(this._apiService.dataToGame(similarGame));
                     }
                 });
             }, (error => {
@@ -108,11 +115,6 @@ export class GamePage implements OnInit {
         return await modal.present();
     }
 
-    watchMovie(movie: Movie) {
-        console.log(movie);
-        this.videoPlayer.play(movie.movieUrl, {scalingMode: 2});
-    }
-
     openScreenshot(screenshot: string, number: number) {
         const options = {
             share: true,
@@ -121,5 +123,14 @@ export class GamePage implements OnInit {
             headers: ''
         };
         this.photoViewer.show(screenshot, this.game.title + ` - Screenshot #${number + 1}`, options);
+    }
+
+    watchMovie(movie: Movie) {
+        console.log(movie);
+        this.videoPlayer.play(movie.movieUrl, {scalingMode: 2});
+    }
+
+    goToGame(id: number) {
+        this._apiService.goToGame(id);
     }
 }

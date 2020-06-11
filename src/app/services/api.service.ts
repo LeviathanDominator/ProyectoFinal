@@ -79,6 +79,10 @@ export class ApiService {
             data.rating, data.stores);
     }
 
+    getSimilarGames(id: number) {
+        return this.http.get(`${this.url}games/${id}/suggested`).pipe();
+    }
+
     dataToPlatform(data: any) {
         return new Platform(data.id, data.name, data.description, data.image_background, data.games_count);
     }

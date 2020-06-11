@@ -72,6 +72,11 @@
                     </ion-card-content>
                 </ion-card>
             </div>
+            <p *ngIf="similarGames.length != 0">Do you like {{game.title}}? You may also like...</p>
+            <div class="similarGames" [ngStyle]="{'background-image':'url(' + similarGame.image + ')'}"
+                 *ngFor="let similarGame of similarGames" (click)="goToGame(similarGame.id)">
+                <h4>{{similarGame.title}}</h4>
+            </div>
         </div>
     </div>
 </ion-content>

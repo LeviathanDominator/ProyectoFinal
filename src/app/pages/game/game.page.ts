@@ -28,33 +28,11 @@ export class GamePage implements OnInit {
                 private videoPlayer: VideoPlayer) {
         this.activatedRoute.params.subscribe(params => {
             this._apiService.getGame(params.id).subscribe(game => {
-                console.log(game);
                 this.game = _apiService.dataToGame(game);
                 for (const platform of game.platforms) {
                     this.game.platforms.push(new Platform(platform.platform.id, platform.platform.name));
                 }
-                _databaseService.getLabels(this.game.id).subscribe(labels => {
-                    this.game.labels = [];
-                    if (labels === undefined) {
-                        console.log('Game not found in database');
-                        this._databaseService.getAverageLabelsData(this.game);
-                    } else {
-                        this.game.dlcDescription = labels['description'];
-                        this.game.avgCompletion = labels['avgCompletion'];
-                        if (labels['labels']) {
-                            for (const labelData of labels['labels']) {
-                                _databaseService.getLabel(labelData).subscribe(label => {
-                                    this.game.labels.push(_databaseService.dataToLabel(label));
-                                });
-                            }
-                        } else {
-                            this._databaseService.getAverageLabelsData(this.game);
-                        }
-                    }
-                }, (error => {
-                    console.log(error);
-                    _databaseService.noConnectionAlert();
-                }));
+                this.getLabels();
                 _apiService.getScreenshots(this.game.id).subscribe(screenshots => {
                     if (screenshots) {
                         this.game.screenshots = _apiService.dataToScreenshots(screenshots);
@@ -78,6 +56,31 @@ export class GamePage implements OnInit {
     ngOnInit() {
     }
 
+    private getLabels() {
+        this._databaseService.getLabels(this.game.id).subscribe(labels => {
+            this.game.labels = [];
+            if (labels === undefined) {
+                console.log('Game not found in database');
+                this._databaseService.getAverageLabelsData(this.game);
+            } else {
+                this.game.dlcDescription = labels['description'];
+                this.game.avgCompletion = labels['avgCompletion'];
+                if (labels['labels']) {
+                    for (const labelData of labels['labels']) {
+                        this._databaseService.getLabel(labelData).subscribe(label => {
+                            this.game.labels.push(this._databaseService.dataToLabel(label));
+                        });
+                    }
+                } else {
+                    this._databaseService.getAverageLabelsData(this.game);
+                }
+            }
+        }, (error => {
+            console.log(error);
+            this._databaseService.noConnectionAlert();
+        }));
+    }
+
     async goToLabelInput() {
         await this._databaseService.presentLoading('Loading labels...');
         const modal = await this.modalController.create({
@@ -87,6 +90,7 @@ export class GamePage implements OnInit {
                 title: this.game.title
             }
         });
+        modal.onDidDismiss().then(() => this.getLabels());
         return await modal.present();
     }
 

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../../services/api.service';
-import {Platform} from 'src/app/models/platform.model';
 import {DatabaseService} from '../../services/database.service';
+// @ts-ignore
+import {Platform} from 'src/app/models/platform.model';
 
 @Component({
     selector: 'app-platforms',

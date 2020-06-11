@@ -36,7 +36,7 @@
                             (click)="goToPlatform(platform.id)">{{platform.name}}</ion-button>
             </ion-buttons>
             <div class="labels">
-                <div class="label" *ngFor="let label of game.labels">
+                <div class="label" *ngFor="let label of game.labels" (click)="showLabelInfo(label)">
                     <p>{{label.name}}</p>
                     <small>{{label.description}}</small>
                 </div>

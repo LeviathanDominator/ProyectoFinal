@@ -12,6 +12,7 @@ import {AddToListPage} from '../add-to-list/add-to-list.page';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {VideoPlayer} from '@ionic-native/video-player/ngx';
 import {Movie} from '../../models/movie.model';
+import {Label} from "../../models/label.model";
 
 @Component({
     selector: 'app-game',
@@ -134,7 +135,13 @@ export class GamePage implements OnInit {
         this._apiService.goToGame(id);
     }
 
+    // Shows full description of the game.
     fullDescription() {
         this._databaseService.customAlert(this.game.title, this.game.description);
+    }
+
+    // Shows full description of selected label.
+    showLabelInfo(label: Label) {
+        this._databaseService.customAlert(label.name, label.descriptionLarge);
     }
 }

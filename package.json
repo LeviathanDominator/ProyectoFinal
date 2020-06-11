@@ -36,7 +36,6 @@
     "cordova-android": "^8.1.0",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-googleplus": "^8.5.0",
-    "cordova-plugin-telerik-imagepicker": "^2.3.3",
     "cordova-plugin-video-player": "git+https://github.com/moust/cordova-plugin-videoplayer.git",
     "core-js": "^2.5.4",
     "firebase": "^7.14.6",
@@ -93,7 +92,6 @@
       "cordova-plugin-camera": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
-      "cordova-plugin-telerik-imagepicker": {},
       "cordova-plugin-googleplus": {},
       "com-sarriaroman-photoviewer": {},
       "com.moust.cordova.videoplayer": {}

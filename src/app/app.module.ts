@@ -5,7 +5,6 @@ import {RouteReuseStrategy} from '@angular/router';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
-import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import {Camera} from '@ionic-native/camera/ngx';
 import {GooglePlus} from '@ionic-native/google-plus/ngx';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
@@ -43,7 +42,6 @@ import {EditProfilePageModule} from './pages/edit-profile/edit-profile.module';
         StatusBar,
         SplashScreen,
         BarcodeScanner,
-        ImagePicker,
         Camera,
         GooglePlus,
         PhotoViewer,

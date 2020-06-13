@@ -6,8 +6,10 @@
             </ion-button>
         </ion-buttons>
         <ion-title>{{message.title}}</ion-title>
-        <ion-buttons slot="secondary" (click)="deleteMessage()">
-            <ion-icon name="trash-outline" color="danger"></ion-icon>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="deleteMessage()">
+                <ion-icon name="trash-outline" color="danger"></ion-icon>
+            </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -21,7 +23,10 @@
             </ion-avatar>
             <ion-label>{{message.senderName}}</ion-label>
         </div>
-        <p>{{senderEmail}}</p>
-        <p>{{message.message}}</p>
+        <small>{{senderEmail}}</small>
+        <div class="message">
+            <h5>{{message.title}}</h5>
+            <p>{{message.message}}</p>
+        </div>
     </div>
 </ion-content>

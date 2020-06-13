@@ -24,7 +24,6 @@ export class MessagesPage implements OnInit {
                     this.messages = [];
                     this.numUnreadMessages = 0;
                     for (const message of messages) {
-                        console.log(message);
                         const newMessage = _databaseService.dataToMessage(message);
                         if (!newMessage.read) {
                             this.numUnreadMessages++;
@@ -35,7 +34,7 @@ export class MessagesPage implements OnInit {
                             } else {
                                 newMessage.senderName = 'Unknown';
                             }
-                            this.messages.push(newMessage);
+                            this.pushAndSort(newMessage);
                         });
                     }
                 }, (error => {
@@ -53,11 +52,23 @@ export class MessagesPage implements OnInit {
     }
 
     async openMessage(message: Message) {
-        console.log(this._authService.user);
         const modal = await this.modalController.create({
             component: MessagePage,
             componentProps: {message}
         });
         return await modal.present();
+    }
+
+    private pushAndSort(message: Message) {
+        this.messages.push(message);
+        this.messages.sort((a, b) => {
+            if (a.date < b.date) {
+                return 1;
+            }
+            if (a.date > b.date) {
+                return -1;
+            }
+            return 0;
+        });
     }
 }

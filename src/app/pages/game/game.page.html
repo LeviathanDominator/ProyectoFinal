@@ -1,10 +1,15 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-buttons slot="start">
-            <ion-back-button defaultHref="home"></ion-back-button>
+            <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title *ngIf="game">{{game.title}}</ion-title>
         <ion-buttons slot="secondary">
+            <ng-container *ngIf="game">
+                <ion-button *ngIf="game.reddit.length != 0" [href]="game.reddit">
+                    <ion-icon name="logo-reddit"></ion-icon>
+                </ion-button>
+            </ng-container>
             <ion-button *ngIf="_authService.user | async" (click)="addToList()">
                 <ion-icon name="add"></ion-icon>
             </ion-button>

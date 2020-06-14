@@ -19,10 +19,11 @@ export class Game {
     ratings: number;
     developers: string;
     stores: Store[];
+    reddit: string;
     show: boolean;
 
     constructor(id: number, title: string, description?: string, image?: string, released?: Date, screenshots?: string[], esrb?: string,
-                developers?: any, ratings?: number, stores?: any) {
+                developers?: any, ratings?: number, stores?: any, reddit?: string) {
         this.id = id;
         this.title = title;
         this.description = description ? description : '';
@@ -35,6 +36,7 @@ export class Game {
         this.ratings = ratings;
         this.developers = this.getDevelopers(developers);
         this.stores = this.getStores(stores);
+        this.reddit = reddit ? reddit : '';
         this.show = true;
     }
 

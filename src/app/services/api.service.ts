@@ -76,7 +76,7 @@ export class ApiService {
         const released = moment(data.released, 'YYYY-MM-DD').toDate();
         return new Game(data.id, data.name, data.description_raw, data.background_image, released,
             data.short_screenshots, data.esrb_rating ? data.esrb_rating.name : '', data.developers,
-            data.rating, data.stores);
+            data.rating, data.stores, data.reddit_url);
     }
 
     getSimilarGames(id: number) {

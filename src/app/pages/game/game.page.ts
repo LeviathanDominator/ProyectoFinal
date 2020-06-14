@@ -12,7 +12,7 @@ import {AddToListPage} from '../add-to-list/add-to-list.page';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {VideoPlayer} from '@ionic-native/video-player/ngx';
 import {Movie} from '../../models/movie.model';
-import {Label} from "../../models/label.model";
+import {Label} from '../../models/label.model';
 
 @Component({
     selector: 'app-game',
@@ -127,7 +127,6 @@ export class GamePage implements OnInit {
     }
 
     watchMovie(movie: Movie) {
-        console.log(movie);
         this.videoPlayer.play(movie.movieUrl, {scalingMode: 2});
     }
 
@@ -144,4 +143,5 @@ export class GamePage implements OnInit {
     showLabelInfo(label: Label) {
         this._databaseService.customAlert(label.name, label.descriptionLarge);
     }
+
 }

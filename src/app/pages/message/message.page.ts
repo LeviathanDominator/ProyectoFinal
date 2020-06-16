@@ -43,8 +43,10 @@ export class MessagePage implements OnInit {
     }
 
     deleteMessage() {
-        this._databaseService.deleteMessage(this.message);
-        this.modalController.dismiss();
+        this._databaseService.deleteMessage(this.message).then(() => {
+            this._databaseService.toast('Message deleted.');
+            this.modalController.dismiss();
+        });
     }
 
     close() {

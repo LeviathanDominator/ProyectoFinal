@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {DatabaseService} from '../../services/database.service';
 import {AuthService} from '../../services/auth.service';
 import {Message} from '../../models/message.model';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {MessagePage} from '../message/message.page';
 
 @Component({
@@ -17,7 +17,7 @@ export class MessagesPage implements OnInit {
     numUnreadMessages = 0;
 
     constructor(private _authService: AuthService, private _databaseService: DatabaseService,
-                private modalController: ModalController) {
+                private modalController: ModalController, private alertController: AlertController) {
         this._authService.user.subscribe(user => {
             if (user) {
                 this._databaseService.getMessages(user.uid).subscribe(messages => {
@@ -70,5 +70,38 @@ export class MessagesPage implements OnInit {
             }
             return 0;
         });
+    }
+
+
+    async deleteAllMessages() {
+        const alert = await this.alertController.create({
+            header: `Are you sure you want to delete all messages? This action cannot be reversed.`,
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Delete',
+                    handler: () => {
+                        // tslint:disable-next-line:triple-equals
+                        if (this.messages.length == 0) {
+                            this._databaseService.toast('No messages to be deleted.');
+                        } else {
+                            for (const message of this.messages) {
+                                this._databaseService.deleteMessage(message).then(() => {
+                                    this._databaseService.toast('All your messages have been deleted.');
+                                    this.messages = [];
+                                });
+                            }
+                        }
+                    }
+                }
+            ]
+        });
+        await alert.present();
     }
 }

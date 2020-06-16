@@ -67,8 +67,22 @@ export class ListsPage implements OnInit {
             this.lists = [];
             for (const list of lists) {
                 const newList = this._databaseService.dataToList(list);
-                this.lists.push(newList);
+                this.pushAndSort(newList);
             }
+        });
+    }
+
+    // Push new list and sorts lists by name.
+    private pushAndSort(list: List) {
+        this.lists.push(list);
+        this.lists.sort((a, b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
         });
     }
 

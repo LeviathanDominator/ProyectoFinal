@@ -6,6 +6,11 @@
         <ion-title>Your messages
             <ng-container *ngIf="numUnreadMessages != 0"> ({{numUnreadMessages}} unread messages)</ng-container>
         </ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="deleteAllMessages()">
+                <ion-icon name="trash-outline" color="danger"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 

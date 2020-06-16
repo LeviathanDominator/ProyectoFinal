@@ -24,7 +24,7 @@ export class AddToListPage implements OnInit {
             this._databaseService.getLists(user.uid).subscribe(lists => {
                 this.lists = [];
                 for (const list of lists) {
-                    this.lists.push(this._databaseService.dataToList(list));
+                    this.pushAndSort(this._databaseService.dataToList(list));
                 }
             }, (() => {
                 _databaseService.noConnectionAlert();
@@ -37,17 +37,30 @@ export class AddToListPage implements OnInit {
     ngOnInit() {
     }
 
+    // Push new list and sorts lists by name.
+    private pushAndSort(list: List) {
+        this.lists.push(list);
+        this.lists.sort((a, b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        });
+    }
+
     addGameToList(list: List) {
-        console.log(list);
         if (!this.checkIfExists(list.games)) {
             this._databaseService.addGameToList(list, this.game);
             this.close();
         }
     }
 
-    private checkIfExists(gamesId: number[]) {
+    // Checks if a game exists in the list.
+    private checkIfExists(gamesId: number[]): boolean {
         for (const game of gamesId) {
-            console.log(game, this.game.id);
             if (game === this.game.id) {
                 this._databaseService.toast(' already exists in this list. Please select another.', this.game.title);
                 return true;

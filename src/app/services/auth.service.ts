@@ -27,7 +27,7 @@ export class AuthService {
         this.user = this.firebaseAuth.authState;
     }
 
-    login(value: any) {
+    login(value: any): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             firebase.auth().signInWithEmailAndPassword(value.email, value.password)
                 .then(res => {
@@ -40,11 +40,11 @@ export class AuthService {
         });
     }
 
-    loginGoogle() {
+    loginGoogle(): Promise<firebase.User> {
         return this.platform.is('android') ? this.loginGoogleAndroid() : this.loginGoogleWeb();
     }
 
-    async loginGoogleAndroid() {
+    async loginGoogleAndroid(): Promise<firebase.User> {
         const res = await this.googlePlus.login({
             webClientId: '100817615086-5jv8pbal136rofbrgad483dkeikteg8t.apps.googleusercontent.com',
             offline: true
@@ -53,12 +53,12 @@ export class AuthService {
         return resConfirmed.user;
     }
 
-    async loginGoogleWeb() {
+    async loginGoogleWeb(): Promise<firebase.User> {
         const google = await this.firebaseAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
         return google.user;
     }
 
-    register(user: User, password: string) {
+    register(user: User, password: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             firebase.auth().createUserWithEmailAndPassword(user.email, password)
                 .then(res => {
@@ -71,18 +71,17 @@ export class AuthService {
         });
     }
 
-    async alert(header: string, message: string, error: boolean) {
+    async alert(header: string, message: string, error: boolean): Promise<void> {
         const alert = await this.alertController.create({
             header,
             message: error ? this.errorMessage(message) : message,
             buttons: ['OK']
         });
-
         await alert.present();
     }
 
     // Logs user out and reloads app to prevent errors.
-    logout() {
+    logout(): void {
         firebase.auth().signOut().then(() => {
             this.user = null;
             this.currentUser = null;
@@ -91,11 +90,12 @@ export class AuthService {
     }
 
     // Forces the app to reload to refresh auth changes.
-    reloadApp() {
+    reloadApp(): void {
         document.location.href = 'index.html';
     }
 
-    errorMessage(error: string) {
+    // Returns a message depending of error code.
+    errorMessage(error: string): string {
         switch (error) {
             case 'auth/user-not-found':
                 return 'User doesn\'t exist';
